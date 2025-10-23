@@ -1,6 +1,9 @@
 ---
-title: "Projekt-Template"
-author: "Janko Dietzsch"
+title: "Report - Traffic Accidents"
+authors:
+    - Mathangi Pirasanthan
+    - Miriam Mack
+    - Jasmin Hauschild
 date: today
 format: html
 ---
@@ -28,6 +31,7 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
+
 
 ## 3. Bearbeiten/Transformieren der Daten
 
@@ -62,3 +66,5 @@ Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?
 :::
 
 ## Quellenverzeichnis
+* Datensatz: Oktay Ördekçi, „Kaggle Datensatz - Traffic Accidents“. Zugegriffen: 23. Oktober 2025. [Online]. Verfügbar unter: https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
+* [1] weitere Quelle...
