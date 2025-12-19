@@ -11,6 +11,12 @@ format: html
 #### Datensatz:
 https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
 
+### Imports
+```{r}
+library(tidyverse)
+# test
+```
+
 ## 1. Definition/Formulierung der Fragestellung
 
 ::: {.callout-note icon="false"}
@@ -40,13 +46,18 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
 
-TrafficIncident <- read.table(
+```{r}
+dataset <- read.table(
   file ="Projektarbeit/datenanalyseReport/dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
-head(TrafficIncident, 3)
-dim(TrafficIncident)
-glimpse(TrafficIncident)
 
+head(dataset, 3)
+dim(dataset)
+glimpse(dataset)
+lapply(dataset)
+
+
+```
 
 ## 3. Bearbeiten/Transformieren der Daten
 
