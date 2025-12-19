@@ -8,7 +8,8 @@ date: today
 format: html
 ---
 
-# Projekt-Template
+#### Datensatz:
+https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
 
 ## 1. Definition/Formulierung der Fragestellung
 
@@ -22,6 +23,13 @@ Definieren Sie eine interessierende bzw. interessante Fragestellung im Zusammenh
 -   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
 :::
 
+Ausgangspunkt unserer Analyse ist ein umfangreicher Datensatz zu Verkehrsunfällen. Dieser enthält zeitliche Informationen, Angaben zu den Umgebungsbedingungen wie Wetter und Lichtverhältnisse sowie Merkmale zur Art des Unfalls und zur Schwere der Verletzungen. Besonders interessant ist dabei die Kombination aus zeitlichen, infrastrukturellen und situativen Variablen. Denn Verkehrsunfälle entstehen in der Regel nicht durch einen einzelnen Faktor, sondern durch das Zusammenspiel mehrerer Rahmenbedingungen. Wir untersuchen, ob sich aus diesen Daten systematische Muster erkennen lassen, die über reine Unfallhäufigkeiten hinausgehen und Hinweise auf typische Risikosituationen geben.
+
+Konkret lautet unsere Fragestellung: Welche äußeren Bedingungen und Unfalleigenschaften stehen in einem erkennbaren Zusammenhang mit der Schwere von Verkehrsunfällen? Im Fokus steht, ob bestimmte Kombinationen aus Wetterlage, Lichtverhältnissen, Unfalltyp, Wochentag und Verkehrssituation häufiger mit Verletzungen oder schweren Unfällen verbunden sind als andere. Das Ziel der Analyse ist nicht die Vorhersage einzelner Unfälle, sondern ein besseres Verständnis dafür, unter welchen Bedingungen Unfälle eher glimpflich verlaufen und wann das Risiko für Verletzungen deutlich ansteigt.
+
+Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen, winterliche Fahrbahnzustände sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend weniger schwer verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
+
+
 ## 2. Laden der Daten
 
 ::: {.callout-note icon="false"}
@@ -31,6 +39,13 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
+
+TrafficIncident <- read.table(
+  file ="Projektarbeit/datenanalyseReport/dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
+)
+head(TrafficIncident, 3)
+dim(TrafficIncident)
+glimpse(TrafficIncident)
 
 
 ## 3. Bearbeiten/Transformieren der Daten
