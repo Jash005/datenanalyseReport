@@ -14,7 +14,6 @@ https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
 ### Imports
 ```{r}
 library(tidyverse)
-# test
 ```
 
 ## 1. Definition/Formulierung der Fragestellung
@@ -48,14 +47,15 @@ Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt
 
 ```{r}
 dataset <- read.table(
-  file ="Projektarbeit/datenanalyseReport/dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
+  file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
 
 head(dataset, 3)
 dim(dataset)
 glimpse(dataset)
-lapply(dataset)
-
+apply(dataset)
+View(dataset)
+skim(dataset)
 
 ```
 
