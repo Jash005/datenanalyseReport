@@ -14,6 +14,7 @@ https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
 ### Imports
 ```{r}
 library(tidyverse)
+library(skimr)
 ```
 
 ## 1. Definition/Formulierung der Fragestellung
@@ -45,19 +46,42 @@ Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Über
 Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
 :::
 
+
+
 ```{r}
 dataset <- read.table(
   file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
 
+lapply(dataset, unique)
+str(dataset)
+
+
+
+# optional
 head(dataset, 3)
 dim(dataset)
-glimpse(dataset)
-apply(dataset)
+
 View(dataset)
 skim(dataset)
 
+
+colSums(is.na(dataset))
+sapply(dataset, class)
+table(dataset$weather_condition)
+
 ```
+
+Nach dem Import des Datensatzes haben wir mittels glimpse() eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
+
+Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden als Zeichenkette interpretiert. Für eine zeitliche Analyse (Wochentag, Tageszeit) ist eine Konvertierung in ein date/time-Objekt und eine Extraktion der Komponenten notwendig. Ebenso liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.
+
+Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlende Informationen, die nicht als technisches NA kodiert sind. Werte wie "UNKNOWN" (z. B. bei road_defect) oder "UNABLE TO DETERMINE" (bei prim_contributory_cause) treten häufig auf.
+
+Daten-Inkositenz: Spalten wie most_severe_injury nutzen Textbeschreibungen ("NO INDICATION..."), wo numerische Skalen oder boolesche Werte effizienter wären.
+
+
+
 
 ## 3. Bearbeiten/Transformieren der Daten
 
