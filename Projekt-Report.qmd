@@ -15,6 +15,8 @@ https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
 ```{r}
 library(tidyverse)
 library(skimr)
+library(lubridate)
+
 ```
 
 ## 1. Definition/Formulierung der Fragestellung
@@ -53,34 +55,33 @@ dataset <- read.table(
   file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
 
-lapply(dataset, unique)
-str(dataset)
+#lapply(dataset, unique)
+#str(dataset)
 
 
 
 # optional
-head(dataset, 3)
-dim(dataset)
+#head(dataset, 3)
+#dim(dataset)
 
-View(dataset)
-skim(dataset)
+#View(dataset)
 
 
-colSums(is.na(dataset))
-sapply(dataset, class)
-table(dataset$weather_condition)
+#colSums(is.na(dataset))
+#sapply(dataset, class)
+#table(dataset$weather_condition)
 
 ```
 
 Nach dem Import des Datensatzes haben wir mittels glimpse() eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
 
-Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden als Zeichenkette interpretiert. Für eine zeitliche Analyse (Wochentag, Tageszeit) ist eine Konvertierung in ein date/time-Objekt und eine Extraktion der Komponenten notwendig. Ebenso liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.
+Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden als Zeichenkette interpretiert. Für eine zeitliche Analyse (Wochentag, Tageszeit) ist eine Konvertierung in ein date/time-Objekt und eine Extraktion der Komponenten notwendig. auch wenn spalten wie crash_hour, crash_day_of_week und crash_month hier vorgegbene sind extrahieren wir es sslbst aus dem crash_date, aus dem grund da wir dann unsere formatierung  nehmen können. in den usa entspricht z.b. 1 dem sonntag und bei unserer interpretation es ist eine 1 für montag intuitiver und bdearf nuícht unbeding eigene rklärungen. auch ist es für analysen sinnvoller das als date formatiert zu haben und nicht als numerischen wert.. Ebenso liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.
 
 Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlende Informationen, die nicht als technisches NA kodiert sind. Werte wie "UNKNOWN" (z. B. bei road_defect) oder "UNABLE TO DETERMINE" (bei prim_contributory_cause) treten häufig auf.
 
 Daten-Inkositenz: Spalten wie most_severe_injury nutzen Textbeschreibungen ("NO INDICATION..."), wo numerische Skalen oder boolesche Werte effizienter wären.
 
-
+>> Crash_Date und Crash_hour sind etwas wiedersprüchliche Angaben. sie sind verschieden sollen aber das gleiche Zeigen. hier müssen wir entschiden wie wir damit umgehen, auf welche Uhrzeit velassen wir uns hier? Antowrt: wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der spalte crash_hour einem bestimmten schema folgt und bevor das überstezt und transormiert wird ist es leichter es aus dem crash_date heruaszuextrahieren (das muss eh beaneberitet werden). somit würde die spalte crash_hour wegfallen
 
 
 ## 3. Bearbeiten/Transformieren der Daten
@@ -94,6 +95,170 @@ Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hier
 
 Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
 :::
+
+```{r}
+#glimpse(dataset)
+#skim(dataset)
+#head(dataset)
+```
+
+### Duplikate entfernen
+Mithilfe der Methode distinct() aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
+```{r}
+dataset.clean <- dataset %>%
+  distinct()
+```
+
+### Feature Engineering
+Die Spalte crash_date wird in Wochentag, Stunde, Monat und Jahr aufgeteilt. Die vorhandenen Spalten crash_hour, crash_day_of_week und crash_month werden entfernt, um eigene Interpretationen, z. B. des Wochentags, zu ermöglichen und dadurch mehr Flexibilität zu schaffen. Nach der Extraktion werden zudem neben den ursprünglichen Spalten auch crash_date entfernt, das dient der Übersichtlichkeit.
+
+** in ordniale Werte konvertiert
+```{r} 
+dataset.clean <- dataset.clean %>%
+  mutate(
+    crash_timestamp = mdy_hms(crash_date),
+
+    crash_hour_num = hour(crash_timestamp),
+    crash_wday_label = wday(crash_timestamp, label = TRUE, abbr = FALSE, week_start = 1),
+    crash_month_label = month(crash_timestamp, label = TRUE, abbr = FALSE),
+    crash_year_num = year(crash_timestamp)
+  )
+
+```
+
+### Selektieren der relevanten Attribute
+
+| Kategorie | Attribut | Beschreibung |
+|-----------|----------|--------------|
+| **Zeitliche Faktoren** | `crash_hour` | Stunde des Unfalls (tageszeitliche Muster) |
+| | `crash_day_of_week` | Wochentag des Unfalls (Werktag vs. Wochenende) |
+| | `crash_month` | Monat des Unfalls (saisonale Muster) |
+| **Straßen- und Infrastruktur** | `trafficway_type` | Art der Straße (z.B. Autobahn, Landstraße) |
+| | `alignment` | Straßenverlauf (gerade, Kurve) |
+| | `roadway_surface_cond` | Fahrbahnzustand (trocken, nass, Eis) |
+| | `road_defect` | Vorhandene Straßenschäden |
+| | `intersection_related_i` | Kreuzungsbezug (ja/nein) |
+| **Umgebungs- und Sichtbedingungen** | `weather_condition` | Wetterlage zum Unfallzeitpunkt |
+| | `lighting_condition` | Lichtverhältnisse (Tageslicht, Dunkelheit) |
+| | `traffic_control_device` | Art der Verkehrsregelung (Ampel, Schild) |
+| **Unfallcharakteristika** | `first_crash_type` | Initiale Aufprallart (frontal, Heck, etc.) |
+| | `crash_type` | Gesamttyp des Unfalls |
+| | `prim_contributory_cause` | Hauptursache des Unfalls |
+
+: Übersicht der verwendeten Attribute und deren Relevanz für die Analyse {#tbl-attributes}
+```{r}
+dataset.clean <- dataset.clean %>%
+  select(
+    # Zeitliche Faktoren 
+    crash_year_num, crash_hour_num, crash_wday_label, crash_month_label,
+    # Straßen- und Infrastruktur
+    trafficway_type, alignment, roadway_surface_cond, road_defect, intersection_related_i,
+    # Umgebungs- und Sichtbedingungen
+    weather_condition, lighting_condition, traffic_control_device,
+    # Unfallcharakteristika
+    first_crash_type, crash_type, prim_contributory_cause
+  )
+```
+
+### Datenwerte bereinigen
+Werte, die nicht bekannt sind, werden häufig als „Unknown“, „Unable to determine“ oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden diese Werte einheitlich auf Na gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.
+```{r}
+dataset.clean <- dataset.clean %>%
+  mutate(
+    prim_contributory_cause = na_if(prim_contributory_cause, "UNABLE TO DETERMINE"),
+    prim_contributory_cause = na_if(prim_contributory_cause, "NOT APPLICABLE"),
+    weather_condition = na_if(weather_condition, "UNKNOWN"),
+    road_defect = na_if(road_defect, "UNKNOWN"),
+    lighting_condition = na_if(lighting_condition, "UNKNOWN"),
+    roadway_surface_cond = na_if(roadway_surface_cond, "UNKNOWN"),
+    traffic_control_device = na_if(traffic_control_device, "UNKNOWN")
+  )
+
+```
+
+
+### Gruppieren von Werten
+
+```{r}
+dataset.clean <- dataset.clean %>%
+  mutate(
+    # Wir erstellen eine vereinfachte Kategorie
+    trafficway_type_simple = case_when(
+      # 1. Alles was "Divided" ist (egal ob mit Mauer oder ohne)
+      str_detect(trafficway_type, "DIVIDED") ~ "Divided Road",
+      
+      # 2. Einbahnstraßen
+      trafficway_type == "ONE-WAY" ~ "One-Way",
+      
+      # 3. Normale Straßen (Nicht getrennt)
+      trafficway_type %in% c("NOT DIVIDED", "TWO-WAY", "CENTER TURN LANE") ~ "Two-Way (Not Divided)",
+      
+      # 4. Kreuzungen/ (alle Typen)
+      trafficway_type %in% c("FOUR WAY", 
+                             "T-INTERSECTION", 
+                             "Y-INTERSECTION", 
+                             "L-INTERSECTION", 
+                             "FIVE POINT, OR MORE", 
+                             "ROUNDABOUT", 
+                             "UNKNOWN INTERSECTION TYPE") ~ "Intersection",
+
+      # 5. Spezialfälle (alles andere z.B. Parking_lot, ramp, driveway, alley, unkonw/not reported)
+      TRUE ~ "Other"
+    )
+  ) %>%
+  select(-trafficway_type) %>%
+
+  mutate(
+    cause_group = case_when(
+      # --- 1. WETTER ---
+      prim_contributory_cause == "WEATHER" ~ "Weather",
+      
+      # --- 2. Andere Externe Faktoren (Tiere, Straße, Sicht) ---
+      prim_contributory_cause %in% c("ANIMAL", 
+                                     "ROAD ENGINEERING/SURFACE/MARKING DEFECTS", 
+                                     "VISION OBSCURED (SIGNS, TREE LIMBS, BUILDINGS, ETC.)",
+                                     "EVASIVE ACTION DUE TO ANIMAL, OBJECT, NONMOTORIST") ~ "External Factors (Non-Weather)",
+      
+      # --- 3. Ablenkung ---
+      str_detect(prim_contributory_cause, "DISTRACTION|TEXTING|CELL PHONE") ~ "Distracted Driving",
+      
+      # --- 4. Substanzen (Alkohol/Drogen) ---
+      str_detect(prim_contributory_cause, "ALCOHOL|DRINKING|DRUGS|HAD BEEN DRINKING") ~ "Impaired (Alcohol/Drugs)",
+      
+      # --- 5. Raser / Aggressiv ---
+      str_detect(prim_contributory_cause, "SPEED|RECKLESS|AGGRESSIVE") ~ "Speeding/Aggressive",
+      
+      # --- 6. Regelverstöße (Ampel/Schilder) ---
+      str_detect(prim_contributory_cause, "YIELD|SIGNAL|STOP SIGN|RED LIGHT|DISREGARDING") ~ "Disregarded Traffic Control",
+      
+      # --- 7. Klassische Fahrfehler ---
+      prim_contributory_cause %in% c("FOLLOWING TOO CLOSELY", "IMPROPER TURNING/NO SIGNAL", 
+                                     "IMPROPER BACKING", "IMPROPER LANE USAGE", 
+                                     "IMPROPER OVERTAKING/PASSING", "FAILING TO YIELD RIGHT-OF-WAY") ~ "Driver Error",
+      
+      # --- 8. NA bleibt NA ---
+      is.na(prim_contributory_cause) ~ NA_character_,
+      
+      # --- 9. Rest ---
+      TRUE ~ "Other Cause"
+    )
+  ) %>%
+  select(-prim_contributory_cause)
+```
+
+### Y/N Spalten zu TRUE und FALSE transformieren
+In der Spalte intersection_related_i sind boolsche Werte enthalten, aber als Y und N in charactes formatiert. hier sollten diese in TRUE und FALSE überführt werden.
+```{r}
+dataset.clean <- dataset.clean %>%
+  mutate(
+    intersection_related_i = if_else(intersection_related_i == "Y", TRUE, FALSE)
+  )
+```
+
+
+
+
+
 
 ## 4. Geeignete Visualisierung und Aggregation der Daten
 
