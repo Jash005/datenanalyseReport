@@ -35,7 +35,7 @@ Ausgangspunkt unserer Analyse ist ein umfangreicher Datensatz zu Verkehrsunfäll
 
 Konkret lautet unsere Fragestellung: Welche äußeren Bedingungen und Unfalleigenschaften stehen in einem erkennbaren Zusammenhang mit der Schwere von Verkehrsunfällen? Im Fokus steht, ob bestimmte Kombinationen aus Wetterlage, Lichtverhältnissen, Unfalltyp, Wochentag und Verkehrssituation häufiger mit Verletzungen oder schweren Unfällen verbunden sind als andere. Das Ziel der Analyse ist nicht die Vorhersage einzelner Unfälle, sondern ein besseres Verständnis dafür, unter welchen Bedingungen Unfälle eher glimpflich verlaufen und wann das Risiko für Verletzungen deutlich ansteigt.
 
-Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen, winterliche Fahrbahnzustände sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend weniger schwer verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
+Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend weniger schwer verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
 
 
 ## 2. Laden der Daten
@@ -81,7 +81,9 @@ Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlen
 
 Daten-Inkositenz: Spalten wie most_severe_injury nutzen Textbeschreibungen ("NO INDICATION..."), wo numerische Skalen oder boolesche Werte effizienter wären.
 
->> Crash_Date und Crash_hour sind etwas wiedersprüchliche Angaben. sie sind verschieden sollen aber das gleiche Zeigen. hier müssen wir entschiden wie wir damit umgehen, auf welche Uhrzeit velassen wir uns hier? Antowrt: wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der spalte crash_hour einem bestimmten schema folgt und bevor das überstezt und transormiert wird ist es leichter es aus dem crash_date heruaszuextrahieren (das muss eh beaneberitet werden). somit würde die spalte crash_hour wegfallen
+wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der spalte crash_hour einem bestimmten schema folgt und bevor das überstezt und transormiert wird ist es leichter es aus dem crash_date heruaszuextrahieren (das muss eh beaneberitet werden). somit würde die spalten crash_hour, crash_day_of_week und crash_month wegfallen
+
+über lapply(dataset, unique) prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu NA konvertiert. Bei Attributen wie prim_contributory_cause wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
 
 
 ## 3. Bearbeiten/Transformieren der Daten
@@ -121,7 +123,14 @@ dataset.clean <- dataset.clean %>%
     crash_hour_num = hour(crash_timestamp),
     crash_wday_label = wday(crash_timestamp, label = TRUE, abbr = FALSE, week_start = 1),
     crash_month_label = month(crash_timestamp, label = TRUE, abbr = FALSE),
-    crash_year_num = year(crash_timestamp)
+    crash_year_num = year(crash_timestamp),
+
+    season = case_when(
+      crash_month_label %in% c("Dezember", "Januar", "Februar") ~ "Winter",
+      crash_month_label %in% c("März", "April", "Mai") ~ "Spring",
+      crash_month_label %in% c("Juni", "Juli", "August") ~ "Summer",
+      crash_month_label %in% c("September", "Oktober", "November") ~ "Autumn"
+    )
   )
 
 ```
