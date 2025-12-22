@@ -8,9 +8,6 @@ date: today
 format: html
 ---
 
-#### Datensatz:
-https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents
-
 ### Imports
 ```{r}
 library(tidyverse)
@@ -73,7 +70,7 @@ dataset <- read.table(
 
 ```
 
-Nach dem Import des Datensatzes haben wir mittels glimpse() eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
+Nach dem Import des Datensatzes haben wir mittels `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
 
 Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden als Zeichenkette interpretiert. Für eine zeitliche Analyse (Wochentag, Tageszeit) ist eine Konvertierung in ein date/time-Objekt und eine Extraktion der Komponenten notwendig. auch wenn spalten wie crash_hour, crash_day_of_week und crash_month hier vorgegbene sind extrahieren wir es sslbst aus dem crash_date, aus dem grund da wir dann unsere formatierung  nehmen können. in den usa entspricht z.b. 1 dem sonntag und bei unserer interpretation es ist eine 1 für montag intuitiver und bdearf nuícht unbeding eigene rklärungen. auch ist es für analysen sinnvoller das als date formatiert zu haben und nicht als numerischen wert.. Ebenso liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.
 
@@ -83,7 +80,7 @@ Daten-Inkositenz: Spalten wie most_severe_injury nutzen Textbeschreibungen ("NO 
 
 wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der spalte crash_hour einem bestimmten schema folgt und bevor das überstezt und transormiert wird ist es leichter es aus dem crash_date heruaszuextrahieren (das muss eh beaneberitet werden). somit würde die spalten crash_hour, crash_day_of_week und crash_month wegfallen
 
-über lapply(dataset, unique) prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu NA konvertiert. Bei Attributen wie prim_contributory_cause wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
+über `lapply(dataset, unique)` prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu NA konvertiert. Bei Attributen wie prim_contributory_cause wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
 
 
 ## 3. Bearbeiten/Transformieren der Daten
@@ -105,7 +102,7 @@ Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum n
 ```
 
 ### Duplikate entfernen
-Mithilfe der Methode distinct() aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
+Mithilfe der Methode `distinct()` aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
 ```{r}
 dataset.clean <- dataset %>%
   distinct()
@@ -113,6 +110,10 @@ dataset.clean <- dataset %>%
 
 ### Feature Engineering
 Die Spalte crash_date wird in Wochentag, Stunde, Monat und Jahr aufgeteilt. Die vorhandenen Spalten crash_hour, crash_day_of_week und crash_month werden entfernt, um eigene Interpretationen, z. B. des Wochentags, zu ermöglichen und dadurch mehr Flexibilität zu schaffen. Nach der Extraktion werden zudem neben den ursprünglichen Spalten auch crash_date entfernt, das dient der Übersichtlichkeit.
+
+ein neues Attribut season fasst die monate zusammen und ordent diese Jahreszeiten hinzu. um auswertungen zum machen die von Winter oder sommer abhänig sind.
+
+über ein simples attribut has_injury können wir die unfallursache noch mit der angabe ob es adbei veretzte gab, also der schwere des unfalls bewerten.
 
 ** in ordniale Werte konvertiert
 ```{r} 
@@ -130,9 +131,10 @@ dataset.clean <- dataset.clean %>%
       crash_month_label %in% c("März", "April", "Mai") ~ "Spring",
       crash_month_label %in% c("Juni", "Juli", "August") ~ "Summer",
       crash_month_label %in% c("September", "Oktober", "November") ~ "Autumn"
-    )
-  )
+    ),
 
+    has_injury = if_else(most_severe_injury == "NO INDICATION OF INJURY", FALSE, TRUE)
+  )
 ```
 
 ### Selektieren der relevanten Attribute
@@ -165,7 +167,7 @@ dataset.clean <- dataset.clean %>%
     # Umgebungs- und Sichtbedingungen
     weather_condition, lighting_condition, traffic_control_device,
     # Unfallcharakteristika
-    first_crash_type, crash_type, prim_contributory_cause
+    first_crash_type, crash_type, prim_contributory_cause, has_injury
   )
 ```
 
@@ -278,6 +280,287 @@ Fassen Sie die Daten in einer geeigenten Form zur Beantwortung Ihrer formulierte
 
 Hier könne Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
 :::
+
+
+### Untersuchung von zeitlichen Aspekten
+Hier prüfen wir wie Verkehrsunfälle mit dem Wochentag, Jahreszeit oder der Uhrzeit zusammenhängen.
+
+#### Unfallhäufigkeit
+Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster besser zu identifizieren. 
+
+```{r}
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+
+# Histogramm Mitte (Heatmap)
+dataset.timeAnalyse.plot1.heatmap_data <- dataset.clean %>%
+  filter(!is.na(crash_wday_label), !is.na(crash_hour_num)) %>%
+  count(crash_wday_label, crash_hour_num)
+
+dataset.timeAnalyse.plot1.plot_main <- ggplot(dataset.timeAnalyse.plot1.heatmap_data, aes(x = crash_hour_num, y = crash_wday_label, fill = n)) + 
+  geom_tile(color = "#fff") +
+  scale_fill_viridis_c(option = "magma", direction = -1) +
+  scale_x_continuous(breaks = seq(0, 23, 2)) +
+
+  geom_hline(yintercept = 5.5, color = "#fff", linewidth = 6, linetype = "solid") +
+  geom_hline(yintercept = 5.5, color = "#000", linewidth = 0.5, linetype = "dashed") +
+
+  labs(x = "Uhrzeit", y = "Wochentag") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# Histogramm oben (Uhrzeiten)
+dataset.timeAnalyse.plot1.plot_top <- ggplot(dataset.clean, aes(x = crash_hour_num)) +
+  geom_bar(fill = "gray40") + 
+  scale_x_continuous(breaks = seq(0, 23, 2), expand = c(0,0)) + 
+  theme_void()
+
+# Histogramm rechts (Wochentage)
+dataset.timeAnalyse.plot1.plot_right <- ggplot(dataset.clean, aes(x = crash_wday_label)) +
+  geom_bar(fill = "gray40") +
+  coord_flip() + # Drehen!
+  scale_x_discrete(expand = c(0,0)) +
+  theme_void()
+
+
+dataset.timeAnalyse.plot1.plot_top + plot_spacer() + dataset.timeAnalyse.plot1.plot_main + dataset.timeAnalyse.plot1.plot_right + 
+  plot_layout(
+    heights = c(1, 5),
+    widths = c(5, 1)
+  ) +
+  plot_annotation(
+    title = "Unfallhäufigkeit an Wochentagen und Uhrzeiten",
+    subtitle = "Kombination aus detailierten Zeitverlauf (Heatmap) und aggregierten Gesamtwerten an den Rändern",
+    theme = theme(plot.title = element_text(face = "bold"))
+  )
+```
+
+Auf den ersten Blick zeigt sich eine deutliche Konzentration der Unfälle am späten Nachmittag. Das obere Histogramm bestätigt, dass der Zeitraum zwischen 15:00 und 17:00 Uhr das globale Maximum im Tagesverlauf darstellt. Das kann die Ursache haben, das dies eine typische Feierabend-Zeit ist und das Verkahrsaufkommen höher ist. Nachts (00:00 bis 05:00 Uhr) ist das Unfallaufkommen am geringsten, was korreliert mit der vermutlich geringsten Verkehrsdichte.
+
+Innerhalb der Woche (Montag bis Freitag) folgt das Unfallgeschehen dem klassischen Rhythmus des Berufsverkehrs. Es gibt eine klare Häufung am Nachmittag, wobei der Freitag zwischen 15:00 und 17:00 Uhr als absoluter Spitzenreiter („Hotspot“) durch die dunkelste Färbung hervorsticht. Auch am rechten Randdiagramm ist erkennbar, dass der Freitag insgesamt der unfallreichste Tag ist.
+
+Interesant ist der signifikanten Wandel im Unfallgeschehen zwischen Wochenende und Werktags (siehe gestrichelte Trennlinie). Das Wochenende löst das klare Muster der Stoßzeiten auf:
+1. Tagsüber sind die Unfälle breiter über Mittag und Nachmittag verteilt, ohne die extremen Spitzen der Werktage.
+2. Nachts und in den frühen Morgenstunden (0:00 bis 4:00 Uhr) ist Werktags eine sehr helle Färbung und Wochenends häufen sich zu die Unfälle dort. Das deutet darauf hin, das Nachts am Wochenende - vermutlich durch Freizeit- und Party-Verkehr - verhältnismäßig mehr passiert als unter der Woche. 
+
+
+
+#### Unfallursache
+Die daraus resultierende Hypothese, dass die erhöhte Unfallschwere nachts auf 'Party-Verkehr' zurückzuführen ist, muss bewiesen werden. Hierzu wird die Unfallursache 'Alkohol' isoliert betrachtet und ihr zeitliches Auftreten analysiert.
+```{r}
+dataset.timeAnalyse.plot2.alcohol_trend <- dataset.clean %>%
+  filter(!is.na(crash_hour_num)) %>%
+  mutate(is_alcohol = grepl("ALCOHOL|INTOXICATED", cause_group, ignore.case = TRUE)) %>%
+  filter(is_alcohol == TRUE) %>%
+  count(crash_hour_num)
+
+ggplot(dataset.timeAnalyse.plot2.alcohol_trend, aes(x = crash_hour_num, y = n)) +
+  geom_line(color = "#b00b1e", linewidth = 1.2) +
+  scale_x_continuous(breaks = seq(0, 23, 2)) +
+  labs(
+    title = "'Party-Hypothese'",
+    subtitle = "Anzahl der alkoholbedingten Unfälle nach Uhrzeit",
+    x = "Uhrzeit",
+    y = "Anzahl Alkohol-Unfälle"
+  ) +
+  theme_minimal()
+```
+
+Die Kurve der alkoholbedingten Unfälle zeigt eine signifikante Asymmetrie. Während Alkohol im morgendlichen Berufsverkehr (ca. 6:00 bis 10:00 Uhr) faktisch keine Rolle spielt, steigt die Kurve ab den Abendstunden (ca. 20:00 Uhr) steil an.
+
+**Korrelation:** Legt man die Kurve der Alkoholunfälle über das Diagramm der Unfallschwere, zeigt sich eine fast perfekte Deckungsgleichheit. Die Stunden mit der höchsten Wahrscheinlichkeit für Personenschäden sind identisch mit den Stunden, in denen am häufigsten alkoholisiert gefahren wird.
+
+Die Daten bestätigen die Vermutung eindrucksvoll. Nicht das Verkehrsaufkommen oder die reine Dunkelheit sind die Haupttreiber für die schweren nächtlichen Unfälle, sondern das Fahrerverhalten. Der Konsum von Alkohol ("Party-Verkehr") führt zu einer drastischen Erhöhung des Risikos, was die Diskrepanz zwischen der geringen Unfallzahl und der hohen Verletztenquote in der Nacht erklärt.
+
+
+#### Unfallschwere
+Ergänzend zur Häufigkeit zeigt diese Grafik die Unfallschwere. Hierbei wird untersucht, wie hoch der Anteil an Personenschäden (rot) im Vergleich zu reinen Sachschäden (grau) ist.
+
+Die folgenden Grafiken sind mit Reiter struktureirt und zeigen entweder den Monats-, Wochentags- oder Stunden-Zyklus. Die Daten der Plots sind von den Jahren 2013 bis 2025.
+
+::: {.panel-tabset}
+
+##### Monats-Zyklus
+Um noch die Sasionale Komponente zu betrachten dient diese Art von Kreisdiagramm. Ein Blick auf die Monate zeigt, ob es im Winter (Glatteis/Dunkelheit) oder Sommer (Ferienverkehr) häufiger zu einem Unfall kommt.
+```{r}
+dataset.timeAnalyse.plot3.data_month <- dataset.clean %>%
+  filter(!is.na(crash_month_label), !is.na(has_injury)) %>%
+  count(crash_month_label, has_injury) %>%
+  mutate(
+    prozent = n / sum(n),
+    label_text = ifelse(has_injury, paste0(round(prozent * 100, 1), "%"), "")
+  )
+
+# 2. PLOT
+dataset.timeAnalyse.plot3.plot_month <- ggplot(dataset.timeAnalyse.plot3.data_month, aes(x = crash_month_label, y = n, fill = has_injury)) +
+  geom_col(width = 1, color = "white", linewidth = 0.1) + 
+  coord_polar(theta = "x", start = -pi/12) + 
+  scale_fill_manual(values = c("#c5c5c5", "#b00b1e"),
+                    labels = c("Nur Sachschaden", "Mit Verletzten")) +
+  geom_text(aes(label = label_text), 
+            color = "#b00b1e",
+            fontface = "bold", 
+            size = 4,
+            nudge_y = 5000) +
+  labs(title = "Monats-Zyklus (Januar bis Dezember)", subtitle = "Anteil Personenschäden pro Monat", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_line(color = "#eeeeee"),
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 11, face = "bold", color = "#555555"),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+
+dataset.timeAnalyse.plot3.plot_month
+```
+
+Die Analyse des saisonalen Verlaufs (Monats-Zyklus) offenbart eine signifikante Diskrepanz zwischen Unfallhäufigkeit und Unfallschwere.
+
+Während die absolute Anzahl der Unfälle (dargestellt durch die Länge der Segmente) zum Jahresende in den Monaten Oktober bis Dezember ihr Maximum erreicht, verhält sich die Unfallschwere (Anteil der Personenschäden) gegenläufig.
+
+Erstaunlicherweise liegt der relative Anteil an Verletzten im Spätsommer und Frühherbst (Juli bis September) am höchsten. Dies widerspricht auf den ersten Blick der Intuition, dass die 'dunkle Jahreszeit' am gefährlichsten sei. Die Daten legen nahe, dass schlechte Witterung im Herbst zwar zu mehr Unfällen führt, diese aber oft glimpflicher ausgehen (Blechschäden durch z.B. Auffahrunfälle). Im Gegensatz dazu scheinen die besseren Straßenverhältnisse im Sommer höhere Geschwindigkeiten und damit folgenschwerere Kollisionen zu begünstigen.
+
+Das globale Minimum des Unfallgeschehens – sowohl nach Anzahl als auch nach Schwere – findet sich in den Monaten Februar bis April.
+
+
+##### Wochen-Zyklus
+Hier wird der Verlauf der Unfallhäufigkeit und der Schwere über die Wochentage verteilt dargestellt.
+```{r}
+library(ggplot2)
+library(dplyr)
+
+dataset.timeAnalyse.plot3.data_week <- dataset.clean %>%
+  filter(!is.na(crash_wday_label), !is.na(has_injury)) %>%
+  count(crash_wday_label, has_injury) %>%
+  group_by(crash_wday_label) %>%
+  mutate(
+    prozent = n / sum(n),
+    label_text = ifelse(has_injury, paste0(round(prozent * 100, 1), "%"), "")
+  ) %>%
+  ungroup()
+
+dataset.timeAnalyse.plot3.plot_week <- ggplot(dataset.timeAnalyse.plot3.data_week, aes(x = crash_wday_label, y = n, fill = has_injury)) +
+  geom_col(width = 1, color = "white", linewidth = 0.2) + 
+  coord_polar(theta = "x", start = -pi/7) + 
+  scale_fill_manual(values = c("#c5c5c5", "#b00b1e"),
+                    labels = c("Nur Sachschaden", "Mit Verletzten")) +
+  geom_text(aes(label = label_text), 
+            color = "#b00b1e",
+            fontface = "bold", 
+            size = 4,
+            nudge_y = 5000) +
+  labs(title = "Wochen-Zyklus (Montag bis Sonntag)", subtitle = "Anteil Personenschäden pro Wochentag", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_line(color = "#eeeeee"),
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 11, face = "bold", color = "#555555"),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+
+dataset.timeAnalyse.plot3.plot_week
+```
+
+Das Wochenend-Phänomen, wie es auch schon in der Heatmap zu sehen ist. Der Freitag sticht auch hier wieder als unfallreichster Tag hervor (längstes Segment), weist aber mit 24,6% paradoxerweise die geringste Verletztenquote der Woche auf. Ursache kann der typische 'Stop-and-Go'-Verkehr zum Wochenende sein, der meist glimpflich endet. Im Kontrast dazu steht der Sonntag: Obwohl hier absolut gesehen am wenigsten passiert, ist das relative Risiko für Personenschäden mit 28,6% am höchsten. Dies deutet auf den Freizeitverkehr hin: Freie Straßen verleiten zu höheren Geschwindigkeiten, was bei einer Kollision gravierendere Folgen hat.
+
+
+##### Tages-Zyklus
+Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt - einmal nach dem Schema wie bei Monats- und Wochen-Zyklus und das andermal im Detail auf das tatsächliche Risiko.
+```{r}
+library(patchwork)
+
+dataset.timeAnalyse.plot3.data_hour <- dataset.clean %>%
+  filter(!is.na(crash_hour_num), !is.na(has_injury)) %>%
+  count(crash_hour_num, has_injury) %>%
+  group_by(crash_hour_num) %>%
+  mutate(
+    prozent = n / sum(n),
+    label_text = ifelse(has_injury, paste0(round(prozent * 100, 0), "%"), "")
+  ) %>%
+  ungroup()
+
+
+dataset.timeAnalyse.plot3.plot_hour_total <- ggplot(dataset.timeAnalyse.plot3.data_hour, aes(x = factor(crash_hour_num), y = n, fill = has_injury)) +
+  geom_col(width = 1, color = "white", linewidth = 0.1) +
+  coord_polar(theta = "x", start = 0) + 
+  scale_fill_manual(values = c("#c5c5c5", "#b00b1e"),
+                    labels = c("Nur Sachschaden", "Mit Verletzten")) +
+  scale_x_discrete(breaks = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)) +
+  labs(title = "Total", subtitle = "Gesamtanzahl pro Stunde", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_line(color = "#eeeeee"),
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 11, face = "bold", color = "#555555"),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+
+
+dataset.timeAnalyse.plot3.plot_hour_detail <- ggplot(dataset.timeAnalyse.plot3.data_hour, aes(x = factor(crash_hour_num), y = prozent, fill = has_injury)) +
+  geom_col(position = "fill", width = 1, color = "white", linewidth = 0.1) +
+  coord_polar(theta = "x", start = 0) + 
+  scale_fill_manual(values = c("#c5c5c5", "#b00b1e"),
+                    labels = c("Nur Sachschaden", "Mit Verletzten")) +
+  scale_x_discrete(breaks = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)) +
+  geom_text(data = filter(dataset.timeAnalyse.plot3.data_hour, has_injury == TRUE), 
+            aes(y = prozent, label = label_text),
+            color = "#b00b1e",
+            fontface = "bold", 
+            size = 3,
+            nudge_y = 0.5) +
+  labs(title = "Detail", subtitle = "Anteil Personen und Sachschaden auf Gesamtes pro Stunde", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_line(color = "#eeeeee"),
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 11, face = "bold", color = "#555555"),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+
+
+dataset.timeAnalyse.plot3.plot_hour_total + dataset.timeAnalyse.plot3.plot_hour_detail +
+  plot_layout(guides = "collect") +
+  plot_annotation(
+    title = "Tages-Zyklus (0-23h)",
+    subtitle = "Anteil Personenschäden pro Stunde",
+    theme = theme(plot.title = element_text(size = 16, face = "bold")),
+  ) &
+  theme(legend.position = "bottom")
+```
+
+**Linke Grafik - Absolute Häufigkeit ("Total"):** Dieses Diagramm visualisiert das absolute Unfallaufkommen. Die Länge der Segmente (Radius) entspricht der Gesamtanzahl der Unfälle pro Stunde.
+
+Hier dominiert ganz klar der Rhythmus des Berufsverkehrs: Die Segmente ragen tagsüber, insbesondere zwischen 15:00 und 18:00 Uhr, weit nach außen.
+
+Die Unfallfolgen scheinen hierbei fast ausschließlich aus Sachschäden (grau) zu bestehen; der rote Kern (Personenschäden) wirkt im Verhältnis zur Gesamtmasse klein. Detailierter wird das aber in der Rechten Grafik.
+
+
+**Rechte Grafik- Relative Unfallschwere ("Detail"):** Um das tatsächliche Risiko isoliert vom Verkehrsaufkommen zu betrachten, normiert diese Grafik jede Stunde auf 100%.
+
+Hier zeigt sich ein völlig anderes Bild: Während tagsüber (z. B. 14:00 Uhr) der Anteil an Personenschäden auf ein Minimum von 24% sinkt, weitet sich der rote Kern in den Nachtstunden drastisch aus.
+
+Das relative Risiko erreicht zwischen 1:00 und 3:00 Uhr nachts seinen Höhepunkt: Hier enden rund 33% – also jeder dritte Unfall – mit Verletzungen.
+
+**Fazit:** Die Kombination beider Grafiken löst das statistische Paradoxon auf: Tagsüber passieren zwar die meisten Unfälle (Masse), diese sind aber oft harmloser (Blechschaden im Stau). Nachts passieren die wenigsten Unfälle, diese sind jedoch signifikant gefährlicher (hoher Anteil an Verletzten)."
+
+:::
+
+#### Fazit: Zeitliche Aspekte
+Unfallhäufigkeit und Unfallschwere verhalten sich antizyklisch. Während dichter Verkehr und winterliche Witterung zwar die Masse an Blechschäden erzeugen, geschehen die folgenschwersten Unfälle bei geringer Verkehrsdichte nachts und am Wochenende. Nicht äußere Bedingungen, sondern riskantes Fahrerverhalten (mit Alkohol-Einfluss) auf freien Strecken ist der Haupttreiber für schwere Personenschäden.
+
 
 ## 5. Zusammenfassung und Schlussfolgerung
 
