@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-12-22">
+<meta name="dcterms.date" content="2026-01-07">
 
 <title>Report - Traffic Accidents</title>
 <style>
@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Projekt-Report_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Projekt-Report_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Projekt-Report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Projekt-Report_files/libs/bootstrap/bootstrap-907de2ed7c62c900c92cb0712e844cec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Projekt-Report_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 22, 2025</p>
+      <p class="date">January 7, 2026</p>
     </div>
   </div>
   
@@ -116,12 +116,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="imports" class="level3">
 <h3 class="anchored" data-anchor-id="imports">Imports</h3>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.1     ✔ stringr   1.5.2
-✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ ggplot2   4.0.0     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.1.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -129,8 +132,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="definitionformulierung-der-fragestellung" class="level2">
@@ -174,6 +180,8 @@ Aufgabenstellung (10 Pkt.)
 </div>
 </div>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span><span class="st">"dataset_traffic_accidents.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>, <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> F</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -193,6 +201,7 @@ Aufgabenstellung (10 Pkt.)
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#colSums(is.na(dataset))</span></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#sapply(dataset, class)</span></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#table(dataset$weather_condition)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Nach dem Import des Datensatzes haben wir mittels <code>glimpse()</code> eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:</p>
 <p>Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden als Zeichenkette interpretiert. Für eine zeitliche Analyse (Wochentag, Tageszeit) ist eine Konvertierung in ein date/time-Objekt und eine Extraktion der Komponenten notwendig. auch wenn spalten wie crash_hour, crash_day_of_week und crash_month hier vorgegbene sind extrahieren wir es sslbst aus dem crash_date, aus dem grund da wir dann unsere formatierung nehmen können. in den usa entspricht z.b. 1 dem sonntag und bei unserer interpretation es ist eine 1 für montag intuitiver und bdearf nuícht unbeding eigene rklärungen. auch ist es für analysen sinnvoller das als date formatiert zu haben und nicht als numerischen wert.. Ebenso liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.</p>
@@ -219,16 +228,22 @@ Aufgabenstellung (15 Pkt.)
 </div>
 </div>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#glimpse(dataset)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#skim(dataset)</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#head(dataset)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="duplikate-entfernen" class="level3">
 <h3 class="anchored" data-anchor-id="duplikate-entfernen">Duplikate entfernen</h3>
 <p>Mithilfe der Methode <code>distinct()</code> aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="feature-engineering" class="level3">
@@ -238,6 +253,8 @@ Aufgabenstellung (15 Pkt.)
 <p>über ein simples attribut has_injury können wir die unfallursache noch mit der angabe ob es adbei veretzte gab, also der schwere des unfalls bewerten.</p>
 <p>** in ordniale Werte konvertiert</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">crash_timestamp =</span> <span class="fu">mdy_hms</span>(crash_date),</span>
@@ -256,6 +273,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_injury =</span> <span class="fu">if_else</span>(most_severe_injury <span class="sc">==</span> <span class="st">"NO INDICATION OF INJURY"</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="selektieren-der-relevanten-attribute" class="level3">
@@ -356,6 +374,8 @@ Table&nbsp;1: Übersicht der verwendeten Attribute und deren Relevanz für die A
 </figure>
 </div>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zeitliche Faktoren </span></span>
@@ -367,12 +387,15 @@ Table&nbsp;1: Übersicht der verwendeten Attribute und deren Relevanz für die A
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Unfallcharakteristika</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    first_crash_type, crash_type, prim_contributory_cause, has_injury</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="datenwerte-bereinigen" class="level3">
 <h3 class="anchored" data-anchor-id="datenwerte-bereinigen">Datenwerte bereinigen</h3>
 <p>Werte, die nicht bekannt sind, werden häufig als „Unknown“, „Unable to determine“ oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden diese Werte einheitlich auf Na gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prim_contributory_cause =</span> <span class="fu">na_if</span>(prim_contributory_cause, <span class="st">"UNABLE TO DETERMINE"</span>),</span>
@@ -383,11 +406,14 @@ Table&nbsp;1: Übersicht der verwendeten Attribute und deren Relevanz für die A
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">roadway_surface_cond =</span> <span class="fu">na_if</span>(roadway_surface_cond, <span class="st">"UNKNOWN"</span>),</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">traffic_control_device =</span> <span class="fu">na_if</span>(traffic_control_device, <span class="st">"UNKNOWN"</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="gruppieren-von-werten" class="level3">
 <h3 class="anchored" data-anchor-id="gruppieren-von-werten">Gruppieren von Werten</h3>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wir erstellen eine vereinfachte Kategorie</span></span>
@@ -452,16 +478,20 @@ Table&nbsp;1: Übersicht der verwendeten Attribute und deren Relevanz für die A
 <span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>prim_contributory_cause)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="yn-spalten-zu-true-und-false-transformieren" class="level3">
 <h3 class="anchored" data-anchor-id="yn-spalten-zu-true-und-false-transformieren">Y/N Spalten zu TRUE und FALSE transformieren</h3>
 <p>In der Spalte intersection_related_i sind boolsche Werte enthalten, aber als Y und N in charactes formatiert. hier sollten diese in TRUE und FALSE überführt werden.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intersection_related_i =</span> <span class="fu">if_else</span>(intersection_related_i <span class="sc">==</span> <span class="st">"Y"</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 </section>
@@ -488,6 +518,8 @@ Aufgabenstellung (15 Pkt.)
 <h4 class="anchored" data-anchor-id="unfallhäufigkeit">Unfallhäufigkeit</h4>
 <p>Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster besser zu identifizieren.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -533,6 +565,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Kombination aus detailierten Zeitverlauf (Heatmap) und aggregierten Gesamtwerten an den Rändern"</span>,</span>
 <span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span>
 <span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -549,6 +582,8 @@ Aufgabenstellung (15 Pkt.)
 <h4 class="anchored" data-anchor-id="unfallursache">Unfallursache</h4>
 <p>Die daraus resultierende Hypothese, dass die erhöhte Unfallschwere nachts auf ‘Party-Verkehr’ zurückzuführen ist, muss bewiesen werden. Hierzu wird die Unfallursache ‘Alkohol’ isoliert betrachtet und ihr zeitliches Auftreten analysiert.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataset.timeAnalyse.plot2.alcohol_trend <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(crash_hour_num)) <span class="sc">%&gt;%</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_alcohol =</span> <span class="fu">grepl</span>(<span class="st">"ALCOHOL|INTOXICATED"</span>, cause_group, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
@@ -565,6 +600,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Anzahl Alkohol-Unfälle"</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -587,6 +623,8 @@ Aufgabenstellung (15 Pkt.)
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Um noch die Sasionale Komponente zu betrachten dient diese Art von Kreisdiagramm. Ein Blick auf die Monate zeigt, ob es im Winter (Glatteis/Dunkelheit) oder Sommer (Ferienverkehr) häufiger zu einem Unfall kommt.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dataset.timeAnalyse.plot3.data_month <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(crash_month_label), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(crash_month_label, has_injury) <span class="sc">%&gt;%</span></span>
@@ -619,6 +657,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>dataset.timeAnalyse.plot3.plot_month</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -635,6 +674,8 @@ Aufgabenstellung (15 Pkt.)
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Hier wird der Verlauf der Unfallhäufigkeit und der Schwere über die Wochentage verteilt dargestellt.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -671,6 +712,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>dataset.timeAnalyse.plot3.plot_week</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -684,6 +726,8 @@ Aufgabenstellung (15 Pkt.)
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p>Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt - einmal nach dem Schema wie bei Monats- und Wochen-Zyklus und das andermal im Detail auf das tatsächliche Risiko.</p>
 <div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>dataset.timeAnalyse.plot3.data_hour <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
@@ -749,6 +793,7 @@ Aufgabenstellung (15 Pkt.)
 <span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>)),</span>
 <span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
 <span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -773,9 +818,208 @@ Aufgabenstellung (15 Pkt.)
 <p>Unfallhäufigkeit und Unfallschwere verhalten sich antizyklisch. Während dichter Verkehr und winterliche Witterung zwar die Masse an Blechschäden erzeugen, geschehen die folgenschwersten Unfälle bei geringer Verkehrsdichte nachts und am Wochenende. Nicht äußere Bedingungen, sondern riskantes Fahrerverhalten (mit Alkohol-Einfluss) auf freien Strecken ist der Haupttreiber für schwere Personenschäden.</p>
 </section>
 </section>
+<section id="untersuchung-der-verkehrssituation" class="level3">
+<h3 class="anchored" data-anchor-id="untersuchung-der-verkehrssituation">Untersuchung der Verkehrssituation</h3>
+<p>Nachdem die zeitlichen Aspekte untersucht wurden, richten wir den Fokus nun auf die infrastrukturellen und situativen Rahmenbedingungen der Unfälle. Konkret analysieren wir, ob die Art der Straße (Kreuzung, geteilte Fahrbahn, usw.), der Unfalltyp (Abbiegen, Auffahren, usw.) und die vorhandene Verkehrsregelung (ampel, Stop-Schild, keine Regelung) einen Einfluss auf die Unfallschwere haben, Das Ziel ist zu verstehen, welche Verkehrssitationen besonders risikoreich sind und ob bestimmte Infrastrukturtypen systematisch mit höheren Verletzungsraten eingehen.</p>
+<section id="straßentyp-und-unfallschwere" class="level4">
+<h4 class="anchored" data-anchor-id="straßentyp-und-unfallschwere">Straßentyp und Unfallschwere</h4>
+<p>Zunächst untersuchen wir den Zusammenhang zwischen dem Straßentyp und der Verletzungsrate. Dabei ist es wichtig zu unterscheiden zwischen der absoluten Unfallhäufigkeit (wie viele Unfälle passieren auf diesem Straßentyp?) und der realtiven Unfallschwere (wie gefährlich ist ein Unfall, wenn er dort passiert). Ein Straßentyp mit vielen Unfällen ist nicht zwangslöufig der gefährlichste, wenn diese Unfälle überwiegend glimpflich verlaufen.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Verletzungsrate (relativ)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Absolute Unfallhäufigkeit</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dataset_verkehrsanalyse <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(trafficway_type_simple), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trafficway_type_simple) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_total =</span> <span class="fu">n</span>(),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_verletzte =</span> <span class="fu">sum</span>(has_injury),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dataset_verkehrsanalyse, <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(trafficway_type_simple, verletzungsrate))) <span class="sc">+</span> </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span> </span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Straßentyp"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Verletzungsrate"</span>, </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Typen"</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Analyse zeigt deutliche Unterschiede in der Unfallschwere zwischen verschiedenen Straßentypen. Kreuzungen (“Intersections”) weisen mit 31,66% die höchste Verletzungsrate auf - fast jeder dritte Unfall an einer Kreuzung endet mit Verletzten. Dies lässt sich wahrscheinlich durch die Komplexität der Verkehrssituation erklären: Kreuzende Verkehrssträme, Vorfahrsregeln und Abbiegevorgänge erhöhen das Risiko für schwere Kollisionen, insbesondere bei seitlichem Aufprall.</p>
+<p>Interessanterweise liegt die Verletzungsrate auf normalen zweispurigen Straßen (“Two-Way, Not Divided”) mit 27,85% deutlich höher als auf baulich getrennten Fahrbahnen (“Divided Road”: 24.04%). Dies könnte auf das Risiko von Frontalzusammenstößen bei fehlender Mitteltrennung zurückzuführen sein. Einbahnstraßen (“One-Way”) zeigen mit 19,50% die niedrigste Verletzungsrate, was vermutlich an der redutierten Komplexität der Verkehrsführung liegt.</p>
+<p>Bei der Interpretation ist jedoch zu beachten, dass die absolute Unfallhäufigkeit stark variiert: Während auf Divided Roads mit 122.673 Unfällen die meisten Kollisionen passieren, ereignen sich auf Two-Way-Roads mit nur 2.862 Unfällen vergleichsweise wenige. Die höhere Verletzungsrate bedeutet jedoch, dass ein einzelner Unfal auf einer Two-Way-Road mit höherer Wahrscheinlichkeit schwer verläuft als auf einer Divided Road - trotz der insgesamt geringeren absoluten Anzahl an Verletzten.</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dataset_verkehrsanalyse, <span class="fu">aes</span>(<span class="at">x =</span> anzahl_verletzte, <span class="at">y =</span> <span class="fu">reorder</span>(trafficway_type_simple, anzahl_verletzte))) <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Häufigkeit der Verletzten nach Straßentyp"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Verletzte"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Typen"</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die absolute Unfallhäufigkeit zeigt ein anderes Bild als die Verletzungsrate: Auf Divided Roads ereignen sicht mit 29.491 die meisten Unfälle mit Verletzten, obwohl die Verletzungsrate dort mit 24,04% niedriger ist als bei Intersections (31,66%) oder Two-Way-Roads (27,85%). Dies verdeutlicht das Paradaxon zwischen relativem Risiko und absoluter Häufigkeit.</p>
+<p>Während bei Intersections fast jeder dritte Unfall mit Verletzten endet, geschehen dort absolut deutlich weniger schwere Unfälle (19.795) als auf Divided Roads. Two-Way-Roads weisen mit nur 797 Verletzten die geringste absolute Belastung auf, trotz ihrer vergleichsweise hohen Verletzungsrate.</p>
+</div>
+</div>
+</div>
+<p>→ Um diese Vermutungen über die Gründe für die unterschiedliche Gefährlichkeit zu prüfen, untersuchen wir im Folgenden, welche Unfalltypen auf welchen Straßentypen dominieren und ob sich dadurch die beobachteten Unterschiede in der Verletzungsrate erklären lassen.</p>
 </section>
-<section id="zusammenfassung-und-schlussfolgerung" class="level2">
-<h2 class="anchored" data-anchor-id="zusammenfassung-und-schlussfolgerung">5. Zusammenfassung und Schlussfolgerung</h2>
+</section>
+<section id="welche-unfalltypen-verursachen-die-gefährlichkeit" class="level3">
+<h3 class="anchored" data-anchor-id="welche-unfalltypen-verursachen-die-gefährlichkeit">Welche Unfalltypen verursachen die Gefährlichkeit?</h3>
+<p>Damit wir die Vermutung über die Gründe für die unterschiedliche Gefährlichkeit zu überprüfen müssen wir anhand einer Grafik den Zusammenhang zwischen Straßentyp und Unfalltyp darstellen. Außerdem muss klargestellt werden auf welche Unfalltypen wir achten. Um die Hypothesen zu belegen, brauchen wir auf jeden Fall Head On (hier: Fronttalzusammenstoß), Angle (hier: seitlicher Aufprall) und Turning (hier: abbiegen).</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dataset.unfalltypen <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(trafficway_type_simple), <span class="sc">!</span><span class="fu">is.na</span>(first_crash_type), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trafficway_type_simple, first_crash_type) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl =</span> <span class="fu">n</span>(),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'trafficway_type_simple'. You can override
+using the `.groups` argument.</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>top_unfalltypen <span class="ot">&lt;-</span> dataset.unfalltypen <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_crash_type) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span> (<span class="at">total_anzahl =</span> <span class="fu">sum</span>(anzahl)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_anzahl)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Entscheidung: Top 10 zu nehmen</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(first_crash_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In den Top 10 Unfalltypen nach absoluter Häufigkeit sind alle drei für unsere Hypothesne relevanten Typen (“Head On”, “Angle”, “Turning”) enthalten. Deswegen reichen die Top 10 in der folgenden Heatmap.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dataset.unfalltypen.top10 <span class="ot">&lt;-</span> dataset.unfalltypen <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(first_crash_type <span class="sc">%in%</span> top_unfalltypen)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dataset.unfalltypen.top10, <span class="fu">aes</span>(<span class="at">x =</span> first_crash_type, <span class="at">y =</span> trafficway_type_simple, <span class="at">fill =</span> verletzungsrate)) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(verletzungsrate, <span class="dv">1</span>)), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#f0f0f0"</span>, <span class="at">high =</span> <span class="st">"#b00b1e"</span>, <span class="at">name =</span> <span class="st">"Verletzungsrate (%)"</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Heatmap"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unfalltyp"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Straßentyp"</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)  <span class="co"># Unfalltypen schräg</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Vermutung, dass Kreuzungen aufgrund seitlicher Aufprälle (Angle) und Abbiegevorgänge (Turning) besonders gefährlich sind, wird teilweise bestätigt. Angle-Unfälle an Kreuzungen weisen mit 37% eine erhöhte Verletzungsrate aud - allerdings zeigt sich überraschenderweise die höchste Rate bei Two-Way Straßen mit 43,2%. Dies deutet darauf hin, dass fehlende bauliche Trennung bei seitlichen Kollisionen noch gefährlicher ist als die Komplexität von Kreuzungen.</p>
+<p>Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. Head On Unfälle auf Two Way Roads zeigen mit 40,8% eine de deutlich höhere Verletzungsrate als auf Divided Roads (39,2%). Dies unterstreicht die Schutzwirkung baulicher Mitteltrennungen gegen die gefährlichen Kollisionsarten.</p>
+<p><strong>weitere Erkenntnisse:</strong> Das auffäligste Muster der Heatmap ist die extrem hohe Verletzungsrate bei Pedestrian (89-93%) und Pedalcyclist (70-78%) über alle Straßentypen hinweg, also Fußgänger und Fahrradfahrer. Diese Unfalltypen enden nahezu immer mit Verletzten, unabhängig von dem Straßentypen. Im Gegensatz dazu zeigen klassische Auto gegen Auto Unfälle (rear End) (13-18%) oder Unfall gegen einem Parkenden Auto (5-18%) deutlich niedrigere Raten. Dies wirft die Frage auf, ob Verkehrsinfrastruktur, wie Ampeln oder Vorfahrsregelungen, diese Unfälle hätten verhindern können. Allerdings stelle ich mir die Frage, wie die Verkehrssituation aussah, gab es eine Ampel oder Vorfahrtsregeln, die diese Unfälle evtl. verhindert hätten? Konkret, wie viele Unfälle sind bei den verschiedenen Situationen passiert, um dann zu sehen, welche am meisten schützen könnte vor so Unfällen.</p>
+</section>
+<section id="wie-sieht-die-verkehrssituation-aus-in-den-verschiedenen-unfällen-abhängig-von-unfalltyp" class="level3">
+<h3 class="anchored" data-anchor-id="wie-sieht-die-verkehrssituation-aus-in-den-verschiedenen-unfällen-abhängig-von-unfalltyp">Wie sieht die Verkehrssituation aus in den verschiedenen Unfällen (abhängig von Unfalltyp)?</h3>
+<p>Um das konkret zu prüfen, analysieren wir den Zusammenhang zwischen Verkehrsregelung und Unfalltyp. Hierzu muss entschieden werden, welche Verkehrslagen überhaupt vorhanden ist und ob alle Verkerslagen benutzt wird.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dataset.verkehrslage <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(first_crash_type), <span class="sc">!</span><span class="fu">is.na</span>(traffic_control_device), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(first_crash_type, traffic_control_device) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl =</span> <span class="fu">n</span>(),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'first_crash_type'. You can override using
+the `.groups` argument.</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>top_verkehrslage <span class="ot">&lt;-</span> dataset.verkehrslage <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(traffic_control_device) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span> (<span class="at">total_anzahl =</span> <span class="fu">sum</span>(anzahl)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_anzahl)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Nach besichtigung der Verkehrslagen ist klar, man kann nicht alle benutzen, das würde den Rahmen sprengen. Es steht aber fest, das die Top 5 schon die Mehrheit der Häufigkeit wiederspiegelt. Allerdings beschränken wir uns auf “Traffic Signal”, “Stop Sign/Flasher”, “No Control”, “Yield” und “Pedestrian Crossing Sign”. Jetzt ist die Frage, welche Unfalltypen wir betrachten wollen, es der vorherigen Heatmap hebt sich Pedalcyclist, Pedastrian, Angle, Fixed Object und Head on hervor.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>top_unfalltypen_top5 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PEDESTRIAN"</span>, <span class="st">"PEDALCYCLIST"</span>, <span class="st">"ANGLE"</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"HEAD ON"</span>, <span class="st">"FIXED OBJECT"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>verkehrsregelungen <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"TRAFFIC SIGNAL"</span>, <span class="st">"STOP SIGN/FLASHER"</span>, <span class="st">"NO CONTROLS"</span>, <span class="st">"YIELD"</span>, <span class="st">"PEDESTRIAN CROSSING SIGN"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>dataset.verkehrslage.fokus <span class="ot">&lt;-</span> dataset.verkehrslage <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    first_crash_type <span class="sc">%in%</span> top_unfalltypen_top5,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    traffic_control_device <span class="sc">%in%</span> verkehrsregelungen</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dataset.verkehrslage.fokus, <span class="fu">aes</span>(<span class="at">x =</span> traffic_control_device, <span class="at">y =</span> verletzungsrate, <span class="at">fill =</span> first_crash_type)) <span class="sc">+</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span>  <span class="co"># "dodge" = nebeneinander</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Unfalltyp und Verkehrsregelung"</span>, </span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unfalltyp"</span>,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Verletzungsrate (%)"</span>,</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Verkehrsregelung"</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/gruppierter%20Balkendiagramm-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Im Anschluss an die Analyse von Straßentyp und Unfallart zeigt der Vergleich der Verkehrsregelungen, dass ungeschützte Verkehrsteilnehmende über alle Settings hinweg das höchste Risiko tragen: PEDESTRIAN und PEDALCYCLIST weisen durchgängig sehr hohe Verletzungsraten auf (meist 75–95%), unabhängig davon, ob eine Ampel, ein Stop‑Zeichen oder eine andere Regelung vorhanden ist. Bei den motorisierten Unfalltypen (ANGLE, HEAD ON, FIXED OBJECT) reagiert die Verletzungsrate stärker auf die Art der Regelung: Bereiche ohne formale Kontrolle (No Controls) liegen tendenziell höher, während klare Kontrollen (Traffic Signal, Stop/Flasher) mit niedrigeren Raten einhergehen; YIELD bewegt sich dazwischen. Damit fügt sich dieser Befund schlüssig in die vorigen Ergebnisse ein: Komplexe Konfliktsituationen wie Seit‑ und Frontalzusammenstöße profitieren sichtbar von eindeutiger Regulierung, während die Schwere bei Fußgänger‑ und Radfahrunfällen strukturell hoch bleibt und durch die Regelungsart allein weniger stark gedämpft wird.</p>
+</section>
+<section id="fazit" class="level3">
+<h3 class="anchored" data-anchor-id="fazit">Fazit:</h3>
+<p>Die Ergebnisse zeigen deutlich, dass die Verkehrsinfrastruktur einen erheblichen Einfluss auf die Schwere von Verkhersunfällen hat. Bauliche Trennung und klare Verkehrsregelungen reduzieren das Verletzungsrisiko bei motorisierten Verkehrsteilnehmern signifikant, während ungeschützte Gruppen wie Fußgänger und Radfahrende selbst unter geregelten Bedingungen besonders gefährdet bleiben. Damit bestätigt sich, dass die qualität und Organisation der Verkehrssituation entscheidend sind, wenn es um die Sicherheit und Schadensschwere im Straßenverkehr geht. ## 5. Zusammenfassung und Schlussfolgerung</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -790,6 +1034,7 @@ Aufgabenstellung (10 Pkt.)
 <p>Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?</p>
 </div>
 </div>
+</section>
 </section>
 <section id="quellenverzeichnis" class="level2">
 <h2 class="anchored" data-anchor-id="quellenverzeichnis">Quellenverzeichnis</h2>
