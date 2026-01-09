@@ -17,7 +17,9 @@ format:
 library(tidyverse)
 library(skimr)
 library(lubridate)
-
+library(ggplot2)
+library(patchwork)
+library(dplyr)
 ```
 
 ## 1. Definition/Formulierung der Fragestellung
@@ -293,10 +295,6 @@ Hier prüfen wir wie Verkehrsunfälle mit dem Wochentag, Jahreszeit oder der Uhr
 Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster besser zu identifizieren. 
 
 ```{r}
-library(ggplot2)
-library(patchwork)
-library(dplyr)
-
 # Histogramm Mitte (Heatmap)
 dataset.timeAnalyse.plot1.heatmap_data <- dataset.clean %>%
   filter(!is.na(crash_wday_label), !is.na(crash_hour_num)) %>%
@@ -312,7 +310,7 @@ dataset.timeAnalyse.plot1.plot_main <- ggplot(dataset.timeAnalyse.plot1.heatmap_
 
   labs(x = "Uhrzeit", y = "Wochentag") +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "bottom")
 
 # Histogramm oben (Uhrzeiten)
 dataset.timeAnalyse.plot1.plot_top <- ggplot(dataset.clean, aes(x = crash_hour_num)) +
@@ -434,9 +432,6 @@ Das globale Minimum des Unfallgeschehens – sowohl nach Anzahl als auch nach Sc
 ##### Wochen-Zyklus
 Hier wird der Verlauf der Unfallhäufigkeit und der Schwere über die Wochentage verteilt dargestellt.
 ```{r}
-library(ggplot2)
-library(dplyr)
-
 dataset.timeAnalyse.plot3.data_week <- dataset.clean %>%
   filter(!is.na(crash_wday_label), !is.na(has_injury)) %>%
   count(crash_wday_label, has_injury) %>%
@@ -478,8 +473,6 @@ Das Wochenend-Phänomen, wie es auch schon in der Heatmap zu sehen ist. Der Frei
 ##### Tages-Zyklus
 Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt - einmal nach dem Schema wie bei Monats- und Wochen-Zyklus und das andermal im Detail auf das tatsächliche Risiko.
 ```{r}
-library(patchwork)
-
 dataset.timeAnalyse.plot3.data_hour <- dataset.clean %>%
   filter(!is.na(crash_hour_num), !is.na(has_injury)) %>%
   count(crash_hour_num, has_injury) %>%
