@@ -1027,13 +1027,13 @@ the `.groups` argument.</code></pre>
 <h4 class="anchored" data-anchor-id="zielsetzung-und-analytischer-rahmen">Zielsetzung und analytischer Rahmen</h4>
 <p>Neben zeitlichen und infrastrukturellen Faktoren beeinflussen auch die Umgebungsbedingungen wie die Wetterlage, die Lichtverhältnisse und der Fahrbahnzustand die Entstehung von Unfällen. Sie beeinflussen die Sichtweite, die Reaktionsfähigkeit und die physikalischen Eigenschaften des Fahrzeugs und wirken sich somit auf die Wahrscheinlichkeit von Unfällen und die Schwere der Unfallfolgen aus.</p>
 <p>In diesem Abschnitt wird untersucht, ob bestimmte Umweltbedingungen systematisch mit einer erhöhten relativen Unfallschwere einhergehen. Wie bei den vorherigen Analysen wird dabei bewusst zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Im Fokus steht nicht die Frage, unter welchen Bedingungen die meisten Unfälle auftreten, sondern unter welchen Bedingungen ein Unfall mit höherer Wahrscheinlichkeit zu Personenschäden führt.</p>
-<p>Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.</p>
+<p>Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, keine kausalen Schlussfolgerungen erzielen.</p>
 </section>
 <section id="wetter-und-unfallschwere" class="level4">
 <h4 class="anchored" data-anchor-id="wetter-und-unfallschwere">Wetter und Unfallschwere</h4>
-<section id="analytischer-fokus-wetterbedingungen" class="level5">
-<h5 class="anchored" data-anchor-id="analytischer-fokus-wetterbedingungen">Analytischer Fokus: Wetterbedingungen</h5>
-<p>Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, sollte jedoch trotzdem differenziert betrachtet werden. Das Wetter wirkt nicht als einheitlicher Faktor, sondern beeinflusst verschiedene Aspekte der Fahrsituation. Dazu zählen insbesondere SIchtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, beispielsweise durch veränderte Bremswege oder eine eingeschränkte Stabilität bei Nässe, Schnee oder Eis. Gleichzeitig beeinflussen Wetterlagen auch das Verkehrsaufkommen und das Fahrverhalten. Bei ungünstigen Bedingungen wird häufig vorischtiger gefahren oder auf Fahrten verzichtet, wodurch sich die Anzahl der Unfälle reduzieren kann. Diese Anpassungen betreffen jedoch nicht zwangsläufig die Schwere einzelner Unfälle, wenn es dennoch zu einer Kollision kommt. Vor diesem Hintergund liegt der Fokus der ANalyse nicht auf der absoluten Unfallhäufigkeit bei bestimmten Wetterlagen, sondern auf der Frage, ob sich unter unterschiedlichen Wetterbedingungen systematische Unterschiede in der Unfallschwere zeigen. Untersucht wird, ob die Wahrscheinlichkeit von Personenschäden zwischen den Wetterkategorien variiert, unabhängig davon, wie häufig diese Bedingungen auftreten.</p>
+<section id="analytischer-fokus" class="level5">
+<h5 class="anchored" data-anchor-id="analytischer-fokus">Analytischer Fokus</h5>
+<p>Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, aber sollte dennoch differenziert betrachtet werden. Das Wetter wirkt nicht als einheitlicher Faktor, sondern beeinflusst verschiedene Aspekte der Fahrsituation, z.B. die Sichtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, welche wiederum zu veränderten Bremswegen oder einer eingeschränkten Stabilität bei Nässe, Schnee oder Eis führen. Gleichzeitig beeinflussen Wetterlagen auch das Verkehrsaufkommen und das Fahrverhalten. Bei ungünstigen Bedingungen wird häufig vorsichtiger gefahren oder auf Fahrten verzichtet, wodurch sich die Anzahl der Unfälle reduzieren kann. Diese Anpassungen betreffen jedoch nicht zwangsläufig die Schwere der Unfälle, wenn es dennoch zu einer Kollision kommt. Vor diesem Hintergund liegt der Fokus der Analyse nicht auf der absoluten Unfallhäufigkeit bei bestimmten Wetterlagen, sondern auf der Frage, ob sich unter unterschiedlichen Wetterbedingungen systematische Unterschiede in der Unfallschwere zeigen. Untersucht wird, ob die Wahrscheinlichkeit von Personenschäden zwischen den Wetterkategorien variiert, unabhängig davon, wie häufig diese Bedingungen auftreten.</p>
 </section>
 <section id="datenbasis-verteilung-der-wetterbedingungen" class="level5">
 <h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-wetterbedingungen">Datenbasis: Verteilung der Wetterbedingungen</h5>
@@ -1082,12 +1082,13 @@ the `.groups` argument.</code></pre>
 12 Aufgewirbelter Sand/Staub              1</code></pre>
 </div>
 </div>
-<p>Wie diese Übersicht zeigt, wird der Datensatz vor allem von den Wetterkategorien “Klar” und “Regen” dominiert. Extreme Wetterlagen wie “Aufgewirbelter Sand/Staub” und “Starker Seitenwind” treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt.</p>
-<p>Die Kategorie “Sonstige” fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar. Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformation erhoben wurde. Um Verzerrungen in der Auswertung zu vermeiden, wurde diese Kategorie im Bereinigungsschritt in Kapitel 3 aus dem aufbereiteten Datensatz ausgeschlossen.</p>
+<p>Wie diese Übersicht zeigt, wird der Datensatz von den Wetterkategorien “Klar” und “Regen” dominiert. Extreme Wetterlagen wie “Aufgewirbelter Sand/Staub” und “Starker Seitenwind” treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt. Dies muss bei der Interpretation der Ergebnisse berücksichtigt werden, da eine unzureichende Datenlage die statistische Belastbarkeit der Kategorie vermindert.<br>
+Die Kategorie “Sonstige” fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar.<br>
+Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformation erhoben wurde. Diese Beobachtungen wurden im Bereinigungsschritt in Kapitel 3 aus dem Datensatz für die Analyse entfernt, da sie keiner Wetterkategorie zugeordnet werden können und somit die Berechnung und den Vergleich wetterbezogener Unfallraten verfälschen können.</p>
 </section>
 <section id="methodisches-vorgehen" class="level5">
 <h5 class="anchored" data-anchor-id="methodisches-vorgehen">Methodisches Vorgehen</h5>
-<p>Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen, unabhängig von deren Auftrittshäufigkeit.</p>
+<p>Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1104,7 +1105,7 @@ the `.groups` argument.</code></pre>
 </section>
 <section id="visualisierung-der-absoluten-unfallhäufigkeit" class="level5">
 <h5 class="anchored" data-anchor-id="visualisierung-der-absoluten-unfallhäufigkeit">Visualisierung der absoluten Unfallhäufigkeit</h5>
-<p>Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie dargestellt. Diese Darstellung entspricht inhaltlich der Übersicht in Tabelle ………., erfolgt hier jedoch in grafischer Form. Sie dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und ermöglicht einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere, die sich nach dem Anteil der Unfälle mit Verletzen richtet.</p>
+<p>Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie in einem Balkendiagramm dargestellt. Dieses entspricht inhaltlich der Aufstellung in Tabelle ………, aber dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und soll einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere ermöglichen.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1194,13 +1195,9 @@ the `.groups` argument.</code></pre>
 <h5 class="anchored" data-anchor-id="analytischer-fokus-lichtverhältnisse">Analytischer Fokus: Lichtverhältnisse</h5>
 <p>Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen ,aßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die REaktionszeiten und Fahrentscheidungen auswirkt. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen. Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nciht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt. Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.</p>
 </section>
-<section id="methodisches-vorgehen-1" class="level5">
-<h5 class="anchored" data-anchor-id="methodisches-vorgehen-1">Methodisches Vorgehen</h5>
-<p>In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (lighting_condition) und zur Unfallschwere (has_injury) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.</p>
-</section>
 <section id="datenbasis-verteilung-der-lichtverhältnisse" class="level5">
 <h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-lichtverhältnisse">Datenbasis: Verteilung der Lichtverhältnisse</h5>
-<p>Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis vertshen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.</p>
+<p>Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis verstehen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1233,10 +1230,234 @@ the `.groups` argument.</code></pre>
 6           Morgendämmerung            3724</code></pre>
 </div>
 </div>
+<p>Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen aufteretn. Die übrigen Kategorienwie unbeleuchtete Dunkelheit, Dämmerung und Morgendämmerung sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf. Insgesamt liegen für alle betrachteten Lichtverhältnisse genügend Beobachtungen vor, sodass die Analysen zur relativen Unfallschwere statistisch belastbar sind.</p>
+</section>
+<section id="methodisches-vorgehen-1" class="level5">
+<h5 class="anchored" data-anchor-id="methodisches-vorgehen-1">Methodisches Vorgehen</h5>
+<p>In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (lighting_condition) und zur Unfallschwere (has_injury) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.lighting_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lighting_condition), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lighting_condition) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="visualisierung-der-absoluten-unfallhäufigkeit-1" class="level5">
+<h5 class="anchored" data-anchor-id="visualisierung-der-absoluten-unfallhäufigkeit-1">Visualisierung der absoluten Unfallhäufigkeit</h5>
+<p>Zunächst erfolgt die Visualisierung der zuvor in Tabelle ………… dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>lighting_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAYLIGHT"</span> <span class="ot">=</span> <span class="st">"Tageslicht"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS, LIGHTED ROAD"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (beleuchtet)"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (unbeleuchtet)"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DUSK"</span> <span class="ot">=</span> <span class="st">"Dämmerung"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAWN"</span> <span class="ot">=</span> <span class="st">"Morgendämmerung"</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle,</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, anzahl_unfaelle))</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span> </span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Unfallhäufigkeit nach Lichtverhältnissen"</span>,</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.plot_absolute</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die deutlich geringeren Unfallzahlen in den Kategorien “Dämmerung”, “Morgendämmerung” und “unbeleuchtete Dunkelheit” lassen sich durch strukturelle und verhaltensbezogene Faktoren erklären. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtliche ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.</p>
+</section>
+<section id="visualisierung-der-relativen-unfallschwere-1" class="level5">
+<h5 class="anchored" data-anchor-id="visualisierung-der-relativen-unfallschwere-1">Visualisierung der relativen Unfallschwere</h5>
+<p>Im nächsten Schritt wird die Verletzungsrate für jede Kategorie der Lichtverhältnisse dargestellt.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, verletzungsrate))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Lichtverhältnissen"</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der ABstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert. Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was sich durch das deutlich höhere Verkehrsaufkommen erklären lässt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen. In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können. Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeutlicht noch einmal, dass hohe Unfallzahlen nicht zwangsläufig mit hoher Unfallschwere einhergehen. Insbesondere die Dunkelheit stellt ein zentrales Risikomerkmalfür schwere Unfallfolgen dar, während Tageslicht vor allehm von einer relativ hohen Unfallhäufigkeit geprägt ist.</p>
 </section>
 </section>
 <section id="fahrbahnzustand-und-unfallschwere" class="level4">
 <h4 class="anchored" data-anchor-id="fahrbahnzustand-und-unfallschwere">Fahrbahnzustand und Unfallschwere</h4>
+<section id="analytischer-fokus-1" class="level5">
+<h5 class="anchored" data-anchor-id="analytischer-fokus-1">Analytischer Fokus</h5>
+<p>Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierteHaftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere unterschiedlich beeinflusst. Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen. ALs Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Personenschäden verbunden war.</p>
+</section>
+<section id="datenbasis-verteilung-der-fahrbahnzustände" class="level5">
+<h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-fahrbahnzustände">Datenbasis: Verteilung der Fahrbahnzustände</h5>
+<p>Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der EInordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um staistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fahrbahnzustand =</span> <span class="fu">recode</span>(</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>      roadway_surface_cond,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UNKNOWN"</span> <span class="ot">=</span> <span class="st">"Unbekannt"</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    Fahrbahnzustand,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span> <span class="ot">=</span> n</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Fahrbahnzustand Anzahl Unfälle
+1         Trocken         155905
+2            Nass          32908
+3       Unbekannt          12509
+4          Schnee           6203
+5             Eis           1303
+6        Sonstige            438
+7    Sand/Schmutz             40</code></pre>
+</div>
+</div>
+<p>Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und bei für die Kategorie “Sand/Schmutz” stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden sollte. Die Beobachtungen der Kategorie “Unbekannt” wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können.</p>
+</section>
+<section id="methodisches-vorgehen-2" class="level5">
+<h5 class="anchored" data-anchor-id="methodisches-vorgehen-2">Methodisches Vorgehen</h5>
+<p>Wie bei den vorigen Analysen werden nur Unfallbeobachtungen mit gültigen Angaben zur analysierten Variable einbezogen. Für jede Kategorie des Fahrbahnzustands werden absolute Unfallanzahl und Verletzungsrate berechnet.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(roadway_surface_cond), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>##### Visualisierung der absoluten Unfallhäufigkeit Für eine bessere Visualisierung und Vergleichbarkeit mit dem darauf folgenden Diagramm zur relativen Unfallschwere wird hier zunächst die absolute Unfallhäufigkeit dargestellt.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>roadway_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, anzahl_unfaelle))</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> roadway_labels) <span class="sc">+</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Absolute Unfallhufigkeit nach Fahrbahnzustand"</span>,</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualisierung-der-relativen-unfallschwere-2" class="level4">
+<h4 class="anchored" data-anchor-id="visualisierung-der-relativen-unfallschwere-2">Visualisierung der relativen Unfallschwere</h4>
+<p>Im nächsten Schritt wird die Verletzungsrate für jeden Fahrbahnzusatnd dargestellt, welche den Vergleich der Unfallschwere der verschiedenen Kategorien unabhängig von deren Unfallhäufigkeit erlaubt.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code aufklappen</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, verletzungsrate))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">label =</span> roadway_labels) <span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Verletzungsrate nach Fahrbahnzustand"</span>,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt-Report_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="interpretation-der-ergebnisse-1" class="level5">
+<h5 class="anchored" data-anchor-id="interpretation-der-ergebnisse-1">Interpretation der Ergebnisse</h5>
+<p>Die Grafik zur relativen Unfallschwere nach Fahrbahnzustand zeigt, dass nasse Fahrbhanen sowie die Kategorie “Sonstige” die höchten Verletzungsraten aufweisen, während trockene Fahrbahnen trotz der größten absoluten Unfallhäufigkeit eine niedrige relative Unfallschwere zeigen. Damit bestätigt sich erneut das bereits bei Wetter- und Lichtverhältnissen beobachtete Muster: Hohe absolute Unfallzahlen gehen nicht zwangsläufig mit einer hohenUnfallschwere einher. Auffällig ist, dass die Kategorien “Schnee” und “Eis” im Vergleich zu “Nass” und “Trocken” geringere Verletzungsraten aufweisen, obwohl diese Zustände objektiv als gefährlich gelten. Analog zur Analyse der Wettereinflüsse könnte dies durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen. Die relativ hohe Verletzungsrate bei nasser Fahrbahn ist im Zusammenspiel mit ihrer hohen absoluten Häufigkeit bei Unfällen besonders relevant. Scheinbar wird eine nasse Fahrbahn im Gegensatz zu Schnee und Eis weniger stark als Gefahr wahrgenommen und birgt dadurch ein besonders hohes Risiko für schwere Unfälle. Bei selten vertretenen Kategorien wie “Sand/Schmutz” wurde eine relativ hohe Unfallschwere beobachtet, welche jedoch wegen der geringen Anzahl an Beobachtungen keine aussagekräftige Interpretation erlaubt.</p>
+</section>
+</section>
+<section id="fazit-zu-wetter-lichtverhältnissen-und-fahrbahnzustand" class="level4">
+<h4 class="anchored" data-anchor-id="fazit-zu-wetter-lichtverhältnissen-und-fahrbahnzustand">Fazit zu Wetter, Lichtverhältnissen und Fahrbahnzustand</h4>
+<p>Insgesamt zeigt die gemeinsame Betrachtung von absoluter Unfallhäufigkeit und relativer Unfallschwere über Wetter, Lichtverhältnisse und Fahrbahnzustand hinweg ein konstantes Bild: Nicht die objektiv schwierigsten Bedingungen sind unbedingt mit der höchsten Unfallschwere verbunden, sondern jene Situationen, in denen die Einschränkungen moderat sind und das Fahrverhalten scheinbar weniger stark angepasst wird.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
