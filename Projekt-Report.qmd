@@ -25,18 +25,7 @@ library(patchwork)
 library(dplyr)
 ```
 
-# Definition/Formulierung der Fragestellung
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Definieren Sie eine interessierende bzw. interessante Fragestellung im Zusammenhang mit dem Datensatz:
-
--   Was interessiert Sie an dem Datensatz?
--   Welche spezifische Fragestellung würden Sie gern mit Hilfe des Datensatzes beantworten?
--   Was erwarten Sie, angesichts Ihrer Fragestellung, bezüglich des Datensatzes?
-:::
-
+# Formulierung der Fragestellung
 Ausgangspunkt unserer Analyse ist ein umfangreicher Datensatz zu Verkehrsunfällen. Dieser enthält zeitliche Informationen, Angaben zu den Umgebungsbedingungen wie Wetter und Lichtverhältnisse sowie Merkmale zur Art des Unfalls und zur Schwere der Verletzungen. Besonders interessant ist dabei die Kombination aus zeitlichen, infrastrukturellen und situativen Variablen. Denn Verkehrsunfälle entstehen in der Regel nicht durch einen einzelnen Faktor, sondern durch das Zusammenspiel mehrerer Rahmenbedingungen. Wir untersuchen, ob sich aus diesen Daten systematische Muster erkennen lassen, die über reine Unfallhäufigkeiten hinausgehen und Hinweise auf typische Risikosituationen geben.
 
 Konkret lautet unsere Fragestellung: Welche äußeren Bedingungen und Unfalleigenschaften stehen in einem erkennbaren Zusammenhang mit der Schwere von Verkehrsunfällen? Im Fokus steht, ob bestimmte Kombinationen aus Wetterlage, Lichtverhältnissen, Unfalltyp, Wochentag und Verkehrssituation häufiger mit Verletzungen oder schweren Unfällen verbunden sind als andere. Das Ziel der Analyse ist nicht die Vorhersage einzelner Unfälle, sondern ein besseres Verständnis dafür, unter welchen Bedingungen Unfälle eher glimpflich verlaufen und wann das Risiko für Verletzungen deutlich ansteigt.
@@ -44,32 +33,22 @@ Konkret lautet unsere Fragestellung: Welche äußeren Bedingungen und Unfalleige
 Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend weniger schwer verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
 
 # Laden der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Laden Sie die Daten in die R-Sitzung und verschaffen Sie sich einen ersten Überblick \* Welche Typen sind enthalten? \* Ist sichergestellt, dass alle Daten den richtigen Typ haben? \* Haben die Daten irgendwelche "Seltsamkeiten" mit denen Sie umgehen müssen, wie z.B. anders codierte `NA`'s, mehrere Tabellen, ... etc. \* Je nach Datensatz können Sie die Daten auch in eine Datenbank laden und dann auf diese in R zugreifen.
-
-Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt aufbereiten und bearbeiten können!
-:::
+In diesem Abschnitt wird der Datensatz in die R-Umgebung geladen und einer ersten explorativen Sichtprüfung unterzogen. Das Ziel besteht darin, die grundlegende Struktur der Daten zu erfassen, zentrale Variablentypen zu identifizieren und Auffälligkeiten zu erkennen, welche die Weiterverarbeitung erschweren könnten. Diese initiale Bestandsaufnahme bildet die Grundlage für die nachfolgenden Bereinigungs- und Transformationsschritte. Darüber hinaus dient sie dazu, notwendige Anpassungen an Datentyp, Kodierung und fehlenden Werten zu ermitteln.
 
 ```{r}
 dataset <- read.table(
   file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
-glimpse(dataset)
 
+glimpse(dataset)
 str(dataset)
 
-
-
-#optional
+# optional
 head(dataset, 3)
 dim(dataset)
 
-# view funktioniert nur in der Konsole nicht in qmd
-#View(dataset)
-
+# View funktioniert nur in der Konsole, nicht in qmd.
+# view(dataset)
 
 colSums(is.na(dataset))
 sapply(dataset, class)
@@ -95,16 +74,7 @@ wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der sp
 über `lapply(dataset, unique)` prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu NA konvertiert. Bei Attributen wie prim_contributory_cause wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
 
 # Bearbeiten/Transformieren der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (15 Pkt.)
-
-In diesem Abschnitt sollten Sie alle notwendigen Transformationen/Bereiningungen/... etc. der Daten vornehmen (Data Muning, Data Cleansing), wie z.B.: \* Umcodierung von Daten, z.B. numerisch in kategorial \* Subsetting der Daten \* Joining von Datentabellen - falls nötig. Welcher Join ist notwendig? Warum? \* ...
-
-Verschaffen Sie sich eine Übersicht der transformierten Daten. Sie können hierzu Hilfsmittel wie `glimpse()`, `skim()` und `head()` benutzen, um Ihre Erläuterungen zu veranschaulichen.
-
-Sind die sich ergebenden Daten so, wie Sie es erwartet haben? Warum oder warum nicht?
-:::
+In diesem Kapitel wird der Datensatz systematisch bereinigt und für die anschließende Analyse aufbereitet. Das Ziel besteht darin, die Rohdaten in eine konsistent, analysetaugliche Struktur zu überführen. Dazu gehört das Entfernen von Duplikaten, die Korrektur und Vereinheitlichung von Datentypen, die Behandlung fehlender oder unklar kodierter Werte sowie die gezielte Reduktion und Aggregation von Variablen. Darüber hinaus werden neue Merkmale abgeleitet, die zentrale Aspekte des Unfallgeschehens wie den Zeitbezug und die Unfallschwere abbilden. Durch die vorgenommenen Transformationen wird sichergestellt, dass die folgenden AUswertungen inhaltlich interpretierbar und statistisch belastbar sind.
 
 ```{r}
 #glimpse(dataset)
