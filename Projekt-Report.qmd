@@ -1,10 +1,13 @@
 ---
-title: "Report - Traffic Accidents"
+title: "Deskriptive Analyse von Verkehrsunfällen mit Fokus auf die relative Unfallschwere"
 authors:
     - Mathangi Pirasanthan
     - Miriam Mack
     - Jasmin Hauschild
 date: today
+lang: de
+crossref:
+  tbl-prefix: Tabelle
 number-sections: true
 format: 
   html:
@@ -25,6 +28,7 @@ library(lubridate)
 library(ggplot2)
 library(patchwork)
 library(dplyr)
+library(gt)
 ```
 
 # Formulierung der Fragestellung
@@ -32,7 +36,7 @@ Ausgangspunkt unserer Analyse ist ein umfangreicher Datensatz zu Verkehrsunfäll
 
 Konkret lautet unsere Fragestellung: Welche äußeren Bedingungen und Unfalleigenschaften stehen in einem erkennbaren Zusammenhang mit der Schwere von Verkehrsunfällen? Im Fokus steht, ob bestimmte Kombinationen aus Wetterlage, Lichtverhältnissen, Unfalltyp, Wochentag und Verkehrssituation häufiger mit Verletzungen oder schweren Unfällen verbunden sind als andere. Das Ziel der Analyse ist nicht die Vorhersage einzelner Unfälle, sondern ein besseres Verständnis dafür, unter welchen Bedingungen Unfälle eher glimpflich verlaufen und wann das Risiko für Verletzungen deutlich ansteigt.
 
-Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall- und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend weniger schwer verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
+Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ungünstige Sichtverhältnisse wie Dunkelheit oder Regen sowie komplexe Verkehrssituationen wie Kreuzungen oder Abbiegevorgänge mit einer höheren Unfall- und Verletzungsschwere einhergehen. Zudem vermuten wir, dass in den Wintermonaten insgesamt mehr Unfälle auftreten, da Faktoren wie Schnee, Eis und eine geringere Tageslichtdauer die Fahrsituation zusätzlich erschweren. Gleichzeitig gehen wir davon aus, dass ein großer Anteil der Unfälle unter scheinbar günstigen Bedingungen wie Tageslicht und trockener Fahrbahn passiert. Diese Annahme begründet sich darin, dass unter solchen Bedingungen das Verkehrsaufkommen in der Regel deutlich höher ist, etwa im Berufsverkehr oder im alltäglichen Individualverkehr, wodurch es trotz guter Sicht und Fahrbahnverhältnisse häufiger zu Unfällen kommt. Wir erwarten jedoch, dass diese Unfälle überwiegend mild verlaufen, da bessere Sicht, höhere Reaktionsmöglichkeiten und insgesamt kontrollierbarere Fahrsituationen das Risiko schwerer Verletzungen reduzieren. Die Analyse soll zeigen, ob sich diese Erwartungen im Datensatz bestätigen lassen oder ob einzelne Faktoren überschätzt werden und andere, bislang weniger beachtete Einflüsse eine größere Rolle spielen.
 
 # Laden der Daten
 In diesem Abschnitt wird der Datensatz in die R-Umgebung geladen und einer ersten explorativen Sichtprüfung unterzogen. Das Ziel besteht darin, die grundlegende Struktur der Daten zu erfassen, zentrale Variablentypen zu identifizieren und Auffälligkeiten zu erkennen, welche die Weiterverarbeitung erschweren könnten. Diese initiale Bestandsaufnahme bildet die Grundlage für die nachfolgenden Bereinigungs- und Transformationsschritte. Darüber hinaus dient sie dazu, notwendige Anpassungen an Datentyp, Kodierung und fehlenden Werten zu ermitteln.
@@ -59,26 +63,16 @@ table(dataset$weather_condition)
 
 ```
 
-Nach dem Import des Datensatzes haben wir mittels `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (`int`, `dbl`) und textbasierten (`chr`) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
+Nach dem Import des Datensatzes wurde mithilfe von `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (`int`, `dbl`) und textbasierten (`chr`) Variablen vor. Dabei zeigten sich mehrere Auffälligkeiten, die eine direkte Verwendung für die Analyse erschweren und aufzeigen, wo eine Bereinigung notwendig ist.
 
-Fehlerhafte Datentypen: Die Zeitstempel (`crash_date`) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objket erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen `crash_hour`, `crash_day_of_week` und `crash_month` bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus `crash_date`, um eine einheitliche Formatierung sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Datenschema der Wert 1 dem Sonntag zugeordnet, während in unserem Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Darüber hinaus sind Datums- und Zeitinformationen als Date-Time-Objekte für weiterführende Analysen flexibler und robuster als rein numerische Kodierungen. Außerdem liegen logisch geordnete Daten wie die Schadenshöhe (`damage`) und nominale Kategorien (z. B. `weather_condition`) noch als ungeordnete Strings vor und müssen in Faktoren (`factor`) umgewandelt werden.
+**Fehlerhafte Datentypen:** Die Zeitstempel (`crash_date`) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objket erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen `crash_hour`, `crash_day_of_week` und `crash_month` bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus `crash_date`, um eine einheitliche zeitliche Referenz sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Kodierungsschema der Wert 1 dem Sonntag zugeordnet, während im vorliegenden Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Zudem sind Date-Time-Objekte für weiterführende zeitliche Auswertungen robuster und flexibler als rein numerische Kodierungen. Darüber hinaus liegen logisch geordnete Daten wie die Schadenshöhe (`damage`) sowie nominale Kategorien (z. B. `weather_condition`) noch als ungeordnete Zeichenketten vor und müssen im Bereinigungsschritt in geeignete Faktoren (`factor`) überführt werden.
 
-Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlende Informationen, die nicht als technisches `NA` kodiert sind. Werte wie "UNKNOWN" (z. B. bei `road_defect`) oder "UNABLE TO DETERMINE" (bei `prim_contributory_cause`) treten häufig auf.
+**Versteckte fehlende Werte:** Mehrere Variablen enthalten Platzhalter für fehlende Informationen, die nicht als technisches `NA` kodiert sind. Dazu zählen Einträge wie `UNKNOWN` (z. B. bei `road_defect`) oder `UNABLE TO DETERMINE` (bei `prim_contributory_cause`). Diese Werte müssen identifiziert und einheitlich behandelt werden, da sie sonst Analysen verzerren können. Eine Übersicht der fehlenden Werte zeigt zudem, dass im Rohdatensatz keine Einträge als technisches `NA` vorliegen und Informationslücken ausschließlich über Platzhalterwerte abgebildet sind.
 
-Analysebedingte Umcodierung: Die Variable `most_severe_injury` liegt als textuelle Beschreibung vor. Für die Analyse der Unfallschwere ist diese Kodierung jedoch zu detailliert, sodass sie zu einer binären Variable (Verletzung ja/nein) zusammengefasst wird. <!--
-Keine Konvertierung in numerische Skala, da:
-`most_severe_injury` besitz zwar eine Rangordnung, aber die Abstände zwischen den Kategorien sind nicht quantifizierbar, deshalb numerische Skala nicht umsetzbar. Ordinale Skala wäre möglich, aber wie oben beschrieben zu detailliert und für unsere Analyse nicht notwendig.
+**Analysebedingte Umcodierung:** Die Variable `most_severe_injury` liegt als detaillierte textuelle Beschreibung vor. Für die Fragestellung dieser Arbeit ist diese Granularität jedoch nicht erforderlich. Stattdessen muss die Variable im Transformationsschritt zu einer binären Kenngröße (Verletzung ja/nein) zusammengefasst werden, um die relative Unfallschwere einfach und vergleichbar abzubilden.
 
-<!--
-doppelt? (oben schon?)
--->
-**=> nochmal anschaun**
-Wir extrahieren die Uhrzeit und den Wochentag aus dem `crash_date`, weil in der spalte `crash_hour` einem bestimmten Schema folgt und bevor das überstezt und transformiert wird ist es leichter es aus dem `crash_date` heruaszuextrahieren (`das muss eh beaneberitet werden`). Somit würde die Spalten `crash_hour`, `crash_day_of_week` und `crash_month` wegfallen
-
-Über `lapply(dataset, unique)` prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu `NA` konvertiert. Bei Attributen wie `prim_contributory_cause` wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
-
-# Bearbeiten/Transformieren der Daten
-In diesem Kapitel wird der Datensatz systematisch bereinigt und für die anschließende Analyse aufbereitet. Das Ziel besteht darin, die Rohdaten in eine konsistente, analysetaugliche Struktur zu überführen. Dazu gehört das Entfernen von Duplikaten, die Korrektur und Vereinheitlichung von Datentypen, die Behandlung fehlender oder unklar kodierter Werte sowie die gezielte Reduktion und Aggregation von Variablen. Darüber hinaus werden neue Merkmale abgeleitet, die zentrale Aspekte des Unfallgeschehens wie den Zeitbezug und die Unfallschwere abbilden. Durch die vorgenommenen Transformationen wird sichergestellt, dass die folgenden Auswertungen inhaltlich interpretierbar und statistisch belastbar sind.
+# Bereinigen und Transformieren der Daten
+In diesem Kapitel wird der Datensatz gezielt bereinigt und für die anschließende Analyse aufbereitet. Das Ziel besteht darin, die Rohdaten in eine konsistente, analysetaugliche Struktur zu überführen. Dazu gehört das Entfernen von Duplikaten, die Korrektur und Vereinheitlichung von Datentypen, die Behandlung fehlender oder unklar kodierter Werte sowie die gezielte Reduktion und Aggregation von Variablen. Darüber hinaus werden neue Merkmale abgeleitet, die zentrale Aspekte des Unfallgeschehens wie den Zeitbezug und die Unfallschwere abbilden. Durch die vorgenommenen Transformationen wird sichergestellt, dass die folgenden Auswertungen inhaltlich interpretierbar und statistisch belastbar sind.
 
 ```{r}
 glimpse(dataset)
@@ -88,7 +82,7 @@ head(dataset)
 
 ## Duplikate entfernen
 
-Mithilfe der Methode `distinct()` aus dem `tidyverse`-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
+Mithilfe der Funktion `distinct()` aus dem Datensatz entfernt. Dadurch wird sichergestellt, dass einzelne Unfälle nicht mehrfach in die Auswertung eingehen und die berechneten Häufigkeiten nicht verzerrt werden.
 
 ```{r}
 #|label: Duplikate-finden
@@ -98,13 +92,10 @@ dataset.clean <- dataset %>%
 
 ## Feature Engineering
 
-Die Spalte `crash_date` wird in Wochentag, Stunde, Monat und Jahr aufgeteilt. Die vorhandenen Spalten `crash_hour`, `crash_day_of_week` und `crash_month` werden entfernt, um eigene Interpretationen, z. B. des Wochentags, zu ermöglichen und dadurch mehr Flexibilität zu schaffen. Nach der Extraktion werden zudem neben den ursprünglichen Spalten auch `crash_date` entfernt, das dient der Übersichtlichkeit.
+Die Zeitvariable `crash_date` wird in ein Date-Time-Objekt überführt und anschließend genutzt, um Studne, Wochentag, Monat und Jahr des Unfalls abzuleiten. Die im Datensatz vorhandenen Variablen `crash_hour`, `crash_day_of_week` und `crash_month` werden nicht verwendet, daihre numerische Codierung interpretationsabhängig ist. Durch die Ableitung aus dem Zeitstempel wird eine konsistente zeitliche Referenz sichergestellt.
 
-Ein neues Attribut `season` fasst die Monate zusammen und ordent diese Jahreszeiten hinzu. Um auswertungen zu machen, die von Winter oder Sommer abhängig sind.
-
-Über ein Simples attribut `has_injury` können wir die Unfallursache noch mit der Angabe ob es dabei Verletzte gab, also die Schwere des Unfalls bewerten.
-
-\*\* in ordniale Werte konvertiert
+Zusätzlich wird eine neue Variable `season` erzeugt, welche die Monate zu Jahreszeiten zusammenfasst. Dies dient der späteren Untersuchung saisonaler Muster.  
+Die Variable `most_severe_injury` wird zu einer binären Zielgröße `has_injury` umkodiert, die angibt, ob bei einem Unfall mindestens eine Verletzung aufgetreten ist. Diese Reduktion ermöglicht einen klaren und vergleichbaren Maßstab für die relative Unfallschwere.
 
 ```{r}
 #label: Feature-Engineering
@@ -130,7 +121,7 @@ dataset.clean <- dataset.clean %>%
 
 ## Selektieren der relevanten Attribute
 
-Im Folgenden werden die Attribute aufgeführt, auf die sich die nachfolgenden Analysen konzentrieren.
+Für die weiteren Analysen wird der Datensatz auf jene Variablen reduziert, die einen direkten Bezug zur Fragestellung haben. Dazu zählen zeitliche Merkmale, infrastrukturelle Eigenschaften, Umgebungsbedingungen sowie zentrale Unfallcharakteristika. Durch diese Selektion wird die Komplexität des Datensatzes verringert und die Übersichtlichkeit für die folgenden Auswertungen erhöht.
 
 | Kategorie | Attribut | Beschreibung |
 |:----------------------|:--------------------|:---------------------------|
@@ -168,7 +159,7 @@ dataset.clean <- dataset.clean %>%
 
 ## Datenwerte bereinigen
 
-Werte, die nicht bekannt sind, werden häufig als `„Unknown“, „Unable to determine“` oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden `install.packages("skimr")`?? diese Werte einheitlich auf `NA` gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.
+Mehrere kategoriale Variablen enthalten explizite Platzhalter wie `UNKNOWN`, `UNABLE TO DETERMINE` oder `NOT APPLICABLE`. Diese Einträge stellen keine inhaltlich interpretierbaren Ausprägungen dar und werden daher einheitlich zu `NA` umkodiert. Auf diese Weise können sie in der ANalyse gezielt ausgeschlossen werden, um nicht die Verteilung der gültigen Kategorien zu verzerren.
 
 ```{r}
 #| label: Datenwerte-bereinigen
@@ -186,6 +177,10 @@ dataset.clean <- dataset.clean %>%
 ```
 
 ## Gruppieren von Werten
+
+Einige Variablen weisen eine sehr feingranulare oder uneinheitliche Kategorisierung auf. Um interpretierbare Ergebnisse zu ermöglichen, werden diese Werte zusammengefasst.  
+So wird der ursprüngliche Straßentyp (`trafficway_type`) zu einer vereinfachten Klassifikation aggregiert, die grundlegende Unterschiede wie getrennte Fahrbahnen, Kreuzungen oder Einbahnstraßen abbildet.  
+Analog dazu wird die Hauptunfallsache (`prim_contributory_cause`) in übergeordnete Ursachengruppen zusammengeführt, etwa Fahrfehler, Ablenkung, Alkohol- oder Drogeneinfluss sowie äußere Faktoren. Diese Gruppierung reduziert die Vielzahl einzelner Ausprägungen und ermöglicht aussagekräftige Vergleiche zwischen den Gruppen.
 
 ```{r}
 #| code-fold: show
@@ -256,9 +251,9 @@ dataset.clean <- dataset.clean %>%
   select(-prim_contributory_cause)
 ```
 
-## Y/N Spalten zu TRUE und FALSE transformieren
+## Y/N-Spalten zu logischen Variablen transformieren
 
-In der Spalte `intersection_related_i` sind boolsche Werte enthalten, aber als `Y` und `N` in `character` formatiert. Hier sollten diese in `TRUE` und `FALSE` überführt werden.
+Die Variable `intersection_related_i` liegt im Datensatz als Zeichenkette mit den Werten `Y` und `N` vor. Diese Kodierung wird in eine logische Variable (`TRUE / FALSE`) überführt, um eine konsistente Weiterverarbeitung und Auswertung zu ermöglichen.
 
 ```{r}
 #| label: True-False-behandlung
@@ -268,15 +263,8 @@ dataset.clean <- dataset.clean %>%
   )
 ```
 
-# Geeignete Visualisierung und Aggregation der Daten
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (15 Pkt.)
-
-Fassen Sie die Daten in einer geeigenten Form zur Beantwortung Ihrer formulierten Fragestellung zusammen. Ziehen Sie auch geeignete Visualisierungen der transformierten und/oder aggregierten Daten heran, um Ihre Aussagen entsprechend zu untermauern oder zu veranschaulichen.
-
-Hier könne Sie auch geeignete statistische Verfahren bzw. Modellierungen nutzen, falls diese Ihnen bezüglich Ihrer Fragestellung weiterhelfen.
-:::
+#  Aggregation und Visualisierung der Daten
+In diesem Kapitel werden die aufbereiteten Daten aggregiert und visuell ausgewertet, um die fomrulierte Fragestellung empirisch zu untersuchen. Durch geeignete Gruppierungen werden zentrale Muster im Unfallgeschehen sichtbar, die auf der Ebene der Rohdaten nicht unmittelbar erkennbar sind. Die Visualisierungen dienen dabei nicht nur der Veranschaulichung, sondern auch als analytisches Werkzeug, um Unterschiede zwischen Unfallhäufigkeit und relativer Unfallschwere systematisch herauszuarbeiten. Der Fokus liegt auf der Analyse zeitlicher, infrastruktureller und umgebungsbezogener Faktoren und deren Zusammenhang mit der Wahrscheinlichkeit von Personenschäden.
 
 ## Untersuchung von zeitlichen Aspekten
 
@@ -284,7 +272,7 @@ Hier prüfen wir wie Verkehrsunfälle mit dem Wochentag, Jahreszeit oder der Uhr
 
 ### Unfallhäufigkeit
 
-Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster besser zu identifizieren.
+Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster zu identifizieren.
 
 ```{r}
 #| label: fig-timeanalysis
@@ -333,15 +321,15 @@ dataset.timeAnalyse.plot1.plot_top + plot_spacer() + dataset.timeAnalyse.plot1.p
   )
 ```
 
-Auf den ersten Blick zeigt sich eine deutliche Konzentration der Unfälle am späten Nachmittag. Das obere Histogramm bestätigt, dass der Zeitraum zwischen 15:00 und 17:00 Uhr das globale Maximum im Tagesverlauf darstellt. Das kann die Ursache haben, das dies eine typische Feierabend-Zeit ist und das Verkahrsaufkommen höher ist. Nachts (00:00 bis 05:00 Uhr) ist das Unfallaufkommen am geringsten, was korreliert mit der vermutlich geringsten Verkehrsdichte.
+Auf den ersten Blick zeigt sich eine deutliche Konzentration der Unfälle am späten Nachmittag. Das obere Histogramm bestätigt, dass der Zeitraum zwischen 15:00 und 17:00 Uhr das globale Maximum im Tagesverlauf darstellt. Eine mögliche Erklärung hierfür ist, dass es sich um eine typische Feierabendzeit handelt, in der das Verkehrsaufkommen besonders hoch ist. In den Nachtstunden zwischen 00:00 und 05:00 Uhr ist das Unfallaufkommen hingegen am geringsten, was plausibel mit der insgesamt niedrigeren Verkehrsdichte in diesem Zeitraum erklärbar ist.
 
-Innerhalb der Woche (Montag bis Freitag) folgt das Unfallgeschehen dem klassischen Rhythmus des Berufsverkehrs. Es gibt eine klare Häufung am Nachmittag, wobei der Freitag zwischen 15:00 und 17:00 Uhr als absoluter Spitzenreiter („Hotspot“) durch die dunkelste Färbung hervorsticht. Auch am rechten Randdiagramm ist erkennbar, dass der Freitag insgesamt der unfallreichste Tag ist.
+An Werktagen (Montag bis Freitag) folgt das Unfallgeschehen dem klassischen Rhythmus des Berufsverkehrs. Es zeigt sich eine deutliche Häufung am Nachmittag, wobei der Freitag zwischen 15:00 und 17:00 Uhr als klarer Spitzenreiter („Hotspot“) hervorsticht. Auch im rechten Randdiagramm wird deutlich, dass der Freitag insgesamt der unfallreichste Tag der Woche ist.
 
-Interesant ist der signifikanten Wandel im Unfallgeschehen zwischen Wochenende und Werktags (siehe gestrichelte Trennlinie). Das Wochenende löst das klare Muster der Stoßzeiten auf: 1. Tagsüber sind die Unfälle breiter über Mittag und Nachmittag verteilt, ohne die extremen Spitzen der Werktage. 2. Nachts und in den frühen Morgenstunden (0:00 bis 4:00 Uhr) ist Werktags eine sehr helle Färbung und Wochenends häufen sich zu die Unfälle dort. Das deutet darauf hin, das Nachts am Wochenende - vermutlich durch Freizeit- und Party-Verkehr - verhältnismäßig mehr passiert als unter der Woche.
+Interessant ist der signifikanten Wandel im Unfallgeschehen zwischen dem Wochenende und den Werktagen (siehe gestrichelte Trennlinie). Das Wochenende löst das klare Muster der Stoßzeiten auf: Tagsüber sind die Unfälle breiter über Mittag und Nachmittag verteilt, ohne die extremen Spitzen der Werktage. Nachts und in den frühen Morgenstunden (0:00 bis 4:00 Uhr) zeigt sich hingegen ein gegensätzliches Muster: Während dieser Zeitraum an Werktagen nur eine geringe Unfallhäufigkeit aufweist, häufen sich am Wochenende in diesem Zeitraum die Unfälle deutlich. Dies deutet darauf hin, dass nächtliche Unfälle am Wochenende, vermutlich im Zusammenhang mit Freizeit- und Ausgangsverkehr, im Vergelich zu Werktagen deutlich häufiger auftreten.
 
 ### Unfallursache
 
-Die daraus resultierende Hypothese, dass die erhöhte Unfallschwere nachts auf 'Party-Verkehr' zurückzuführen ist, muss bewiesen werden. Hierzu wird die Unfallursache 'Alkohol' isoliert betrachtet und ihr zeitliches Auftreten analysiert.
+Die daraus abgeleitete Hypothese, dass die erhöhte Unfallschwere in den Nachtstunden mit Freizeit- und Ausgehverkehr zusammenhängt, wird im Folgenden anhand der zeitlichen Verteilung alkoholbedingter Unfälle näher untersucht.
 
 ```{r}
 #| label: fig-alcohol-time
@@ -364,22 +352,22 @@ ggplot(dataset.timeAnalyse.plot2.alcohol_trend, aes(x = crash_hour_num, y = n)) 
   theme_minimal()
 ```
 
-Die Kurve der alkoholbedingten Unfälle zeigt eine signifikante Asymmetrie. Während Alkohol im morgendlichen Berufsverkehr (ca. 6:00 bis 10:00 Uhr) faktisch keine Rolle spielt, steigt die Kurve ab den Abendstunden (ca. 20:00 Uhr) steil an.
+Die Kurve der alkoholbedingten Unfälle zeigt eine ausgeprägte Asymmetrie. Während Alkohol im morgendlichen Berufsverkehr (ca. 6:00 bis 10:00 Uhr) kaum eine Rolle spielt, steigt die Anzahl alkoholbedingter Unfälle ab den Abendstunden (ca. 20:00 Uhr) deutlich an.
 
-**Korrelation:** Legt man die Kurve der Alkoholunfälle über das Diagramm der Unfallschwere, zeigt sich eine fast perfekte Deckungsgleichheit. Die Stunden mit der höchsten Wahrscheinlichkeit für Personenschäden sind identisch mit den Stunden, in denen am häufigsten alkoholisiert gefahren wird.
+**Zusammenhang:** Vergleicht man den zeitlichen Verlauf der alkoholbedingten Unfälle mit dem Diagramm der relativen Unfallschwere, zeigt sich eine starke zeitliche Übereinstimmung. Die Stunden mit der höchsten Anzahl an Personenschäden fallen mit den Zeiträumen zusammen, in denen alkoholbedingte Unfälle besonders häufig auftreten.
 
-Die Daten bestätigen die Vermutung eindrucksvoll. Nicht das Verkehrsaufkommen oder die reine Dunkelheit sind die Haupttreiber für die schweren nächtlichen Unfälle, sondern das Fahrerverhalten. Der Konsum von Alkohol ("Party-Verkehr") führt zu einer drastischen Erhöhung des Risikos, was die Diskrepanz zwischen der geringen Unfallzahl und der hohen Verletztenquote in der Nacht erklärt.
+Diese Beobachtung legt nahe, dass die erhöhte Unfallschwere in den Nachtstunden weniger durch das Verkehrsaufkommen oder die Dunkelheit allein erklärbar ist, sondern maßgeblich mit riskantem Fahrverhalten zusammenhängt. Insbesondere Alkohol im Zusammenhang mit Freizeit- und Ausgangsverkehr scheint zur Diskrepanz zwischen geringer Unfallhäufigkeit und hoher Verletztenquote in der Nacht beizutragen.
 
 ### Unfallschwere
 
-Ergänzend zur Häufigkeit zeigt diese Grafik die Unfallschwere. Hierbei wird untersucht, wie hoch der Anteil an Personenschäden (rot) im Vergleich zu reinen Sachschäden (grau) ist.
+Ergänzend zur Betrachtung der Unfallhäufigkeit wird im Folgenden die Unfallschwere analysiert. Hier wird dargestellt, wie hoch der Anteil an Personenschäden (rot) im Vergleich zu reinen Sachschäden (grau) ist.
 
-Die folgenden Grafiken sind mit Reiter struktureirt und zeigen entweder den Monats-, Wochentags- oder Stunden-Zyklus. Die Daten der Plots sind von den Jahren 2013 bis 2025.
+Die folgenden Grafiken sind in Reitern organisiert und zeigen die Verteilung der Unfallschwere über den Monats-, Wochentags- und Stundenzklus.Grundlage der Auswertung sind Unfalldaten aus dem Zeitraum von 2013 bis 2025.
 
 ::: panel-tabset
 ##### Monats-Zyklus
 
-Um noch die Sasionale Komponente zu betrachten dient diese Art von Kreisdiagramm. Ein Blick auf die Monate zeigt, ob es im Winter (Glatteis/Dunkelheit) oder Sommer (Ferienverkehr) häufiger zu einem Unfall kommt.
+Zur Betrachtung der saisonalen Komponente dient das folgende Kreisdiagramm. Ein Blick auf die Monate zeigt, ob es im Winter (Glatteis/Dunkelheit) oder Sommer (Ferienverkehr) häufiger zu einem Unfall kommt.
 
 ```{r}
 #| label: fig-month-cycle
@@ -418,11 +406,11 @@ dataset.timeAnalyse.plot3.plot_month <- ggplot(dataset.timeAnalyse.plot3.data_mo
 dataset.timeAnalyse.plot3.plot_month
 ```
 
-Die Analyse des saisonalen Verlaufs (Monats-Zyklus) offenbart eine signifikante Diskrepanz zwischen Unfallhäufigkeit und Unfallschwere.
+Die Analyse des saisonalen Verlaufs (Monats-Zyklus) offenbart eine deutliche Diskrepanz zwischen Unfallhäufigkeit und Unfallschwere.
 
 Während die absolute Anzahl der Unfälle (dargestellt durch die Länge der Segmente) zum Jahresende in den Monaten Oktober bis Dezember ihr Maximum erreicht, verhält sich die Unfallschwere (Anteil der Personenschäden) gegenläufig.
 
-Erstaunlicherweise liegt der relative Anteil an Verletzten im Spätsommer und Frühherbst (Juli bis September) am höchsten. Dies widerspricht auf den ersten Blick der Intuition, dass die 'dunkle Jahreszeit' am gefährlichsten sei. Die Daten legen nahe, dass schlechte Witterung im Herbst zwar zu mehr Unfällen führt, diese aber oft glimpflicher ausgehen (Blechschäden durch z.B. Auffahrunfälle). Im Gegensatz dazu scheinen die besseren Straßenverhältnisse im Sommer höhere Geschwindigkeiten und damit folgenschwerere Kollisionen zu begünstigen.
+Erstaunlicherweise ist der relative Anteil an Verletzten im Spätsommer und Frühherbst (Juli bis September) am höchsten. Dies widerspricht auf den ersten Blick der Intuition, dass die "dunkle Jahreszeit" am gefährlichsten ist. Die Daten legen nahe, dass schlechte Witterung im Herbst zwar zu mehr Unfällen führt, diese aber oft glimpflicher ausgehen (Blechschäden durch z.B. Auffahrunfälle). Im Gegensatz dazu ist es möglich, dass die besseren Straßenverhältnisse im Sommer höhere Geschwindigkeiten und damit folgenschwerere Kollisionen begünstigen.
 
 Das globale Minimum des Unfallgeschehens – sowohl nach Anzahl als auch nach Schwere – findet sich in den Monaten Februar bis April.
 
@@ -468,11 +456,11 @@ dataset.timeAnalyse.plot3.plot_week <- ggplot(dataset.timeAnalyse.plot3.data_wee
 dataset.timeAnalyse.plot3.plot_week
 ```
 
-Das Wochenend-Phänomen, wie es auch schon in der Heatmap zu sehen ist. Der Freitag sticht auch hier wieder als unfallreichster Tag hervor (längstes Segment), weist aber mit 24,6% paradoxerweise die geringste Verletztenquote der Woche auf. Ursache kann der typische 'Stop-and-Go'-Verkehr zum Wochenende sein, der meist glimpflich endet. Im Kontrast dazu steht der Sonntag: Obwohl hier absolut gesehen am wenigsten passiert, ist das relative Risiko für Personenschäden mit 28,6% am höchsten. Dies deutet auf den Freizeitverkehr hin: Freie Straßen verleiten zu höheren Geschwindigkeiten, was bei einer Kollision gravierendere Folgen hat.
+Das Wochenend-Phänomen, das bereits in der Heatmap (Abb. 1) sichtbar ist, zeigt sich auch hier deutlich. Der Freitag sticht auch hier als unfallreichster Tag hervor (längstes Segment), weist aber mit 24,6% paradoxerweise die geringste Verletztenquote der Woche auf. Eine mögliche Erklärung ist der typische Stop-and-Go-Verkehr zum Wochenende, der durch geringere Geschwindigkeiten die Aufprallenergie bei Kollisionen reduziert. Im Kontrast dazu steht der Sonntag: Obwohl hier absolut gesehen am wenigsten Unfälle auftreten, ist das relative Risiko für Personenschäden mit 28,6% am höchsten. Dies deutet auf Freizeitverkehr hin, bei dem freiere Straßen zu höheren Geschwindigkeiten führen können, was im Falle einer Kollision gravierendere Folgen hat.
 
 ##### Tages-Zyklus
 
-Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt - einmal nach dem Schema wie bei Monats- und Wochen-Zyklus und das andermal im Detail auf das tatsächliche Risiko.
+Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt: eine Darstellung analog zu Monats- und Wochenzyklus sowie eine zweite, die den Fokus auf das tatsächliche Unfallrisiko legt.
 
 ```{r}
 #| label: fig-day-cycle
@@ -543,28 +531,29 @@ dataset.timeAnalyse.plot3.plot_hour_total + dataset.timeAnalyse.plot3.plot_hour_
 
 **Linke Grafik - Absolute Häufigkeit ("Total"):** Dieses Diagramm visualisiert das absolute Unfallaufkommen. Die Länge der Segmente (Radius) entspricht der Gesamtanzahl der Unfälle pro Stunde.
 
-Hier dominiert ganz klar der Rhythmus des Berufsverkehrs: Die Segmente ragen tagsüber, insbesondere zwischen 15:00 und 18:00 Uhr, weit nach außen.
+Hier dominiert klar der Rhythmus des Berufsverkehrs: Die Segmente ragen tagsüber, insbesondere zwischen 15:00 und 18:00 Uhr, weit nach außen.
 
-Die Unfallfolgen scheinen hierbei fast ausschließlich aus Sachschäden (grau) zu bestehen; der rote Kern (Personenschäden) wirkt im Verhältnis zur Gesamtmasse klein. Detailierter wird das aber in der Rechten Grafik.
+Die Unfallfolgen scheinen hierbei fast ausschließlich aus Sachschäden (grau) zu bestehen; der rote Kern (Personenschäden) wirkt im Verhältnis zur Gesamtmasse klein. Detaillierter sichtbar wird dies in der rechten Grafik.
 
 **Rechte Grafik- Relative Unfallschwere ("Detail"):** Um das tatsächliche Risiko isoliert vom Verkehrsaufkommen zu betrachten, normiert diese Grafik jede Stunde auf 100%.
 
-Hier zeigt sich ein völlig anderes Bild: Während tagsüber (z. B. 14:00 Uhr) der Anteil an Personenschäden auf ein Minimum von 24% sinkt, weitet sich der rote Kern in den Nachtstunden drastisch aus.
+Hier zeigt sich ein völlig anderes Bild: Während tagsüber (z. B. 14:00 Uhr) der Anteil an Personenschäden auf ein Minimum von 24% sinkt, weitet sich der rote Kern in den Nachtstunden stark aus.
 
 Das relative Risiko erreicht zwischen 1:00 und 3:00 Uhr nachts seinen Höhepunkt: Hier enden rund 33% – also jeder dritte Unfall – mit Verletzungen.
 
-**Fazit:** Die Kombination beider Grafiken löst das statistische Paradoxon auf: Tagsüber passieren zwar die meisten Unfälle (Masse), diese sind aber oft harmloser (Blechschaden im Stau). Nachts passieren die wenigsten Unfälle, diese sind jedoch signifikant gefährlicher (hoher Anteil an Verletzten)."
+**Fazit:** Die Kombination beider Grafiken verdeutlicht das zugrunde liegende Paradoxon: Tagsüber ereignen sich zwar die meisten Unfälle, diese verlaufen jedoch überwiegend glimpflich (z.B. Blechschaden bei einem Auffahrunfall im dichten Verkehr). Nachts treten die wenigsten Unfälle auf, diese sind jedoch mit einem wesentlich höheren Anteil an Personenschäden verbunden.
 :::
 
 ### Fazit: Zeitliche Aspekte
 
-Unfallhäufigkeit und Unfallschwere verhalten sich antizyklisch. Während dichter Verkehr und winterliche Witterung zwar die Masse an Blechschäden erzeugen, geschehen die folgenschwersten Unfälle bei geringer Verkehrsdichte nachts und am Wochenende. Nicht äußere Bedingungen, sondern riskantes Fahrerverhalten (mit Alkohol-Einfluss) auf freien Strecken ist der Haupttreiber für schwere Personenschäden.
+Unfallhäufigkeit und Unfallschwere verhalten sich antizyklisch. Während dichter Verkehr und winterliche Witterung zwar vor allem zu einer hohen Anzahl an Unfällen mit überwiegend geringen Schäden führen, treten die folgenschwersten Unfälle häufiger bei geringer Verkehrsdichte nachts und am Wochenende auf. Die Ergebnisse deuten darauf hin, dass dabei weniger die äußeren Rahmenbedingungen als vielmehr riskantes Fahrverhalten, insbesondere im Zusammenhang mit Alkoholkonsum, eine zentrale Rolle für schwere Personenschäden spielt.
 
 ## Untersuchung der Verkehrssituation
 
-Nachdem die zeitlichen Aspekte untersucht wurden, richten wir den Fokus nun auf die infrastrukturellen und situativen Rahmenbedingungen der Unfälle. Konkret analysieren wir, ob die Art der Straße (Kreuzung, geteilte Fahrbahn, usw.), der Unfalltyp (Abbiegen, Auffahren, usw.) und die vorhandene Verkehrsregelung (ampel, Stop-Schild, keine Regelung) einen Einfluss auf die Unfallschwere haben, Das Ziel ist zu verstehen, welche Verkehrssituationen besonders risikoreich sind und ob bestimmte Infrastrukturtypen systematisch mit höheren Verletzungsraten eingehen.
+Nachdem die zeitlichen Aspekte untersucht wurden, wird nun der Fokus auf die infrastrukturellen und situativen Rahmenbedingungen der Unfälle gerichtet. Konkret wird analysiert, ob die Art der Straße (Kreuzung, geteilte Fahrbahn, usw.), der Unfalltyp (Abbiegen, Auffahren, usw.) und die vorhandene Verkehrsregelung (ampel, Stop-Schild, keine Regelung) einen Einfluss auf die Unfallschwere haben. Das Ziel ist, zu verstehen, welche Verkehrssituationen besonders risikoreich sind und ob bestimmte Infrastrukturtypen systematisch mit höheren Verletzungsraten einhergehen.
 
 ### Begriffsklärung
+
 Da der verwendete Datensatz aus dem US-amerikanischen Raum stammt, liegen zentrale Variablen in englischer Sprache vor. Zur besseren Verständlichkeit werden die wichtigsten Begriffe vorab kurz erläutert:
 
 **Straßentypen (`trafficway_type_simple`):**
@@ -589,12 +578,12 @@ Da der verwendete Datensatz aus dem US-amerikanischen Raum stammt, liegen zentra
 - *Traffic Signal*: Ampelanlage zur Regelung des Verkehrsflusses
 - *Stop Sign/Flasher*: Stop-Schild oder Blinklicht, das zum vollständigen Anhalten verpflichtet
 - *No Controls*: Keine formale Verkehrsregelung vorhanden
-- *Yield*: Vorfahrt-gewähren-Zeichen (Verkehrsteilnehmende müssen wartepflichtig sein)
+- *Yield*: Vorfahrt-gewähren-Zeichen (Verkehrsteilnehmende sind wartepflichtig)
 - *Pedestrian Crossing Sign*: Fußgängerüberweg (Zebrastreifen)
 
 ### Straßentyp und Unfallschwere
 
-Zunächst untersuchen wir den Zusammenhang zwischen dem Straßentyp und der Verletzungsrate. Dabei ist es wichtig zu unterscheiden zwischen der absoluten Unfallhäufigkeit (wie viele Unfälle passieren auf diesem Straßentyp?) und der relativen Unfallschwere (wie gefährlich ist ein Unfall, wenn er dort passiert). Ein Straßentyp mit vielen Unfällen ist nicht zwangslöufig der gefährlichste, wenn diese Unfälle überwiegend glimpflich verlaufen.
+Zunächst untersuchen wir den Zusammenhang zwischen dem Straßentyp und der Verletzungsrate. Dabei ist es wichtig zwischen der absoluten Unfallhäufigkeit (wie viele Unfälle passieren auf diesem Straßentyp?) und der relativen Unfallschwere (wie gefährlich ist ein Unfall, wenn er dort passiert) zu unterscheiden. Ein Straßentyp mit vielen Unfällen ist nicht zwangsläufig der gefährlichste, wenn diese Unfälle überwiegend glimpflich verlaufen.
 
 ::: panel-tabset
 ##### Verletzungsrate (relativ)
@@ -622,11 +611,11 @@ ggplot(dataset_verkehrsanalyse, aes(x = verletzungsrate, y = reorder(trafficway_
   theme_minimal()
 ```
 
-Die Analyse zeigt deutliche Unterschiede in der Unfallschwere zwischen verschiedenen Straßentypen. Kreuzungen ("Intersections") weisen mit 31,66% die höchste Verletzungsrate auf - fast jeder dritte Unfall an einer Kreuzung endet mit Verletzten. Dies lässt sich wahrscheinlich durch die Komplexität der Verkehrssituation erklären: Kreuzende Verkehrssträme, Vorfahrsregeln und Abbiegevorgänge erhöhen das Risiko für schwere Kollisionen, insbesondere bei seitlichem Aufprall.
+Die Analyse zeigt deutliche Unterschiede in der Unfallschwere zwischen verschiedenen Straßentypen. Kreuzungen (*Intersections*) weisen mit 31,66 % die höchste Verletzungsrate auf - fast jeder dritte Unfall an einer Kreuzung endet mit Verletzten. Dies lässt sich wahrscheinlich durch die Komplexität der Verkehrssituation erklären: Kreuzende Verkehrsströme, Vorfahrtsregeln und Abbiegevorgänge erhöhen das Risiko für schwere Kollisionen, insbesondere bei seitlichem Aufprall.
 
-Interessanterweise liegt die Verletzungsrate auf normalen zweispurigen Straßen ("Two-Way, Not Divided") mit 27,85% deutlich höher als auf baulich getrennten Fahrbahnen ("Divided Road": 24.04%). Dies könnte auf das Risiko von Frontalzusammenstößen bei fehlender Mitteltrennung zurückzuführen sein. Einbahnstraßen ("One-Way") zeigen mit 19,50% die niedrigste Verletzungsrate, was vermutlich an der redutierten Komplexität der Verkehrsführung liegt.
+Interessanterweise liegt die Verletzungsrate auf normalen zweispurigen Straßen (*Two-Way, Not Divided*) mit 27,85 % deutlich höher als auf baulich getrennten Fahrbahnen (*Divided Road*: 24.04 %). Dies könnte auf das Risiko von Frontalzusammenstößen bei fehlender Mitteltrennung zurückzuführen sein. Einbahnstraßen (*One-Way*) zeigen mit 19,50% die niedrigste Verletzungsrate, was vermutlich an der reduzierten Komplexität der Verkehrsführung liegt.
 
-Bei der Interpretation ist jedoch zu beachten, dass die absolute Unfallhäufigkeit stark variiert: Während auf Divided Roads mit 122.673 Unfällen die meisten Kollisionen passieren, ereignen sich auf Two-Way-Roads mit nur 2.862 Unfällen vergleichsweise wenige. Die höhere Verletzungsrate bedeutet jedoch, dass ein einzelner Unfall auf einer Two-Way-Road mit höherer Wahrscheinlichkeit schwer verläuft als auf einer Divided Road - trotz der insgesamt geringeren absoluten Anzahl an Verletzten.
+Bei der Interpretation ist jedoch zu beachten, dass die absolute Unfallhäufigkeit stark variiert: Während auf *Divided Roads* mit 122.673 Unfällen die meisten Kollisionen passieren, ereignen sich auf *Two-Way-Roads* mit nur 2.862 Unfällen vergleichsweise wenige. Die höhere Verletzungsrate bedeutet jedoch, dass ein einzelner Unfall auf einer *Two-Way-Road* mit höherer Wahrscheinlichkeit schwer verläuft als auf einer *Divided Road* - trotz der insgesamt geringeren absoluten Anzahl an Verletzten.
 
 ##### Absolute Unfallhäufigkeit
 
@@ -643,16 +632,16 @@ ggplot(dataset_verkehrsanalyse, aes(x = anzahl_verletzte, y = reorder(trafficway
   theme_minimal()
 ```
 
-Die absolute Unfallhäufigkeit zeigt ein anderes Bild als die Verletzungsrate: Auf Divided Roads ereignen sicht mit 29.491 die meisten Unfälle mit Verletzten, obwohl die Verletzungsrate dort mit 24,04% niedriger ist als bei Intersections (31,66%) oder Two-Way-Roads (27,85%). Dies verdeutlicht das Paradaxon zwischen relativem Risiko und absoluter Häufigkeit.
+Die absolute Unfallhäufigkeit zeigt ein anderes Bild als die Verletzungsrate: Auf *Divided Roads* ereignen sicht mit 29.491 die meisten Unfälle mit Verletzten, obwohl die Verletzungsrate dort mit 24,04 % niedriger ist als bei *Intersections* (31,66 %) oder *Two-Way-Roads* (27,85 %). Dies verdeutlicht das Paradaxon zwischen relativem Risiko und absoluter Häufigkeit.
 
-Während bei Intersections fast jeder dritte Unfall mit Verletzten endet, geschehen dort absolut deutlich weniger schwere Unfälle (19.795) als auf Divided Roads. Two-Way-Roads weisen mit nur 797 Verletzten die geringste absolute Belastung auf, trotz ihrer vergleichsweise hohen Verletzungsrate.
+Während bei *Intersections* fast jeder dritte Unfall mit Verletzten endet, geschehen dort absolut deutlich weniger schwere Unfälle (19.795) als auf *Divided Roads*. *Two-Way-Roads* weisen mit nur 797 Verletzten die geringste absolute Belastung auf, trotz ihrer vergleichsweise hohen Verletzungsrate.
 :::
 
-→ Um diese Vermutungen über die Gründe für die unterschiedliche Gefährlichkeit zu prüfen, untersuchen wir im Folgenden, welche Unfalltypen auf welchen Straßentypen dominieren und ob sich dadurch die beobachteten Unterschiede in der Verletzungsrate erklären lassen.
+Um die vermuteten Ursachen für die unterschiedlichen Verletzungsraten näher zu untersuchen, wird im Folgenden analysiert, welche Unfalltypen auf welchen Straßentypen dominieren und ob sich dadurch die beobachteten Unterschiede in der Verletzungsrate erklären lassen.
 
 ### Welche Unfalltypen verursachen die Gefährlichkeit?
 
-Damit wir die Vermutung über die Gründe für die unterschiedliche Gefährlichkeit zu überprüfen müssen wir anhand einer Grafik den Zusammenhang zwischen Straßentyp und Unfalltyp darstellen. Außerdem muss klargestellt werden auf welche Unfalltypen wir achten. Um die Hypothesen zu belegen, brauchen wir auf jeden Fall Head On (hier: Fronttalzusammenstoß), Angle (hier: seitlicher Aufprall) und Turning (hier: abbiegen).
+Um die Vermutungen zu den Gründen der unterschiedlichen Gefährlichkeit zu überprüfen, wird der Zusammenhang zwischen Straßentyp und Unfalltyp grafisch dargestellt. Dabei wird festgelegt, auf welche Unfalltypen der Fokus gelegt wird. Für die Prüfung der Hypothesen sind insbesondere die Unfalltypen *Head On* (Fronttalzusammenstoß), *Angle* (seitlicher Aufprall) und *Turning* (Abbiegen) relevant.
 
 ```{r}
 #| label: Datensatz-vorbereiten-für-gefährlichste-Unfalltypen
@@ -673,7 +662,7 @@ top_unfalltypen <- dataset.unfalltypen %>%
   pull(first_crash_type)
 ```
 
-In den Top 10 Unfalltypen nach absoluter Häufigkeit sind alle drei für unsere Hypothese relevanten Typen ("Head On", "Angle", "Turning") enthalten. Deswegen reichen die Top 10 in der folgenden Heatmap.
+In den Top-10-Unfalltypen nach absoluter Häufigkeit sind alle drei für unsere Hypothese relevanten Typen (*Head On*, *Angle*, *Turning*) enthalten. Daher ist es ausreichend, die Top-10-Unfalltypen in der folgenden Heatmap zu betrachten.
 
 ```{r}
 #| label: fig-crash-type-heatmap
@@ -696,17 +685,17 @@ ggplot(dataset.unfalltypen.top10, aes(x = first_crash_type, y = trafficway_type_
   )
 ```
 
-Die Vermutung, dass Kreuzungen aufgrund seitlicher Aufprälle (Angle) und Abbiegevorgänge (Turning) besonders gefährlich sind, wird teilweise bestätigt. Angle-Unfälle an Kreuzungen weisen mit 37% eine erhöhte Verletzungsrate auf - allerdings zeigt sich überraschenderweise die höchste Rate bei Two-Way Straßen mit 43,2%. Dies deutet darauf hin, dass fehlende bauliche Trennung bei seitlichen Kollisionen noch gefährlicher ist als die Komplexität von Kreuzungen.
+Die Vermutung, dass Kreuzungen aufgrund seitlicher Aufprälle (*Angle*) und Abbiegevorgänge (*Turning*) besonders gefährlich sind, wird teilweise bestätigt. *Angle*-Unfälle an Kreuzungen weisen mit 37 % eine erhöhte Verletzungsrate auf - allerdings zeigt sich überraschenderweise die höchste Rate bei *Two-Way*-Straßen mit 43,2 %. Dies deutet darauf hin, dass fehlende bauliche Trennung bei seitlichen Kollisionen noch gefährlicher ist als die Komplexität von Kreuzungen.
 
-Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. Head On Unfälle auf Two Way Roads zeigen mit 40,8% eine deutlich höhere Verletzungsrate als auf Divided Roads (39,2%). Dies unterstreicht die Schutzwirkung baulicher Mitteltrennungen gegen die gefährlichen Kollisionsarten.
+Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. *Head On*-Unfälle auf *Two Way*-Straßen zeigen mit 40,8 % eine deutlich höhere Verletzungsrate als auf *Divided Roads* (39,2 %). Dies unterstreicht die Schutzwirkung baulicher Mitteltrennungen gegen die gefährlichen Kollisionsarten.
 
-**weitere Erkenntnisse:** Das auffälligste Muster der Heatmap ist die extrem hohe Verletzungsrate bei Pedestrian (89-93%) und Pedalcyclist (70-78%) über alle Straßentypen hinweg, also Fußgänger und Fahrradfahrer. Diese Unfalltypen enden nahezu immer mit Verletzten, unabhängig von dem Straßentypen. Im Gegensatz dazu zeigen klassische Auto gegen Auto Unfälle (Rear End) (13-18%) oder Unfall gegen einem Parkenden Auto (5-18%) deutlich niedrigere Raten. 
-Dies wirft die Frage auf, welche Verkehrsregelungen (Ampeln, Vorfahrtsregeln) diese Unfälle möglicherweise hätten verhindern können. 
-Konkret: Wie viele Unfälle passieren bei den verschiedenen Verkehrsregelungen, um dann zu sehen, welche am besten vor solchen Unfällen schützen könnten?
+**Weitere Erkenntnisse:** Das auffälligste Muster der Heatmap ist die extrem hohe Verletzungsrate bei *Pedestrian* (89-93 %) und *Pedalcyclist* (70-78 %) über alle Straßentypen hinweg. Diese Unfalltypen enden nahezu immer mit Verletzten, unabhängig vom Straßentyp. Im Gegensatz dazu zeigen klassische Auto-gegen-Auto-Unfälle (*Rear End*) (13-18 %) oder Kollision mit einem festen Objekt (*Fixed Object*, 5-18 %) deutlich niedrigere Raten. 
+Dies wirft die Frage auf, welche Verkehrsregelungen (Ampeln, Vorfahrtsregeln) diese Unfälle verhindern könnten. 
+Konkret wird daher im nächsten Schritt untersucht, wie sich diese Unfalltypen auf verschiedene Verkehrsregelungen verteilen und in welchen Situationen bestimmte Regelungen mit geringeren Verletzungsraten einhergehen.
 
 ### Wie sieht die Verkehrssituation aus in den verschiedenen Unfällen (abhängig von Unfalltyp)?
 
-Um das konkret zu prüfen, analysieren wir den Zusammenhang zwischen Verkehrsregelung und Unfalltyp. Hierzu muss entschieden werden, welche Verkehrslagen überhaupt vorhanden ist und ob alle Verkerslagen benutzt wird.
+Um das konkret zu prüfen, wird der Zusammenhang zwischen Verkehrsregelung und Unfalltyp analysiert. Dabei ist zunächst zu klären, welche Verkehrsregelungen im Datensatz vertreten sind und welche davon für die weitere Analyse berücksichtigt werden sollen.
 
 ```{r}
 #| label: Daten-vorbereiten-Verkehrssituation 
@@ -724,7 +713,8 @@ top_verkehrslage <- dataset.verkehrslage %>%
   arrange(desc(total_anzahl)) 
 ```
 
-Nach besichtigung der Verkehrslagen ist klar, man kann nicht alle benutzen, das würde den Rahmen sprengen. Es steht aber fest, das die Top 5 schon die Mehrheit der Häufigkeit wiederspiegelt. Allerdings beschränken wir uns auf "Traffic Signal", "Stop Sign/Flasher", "No Control", "Yield" und "Pedestrian Crossing Sign". Jetzt ist die Frage, welche Unfalltypen wir betrachten wollen, es der vorherigen Heatmap hebt sich Pedalcyclist, Pedestrian, Angle, Fixed Object und Head on hervor.
+Nach Sichtung der vorhandenen Verkehrsregelungen wird deutlich, dass nicht alle Kategorien berücksichtigt werden können, da dies den Rahmen der Analyse sprengen würde. Die fünf häufigsten Verkehrsregeltypen decken jedoch den Großteil der Unfälle ab.Entsprechend wird die Analyse auf *Traffic Signal*, *Stop Sign/Flasher*, *No Control*, *Yield* und *Pedestrian Crossing Sign* beschränkt.  
+Hinsichtlich der Unfalltypen heben sich in der vorherigen Headmap insbesondere *Pedalcyclist*, *Pedestrian*, *Angle*, *Fixed Object* und *Head On* hervor, auf die sich die weitere Betrachtung konzentriert.
 
 ```{r}
 #| label: fig-traffic-control-injury
@@ -754,32 +744,34 @@ ggplot(dataset.verkehrslage.fokus, aes(x = traffic_control_device, y = verletzun
   )
 ```
 
-Im Anschluss an die Analyse von Straßentyp und Unfallart zeigt der Vergleich der Verkehrsregelungen, dass ungeschützte Verkehrsteilnehmende über alle Settings hinweg das höchste Risiko tragen: PEDESTRIAN und PEDALCYCLIST weisen durchgängig sehr hohe Verletzungsraten auf (meist 75–95%), unabhängig davon, ob eine Ampel, ein Stop‑Zeichen oder eine andere Regelung vorhanden ist. Bei den motorisierten Unfalltypen (ANGLE, HEAD ON, FIXED OBJECT) reagiert die Verletzungsrate stärker auf die Art der Regelung: Bereiche ohne formale Kontrolle (No Controls) liegen tendenziell höher, während klare Kontrollen (Traffic Signal, Stop/Flasher) mit niedrigeren Raten einhergehen; YIELD bewegt sich dazwischen. Damit fügt sich dieser Befund schlüssig in die vorigen Ergebnisse ein: Komplexe Konfliktsituationen wie Seit‑ und Frontalzusammenstöße profitieren sichtbar von eindeutiger Regulierung, während die Schwere bei Fußgänger‑ und Radfahrunfällen strukturell hoch bleibt und durch die Regelungsart allein weniger stark gedämpft wird.
+Im Anschluss an die Analyse von Straßentyp und Unfallart zeigt der Vergleich der Verkehrsregelungen, dass ungeschützte Verkehrsteilnehmende über alle Settings hinweg das höchste Risiko tragen: *Pedestrian* und *Pedalcyclist* weisen durchgängig sehr hohe Verletzungsraten auf (meist 75–95 %), unabhängig davon, ob eine Ampel, ein Stop‑Zeichen oder eine andere Regelung vorhanden ist. Bei den motorisierten Unfalltypen (*Angle*, *Head On*, *Fixed Object*) reagiert die Verletzungsrate stärker auf die Art der Regelung: Bereiche ohne formale Kontrolle (*No Controls*) liegen tendenziell höher, während klare Kontrollen (*Traffic Signal*, *Stop/Flasher*) mit niedrigeren Raten einhergehen; *Yield* bewegt sich dazwischen. Damit fügt sich diese Erkenntnis schlüssig in die vorigen Ergebnisse ein: Komplexe Konfliktsituationen wie Seiten‑ und Frontalzusammenstöße profitieren sichtbar von eindeutiger Regulierung, während die Schwere bei Fußgänger‑ und Radfahrunfällen strukturell hoch bleibt und durch die Regelungsart allein weniger stark gedämpft wird.
 
 ### Fazit:
 
-Die Ergebnisse zeigen deutlich, dass die Verkehrsinfrastruktur einen erheblichen Einfluss auf die Schwere von Verkehrsunfällen hat. Bauliche Trennung und klare Verkehrsregelungen reduzieren das Verletzungsrisiko bei motorisierten Verkehrsteilnehmern signifikant, während ungeschützte Gruppen wie Fußgänger und Radfahrende selbst unter geregelten Bedingungen besonders gefährdet bleiben. Damit bestätigt sich, dass die Qualität und Organisation der Verkehrssituation entscheidend sind, wenn es um die Sicherheit und Schadensschwere im Straßenverkehr geht. \## 5. Zusammenfassung und Schlussfolgerung
+Die Ergebnisse zeigen deutlich, dass die Verkehrsinfrastruktur einen erheblichen Einfluss auf die Schwere von Verkehrsunfällen hat. Bauliche Trennung und klare Verkehrsregelungen reduzieren das Verletzungsrisiko bei motorisierten Verkehrsteilnehmenden deutlich, während ungeschützte Gruppen wie Fußgänger und Radfahrende selbst unter geregelten Bedingungen besonders gefährdet bleiben. Damit bestätigt sich die Vermutung, dass die Qualität und Organisation der Verkehrssituation entscheidend sind, wenn es um die Sicherheit und Schadensschwere im Straßenverkehr geht. 
 
 ## Untersuchung von Wetter und Umgebungsbedingungen
 
-### Zielsetzung und analytischer Rahmen
-
 Neben zeitlichen und infrastrukturellen Faktoren beeinflussen auch die Umgebungsbedingungen wie die Wetterlage, die Lichtverhältnisse und der Fahrbahnzustand die Entstehung von Unfällen. Sie wirken sich auf die Sichtweite, die Reaktionsfähigkeit und die physikalischen Eigenschaften des Fahrzeugs aus und bestimmen somit die Wahrscheinlichkeit von Unfällen und die Schwere der Unfallfolgen.
 
-In diesem Abschnitt wird untersucht, ob bestimmte Umweltbedingungen systematisch mit einer erhöhten relativen Unfallschwere einhergehen. Wie bei den vorherigen Analysen wird dabei bewusst zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Im Fokus steht nicht die Frage, unter welchen Bedingungen die meisten Unfälle auftreten, sondern unter welchen Bedingungen ein Unfall mit höherer Wahrscheinlichkeit zu Personenschäden führt.
+In diesem Abschnitt wird untersucht, ob bestimmte Umweltbedingungen systematisch mit einer erhöhten relativen Unfallschwere einhergehen. Wie bei den vorherigen Analysen wird dabei bewusst zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden: Im Fokus steht nicht die Frage, unter welchen Bedingungen die meisten Unfälle auftreten, sondern unter welchen Bedingungen ein Unfall mit höherer Wahrscheinlichkeit zu Personenschäden führt.
 
-Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.
+Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Wie zuvor ist die Analyse deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.
 
 ### Wetter und Unfallschwere
-#### Analytischer Fokus {.unnumbered}
-Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, aber sollte dennoch differenziert betrachtet werden. Das Wetter wirkt sich nicht als einheitlicher Faktor auf das Unfallgeschehen aus, sondern beeinflusst verschiedene Aspekte der Fahrsituation, z.B. die Sichtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, welche wiederum zu veränderten Bremswegen oder einer eingeschränkten Stabilität bei Nässe, Schnee oder Eis führen.
+
+Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, sollte jedoch differenziert betrachtet werden. Das Wetter wirkt sich nicht als einheitlicher Faktor auf das Unfallgeschehen aus, sondern beeinflusst verschiedene Aspekte der Fahrsituation, z.B. die Sichtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, welche wiederum zu veränderten Bremswegen oder einer eingeschränkten Stabilität bei Nässe, Schnee oder Eis führen können.
 Gleichzeitig beeinflussen Wetterlagen auch das Verkehrsaufkommen und das Fahrverhalten. Bei ungünstigen Bedingungen wird häufig vorsichtiger gefahren oder auf Fahrten verzichtet, wodurch sich die Anzahl der Unfälle reduzieren kann. Diese Anpassungen betreffen jedoch nicht zwangsläufig die Schwere der Unfälle, wenn es dennoch zu einer Kollision kommt.
 Vor diesem Hintergund liegt der Fokus der Analyse nicht auf der absoluten Unfallhäufigkeit bei bestimmten Wetterlagen, sondern auf der Frage, ob sich unter unterschiedlichen Wetterbedingungen systematische Unterschiede in der Unfallschwere zeigen. Untersucht wird, ob die Wahrscheinlichkeit von Personenschäden zwischen den Wetterkategorien variiert, unabhängig davon, wie häufig diese Bedingungen auftreten.
 
 #### Datenbasis: Verteilung der Wetterbedingungen {.unnumbered}
+
 Bevor die Unfallschwere analysiert wird, soll zunächst die Häufigkeitsverteilung der Wetterkategorien im unbereinigten Datensatz betrachtet werden, um die zugrundeliegende Datenbasis besser zu verstehen und die statistische Belastbarkeit der einzelnen Kategorien einzuschätzen.
+
 ```{r}
 #| label: Datenbasis-Wetterbedingungen
+#| tbl-cap: "Häufigkeitsverteilung der Wetterbedingungen im unbereinigten Datensatz"
+
 dataset %>%
   count(weather_condition) %>%
   mutate(
@@ -803,12 +795,20 @@ dataset %>%
     Wetterbedingung,
     `Anzahl Unfälle` = n
   ) %>%
-  arrange(desc(`Anzahl Unfälle`))
+  arrange(desc(`Anzahl Unfälle`)) # %>%
+  # gt() %>%
+  # tab_caption(
+  #   md("Häufigkeitsverteilung der Wetterbedingungen im unbereinigten Datensatz {#tbl-weather}")
+  # ) %>%
+  # tab_style(
+  #   style = cell_text(weight = "bold"),
+  #   locations = cells_column_labels()
+  # )
 ```
 
-Wie diese Übersicht zeigt, wird der Datensatz von den Wetterkategorien "Klar" und "Regen" dominiert. Extreme Wetterlagen wie "Aufgewirbelter Sand/Staub" und "Starker Seitenwind" treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt. Dies muss bei der Interpretation der Ergebnisse berücksichtigt werden, da eine unzureichende Datenlage die statistische Belastbarkeit der Kategorie vermindert.  
-Die Kategorie "Sonstige" fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar.   
-Die Kategorie "Unbekannt" kennzeichnet Fälle, in denen keine Wetterinformation erhoben wurde. Diese Beobachtungen wurden im Bereinigungsschritt in Kapitel 3 aus dem Datensatz für die Analyse entfernt, da sie keiner Wetterkategorie zugeordnet werden können und somit die Berechnung und den Vergleich wetterbezogener Unfallraten verfälschen können.
+Wie diese Übersicht zeigt, wird der Datensatz von den Wetterkategorien *Klar* und *Regen* dominiert. Extreme Wetterlagen wie *Aufgewirbelter Sand/Staub* und *Starker Seitenwind* treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt. Dies muss bei der Interpretation der Ergebnisse berücksichtigt werden, da eine unzureichende Datenlage die statistische Belastbarkeit der Kategorie vermindert.  
+Die Kategorie *Sonstige* fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar.   
+Die Kategorie *Unbekannt* kennzeichnet Fälle, in denen keine Wetterinformation erhoben wurde. Diese Beobachtungen wurden im Bereinigungsschritt in Kapitel 3 aus dem Datensatz für die Analyse entfernt, da sie keiner Wetterkategorie zugeordnet werden können und somit die Berechnung und den Vergleich wetterbezogener Unfallraten verfälschen können.
 
 #### Methodisches Vorgehen {.unnumbered}
 
@@ -828,6 +828,7 @@ dataset.weatherAnalysis.weather_summary <- dataset.clean %>%
 
 ::: panel-tabset
 #### Absolute Unfallhäufigkeit {.unnumbered}
+
 Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie in einem Balkendiagramm dargestellt. Dieses entspricht inhaltlich der Aufstellung in Tabelle ........., aber dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und soll einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere ermöglichen.
 ```{r}
 #| label: fig-weather-absolute
@@ -866,6 +867,7 @@ dataset.weatherAnalysis.plot_absoluteAccidentNumber
 Die Darstellung verdeutlicht noch einmal die starke Dominanz günstiger Wetterbedingungen bei Unfällen: Diese machen den überwiegenden Teil des Datensatzes aus, während extreme Wetterlagen seltener sind.
 
 #### Relative Unfallschwere {.unnumbered}
+
 Im nächsten Schritt wird die Verletzungsrate für jede Wetterkategorie dargestellt. Diese wurde zuvor als Anteil der Unfälle mit Verletzten an allen Unfällen der jeweiligen Wetterkategorie berechnet.
 ```{r}
 #| label: fig-weather-injury-rate
@@ -888,6 +890,7 @@ dataset.weatherAnalysis.plot_injuryRate
 :::
 
 #### Interpretation der Ergebnisse {.unnumbered}
+
 Die Analyse zeigt deutliche Unterschiede in der relativen Unfallschwere zwischen den verschiedenen Wetterkategorien. Besonders hohe Verletzungsraten treten bei seltenen oder extremen Wetterlagen wie "Schneeregen/Hagel", "Gefrierender Regen/Niesel" sowie "Nebel/Rauch/Dunst" auf. In diesen Kategorien liegt der Anteil der Unfälle mit Personenschäden bei etwa 30 Prozent oder mehr.  
 Demgegenüber weisen die Kategorien "Klar" und "Bewölkt" trotz sehr hoher absoluter Unfallzahlen deutlich niedrigere Verletzungsraten auf. Der Vergleich mit der absoluten Unfallhäufigkeit macht somit deutlich, dass hohe Unfallzahlen nicht mit hoher Unfallschwere gleichzusetzen sind.  
 Die Kategorie "Regen" nimmt eine Zwischenstellung ein: Sie ist häufig vertreten und gleichzeitig mit einer relativ hohen Verletzungsrate verbunden. Dies deutet darauf hin, dass bereits moderate Einschränkungen der Sicht oder der Fahrbahnhaftung die Unfallfolgen verschärfen können.  
@@ -895,12 +898,13 @@ Auffällig ist, dass Wetterlagen wie "Schnee", "Treibschnee" und "Starker Seiten
 Die sehr geringe Verletzungsrate in der Kategorie "Aufgewirbelter Sand/Staub" ist vor dem Hintergrund der äußerst geringen Fallzahlen zu intepretieren (siehe Tabelle ............). Mit nur einer beobachtetn Unfallmeldung ist diese Kategorie statistisch nicht stabil und erlaubt keine belastbaren Aussagen zur tatsächlichen Gefährlichkeit dieser Wetterlage. Der niedrige Wert spiegelt daher mit hoher Wahrscheinlichkeit einen Stichprobeneffekt wider und nicht ein systematisch geringes Risiko.
 
 ### Lichtverhältnisse und Unfallschwere
-#### Analytischer Fokus {.unnumbered}
+
 Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen maßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die Reaktionszeiten und Fahrentscheidungen auswirken kann. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen.
 Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nicht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt.
 Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.
 
 #### Datenbasis: Verteilung der Lichtverhältnisse {.unnumbered}
+
 Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis verstehen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.
 
 ```{r}
@@ -929,6 +933,7 @@ dataset %>%
 Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie "Dunkelheit (unbeleuchtet)", "Dämmerung"" und "Morgendämmerung" sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.
 
 #### Methodisches Vorgehen {.unnumbered}
+
 In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (`lighting_condition`) und zur Unfallschwere (`has_injury`) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.
 ```{r}
 #| label: Daten-vorbereiten-Lichtverhältnisse
@@ -976,7 +981,9 @@ dataset.lightingAnalysis.plot_absolute <- ggplot(
 Die deutlich geringeren Unfallzahlen in den Kategorien "Dämmerung", "Morgendämmerung" und "Dunkelheit (unbeleuchtet)" werden vermutlich durch strukturelle und verhaltensbezogene Faktoren hervorgerufen. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtlich ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.
 
 #### Relative Unfallschwere {.unnumbered}
+
 Im nächsten Schritt wird die Verletzungsrate für jede Kategorie der Lichtverhältnisse dargestellt.
+
 ```{r}
 #| label: fig-lighting-injury-rate
 #| fig-cap: "Verletzungsrate nach Lichtverhältnissen"
@@ -1004,7 +1011,7 @@ Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeu
 :::
 
 ### Fahrbahnzustand und Unfallschwere
-#### Analytischer Fokus {.unnumbered}
+
 Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierte Haftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahrdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere  auf verschiedene Weise beeinflusst.
 Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen.
 Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob ein Unfall mit Personenschäden verbunden war.
@@ -1039,6 +1046,7 @@ Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertret
 Die Beobachtungen der Kategorie "Unbekannt" wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können. 
 
 #### Methodisches Vorgehen {.unnumbered}
+
 Wie bei den vorigen Analysen werden nur Unfallbeobachtungen mit gültigen Angaben zur analysierten Variable einbezogen. Für jede Kategorie des Fahrbahnzustands werden absolute Unfallanzahl und Verletzungsrate berechnet.
 ```{r}
 #| label: Daten-vorbereiten-Fahrbahnzustände
@@ -1127,14 +1135,6 @@ Die Analyse bestätigt die eingangs formulierten Erwartungen weitgehend und diff
 Jedoch muss im Hinterkopf behalten werden, dass es sich hierbei um eine rein deskriptive Analyse handelt. Die betrachteten Variablen wie Zeit, Straßentyp und Wetter treten nicht isoliert auf, sondern sind systematisch miteinander korreliert. Kausale Aussagen lassen sich aus den Ergebnissen daher nicht ableiten. Zudem ist die absolute Unfallhäufigkeit nur eingeschränkt aussagekräftig, da sie stark vom allgemeinen Verkehrsaufkommen abhängt. Für eine echte Risikobewertung im Sinne relativer Unfallwahrscheinlichkeiten wären zusätzlich Daten zur Verkehrsbelastung erforderlich.
 
 Zusammenfassend zeigt die Analyse, dass schwere Verkehrsunfälle vor allem dort auftreten, wo mehrere ungünstige Faktoren zusammenkommen oder Risiken unterschätzt werden. Die Ergebnisse unterstreichen die differenzierte Betrachtung von Unfallzahlen und -schwere und liefern datensbasierte Hinweise darauf, in welchen Situationen Präventionsmaßnahmen besonders wirksam ansetzen könnten.
-
-::: {.callout-note icon="false"}
-## Aufgabenstellung (10 Pkt.)
-
-Fassen Sie hier Ihre Fragestellung und Ihre Erkenntnisse aus Ihrer Analyse zusammen.
-
-Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?
-:::
 
 # Quellen {.unnumbered}
 
