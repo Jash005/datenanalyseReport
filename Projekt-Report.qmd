@@ -59,22 +59,22 @@ table(dataset$weather_condition)
 
 ```
 
-Nach dem Import des Datensatzes haben wir mittels `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (int, dbl) und textbasierten (chr) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
+Nach dem Import des Datensatzes haben wir mittels `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (`int`, `dbl`) und textbasierten (`chr`) Variablen vor. Dabei zeigten sich folgende Auffälligkeiten, die eine direkte Verwendung für die Analyse verhindern:
 
-Fehlerhafte Datentypen: Die Zeitstempel (crash_date) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objket erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen crash_hour, crash_day_of_week und crash_month bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus crash_date, um eine einheitliche Formatierung sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Datenschema der Wert 1 dem Sonntag zugeordnet, während in unserem Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Darüber hinaus sind Datums- und Zeitinformationen als Date-Time-Objekte für weiterführende Analysen flexibler und robuster als rein numerische Kodierungen. Außerdem liegen logisch geordnete Daten wie die Schadenshöhe (damage) und nominale Kategorien (z. B. weather_condition) noch als ungeordnete Strings vor und müssen in Faktoren (factor) umgewandelt werden.
+Fehlerhafte Datentypen: Die Zeitstempel (`crash_date`) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objket erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen `crash_hour`, `crash_day_of_week` und `crash_month` bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus `crash_date`, um eine einheitliche Formatierung sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Datenschema der Wert 1 dem Sonntag zugeordnet, während in unserem Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Darüber hinaus sind Datums- und Zeitinformationen als Date-Time-Objekte für weiterführende Analysen flexibler und robuster als rein numerische Kodierungen. Außerdem liegen logisch geordnete Daten wie die Schadenshöhe (`damage`) und nominale Kategorien (z. B. `weather_condition`) noch als ungeordnete Strings vor und müssen in Faktoren (`factor`) umgewandelt werden.
 
-Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlende Informationen, die nicht als technisches NA kodiert sind. Werte wie "UNKNOWN" (z. B. bei road_defect) oder "UNABLE TO DETERMINE" (bei prim_contributory_cause) treten häufig auf.
+Versteckte fehlende Werte: Die Spalten enthalten diverse Platzhalter für fehlende Informationen, die nicht als technisches `NA` kodiert sind. Werte wie "UNKNOWN" (z. B. bei `road_defect`) oder "UNABLE TO DETERMINE" (bei `prim_contributory_cause`) treten häufig auf.
 
-Analysebedingte Umcodierung: Die Variable most_severe_injury liegt als textuelle Beschreibung vor. Für die Analyse der Unfallschwere ist diese Kodierung jedoch zu detailliert, sodass sie zu einer binären Variable (Verletzung ja/nein) zusammengefasst wird. <!--
+Analysebedingte Umcodierung: Die Variable `most_severe_injury` liegt als textuelle Beschreibung vor. Für die Analyse der Unfallschwere ist diese Kodierung jedoch zu detailliert, sodass sie zu einer binären Variable (Verletzung ja/nein) zusammengefasst wird. <!--
 Keine Konvertierung in numerische Skala, da:
-most_severe_injury besitz zwar eine Rangordnung, aber die Abstände zwischen den Kategorien sind nicht quantifizierbar, deshalb numerische Skala nicht umsetzbar. Ordinale Skala wäre möglich, aber wie oben beschrieben zu detailliert und für unsere Analyse nicht notwendig.
+`most_severe_injury` besitz zwar eine Rangordnung, aber die Abstände zwischen den Kategorien sind nicht quantifizierbar, deshalb numerische Skala nicht umsetzbar. Ordinale Skala wäre möglich, aber wie oben beschrieben zu detailliert und für unsere Analyse nicht notwendig.
 
 <!--
 doppelt? (oben schon?)
 -->
-wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der spalte crash_hour einem bestimmten schema folgt und bevor das überstezt und transormiert wird ist es leichter es aus dem crash_date heruaszuextrahieren (das muss eh beaneberitet werden). somit würde die spalten crash_hour, crash_day_of_week und crash_month wegfallen
+Wir extrahieren die Uhrzeit und den Wochentag aus dem `crash_date`, weil in der spalte `crash_hour` einem bestimmten Schema folgt und bevor das überstezt und transformiert wird ist es leichter es aus dem `crash_date` heruaszuextrahieren (`das muss eh beaneberitet werden`). Somit würde die Spalten `crash_hour`, `crash_day_of_week` und `crash_month` wegfallen
 
-über `lapply(dataset, unique)` prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu NA konvertiert. Bei Attributen wie prim_contributory_cause wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
+Über `lapply(dataset, unique)` prüfen wir alle Werte pro Spalte und cleanen damit die werte um analysen nicht zu verfäschen. z.b. wenn es eine großzahl von fehelnden Werten gibt diese werden einheitlich zu `NA` konvertiert. Bei Attributen wie `prim_contributory_cause` wird es sinn machen hier ähnliche Werte zusammenzuführen, weil 40 verschiedene Werte werden schwer darstellbar. Kleine mögliche Gruppierungen werden bei bedarf in der jeweiligen Chart gemacht.
 
 # Bearbeiten/Transformieren der Daten
 In diesem Kapitel wird der Datensatz systematisch bereinigt und für die anschließende Analyse aufbereitet. Das Ziel besteht darin, die Rohdaten in eine konsistent, analysetaugliche Struktur zu überführen. Dazu gehört das Entfernen von Duplikaten, die Korrektur und Vereinheitlichung von Datentypen, die Behandlung fehlender oder unklar kodierter Werte sowie die gezielte Reduktion und Aggregation von Variablen. Darüber hinaus werden neue Merkmale abgeleitet, die zentrale Aspekte des Unfallgeschehens wie den Zeitbezug und die Unfallschwere abbilden. Durch die vorgenommenen Transformationen wird sichergestellt, dass die folgenden AUswertungen inhaltlich interpretierbar und statistisch belastbar sind.
@@ -87,7 +87,7 @@ head(dataset)
 
 ## Duplikate entfernen
 
-Mithilfe der Methode `distinct()` aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
+Mithilfe der Methode `distinct()` aus dem `tidyverse`-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
 
 ```{r}
 #|label: Duplikate-finden
@@ -97,11 +97,11 @@ dataset.clean <- dataset %>%
 
 ## Feature Engineering
 
-Die Spalte crash_date wird in Wochentag, Stunde, Monat und Jahr aufgeteilt. Die vorhandenen Spalten crash_hour, crash_day_of_week und crash_month werden entfernt, um eigene Interpretationen, z. B. des Wochentags, zu ermöglichen und dadurch mehr Flexibilität zu schaffen. Nach der Extraktion werden zudem neben den ursprünglichen Spalten auch crash_date entfernt, das dient der Übersichtlichkeit.
+Die Spalte `crash_date` wird in Wochentag, Stunde, Monat und Jahr aufgeteilt. Die vorhandenen Spalten `crash_hour`, `crash_day_of_week` und `crash_month` werden entfernt, um eigene Interpretationen, z. B. des Wochentags, zu ermöglichen und dadurch mehr Flexibilität zu schaffen. Nach der Extraktion werden zudem neben den ursprünglichen Spalten auch `crash_date` entfernt, das dient der Übersichtlichkeit.
 
-ein neues Attribut season fasst die monate zusammen und ordent diese Jahreszeiten hinzu. um auswertungen zum machen die von Winter oder sommer abhänig sind.
+Ein neues Attribut `season` fasst die Monate zusammen und ordent diese Jahreszeiten hinzu. Um auswertungen zu machen, die von Winter oder Sommer abhängig sind.
 
-über ein simples attribut has_injury können wir die unfallursache noch mit der angabe ob es adbei veretzte gab, also der schwere des unfalls bewerten.
+Über ein Simples attribut `has_injury` können wir die Unfallursache noch mit der Angabe ob es dabei Verletzte gab, also die Schwere des Unfalls bewerten.
 
 \*\* in ordniale Werte konvertiert
 
@@ -167,7 +167,7 @@ dataset.clean <- dataset.clean %>%
 
 ## Datenwerte bereinigen
 
-Werte, die nicht bekannt sind, werden häufig als „Unknown“, „Unable to determine“ oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden install.packages("skimr")diese Werte einheitlich auf NA gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.
+Werte, die nicht bekannt sind, werden häufig als `„Unknown“, „Unable to determine“` oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden `install.packages("skimr")`?? diese Werte einheitlich auf `NA` gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.
 
 ```{r}
 #| label: Datenwerte-bereinigen
@@ -257,7 +257,7 @@ dataset.clean <- dataset.clean %>%
 
 ## Y/N Spalten zu TRUE und FALSE transformieren
 
-In der Spalte intersection_related_i sind boolsche Werte enthalten, aber als Y und N in charactes formatiert. hier sollten diese in TRUE und FALSE überführt werden.
+In der Spalte `intersection_related_i` sind boolsche Werte enthalten, aber als `Y` und `N` in `character` formatiert. Hier sollten diese in `TRUE` und `FALSE` überführt werden.
 
 ```{r}
 #| label: True-False-behandlung
@@ -737,7 +737,7 @@ Neben zeitlichen und infrastrukturellen Faktoren beeinflussen auch die Umgebungs
 
 In diesem Abschnitt wird untersucht, ob bestimmte Umweltbedingungen systematisch mit einer erhöhten relativen Unfallschwere einhergehen. Wie bei den vorherigen Analysen wird dabei bewusst zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Im Fokus steht nicht die Frage, unter welchen Bedingungen die meisten Unfälle auftreten, sondern unter welchen Bedingungen ein Unfall mit höherer Wahrscheinlichkeit zu Personenschäden führt.
 
-Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.
+Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.
 
 ### Wetter und Unfallschwere
 #### Analytischer Fokus {.unnumbered}
@@ -781,7 +781,7 @@ Die Kategorie "Unbekannt" kennzeichnet Fälle, in denen keine Wetterinformation 
 
 #### Methodisches Vorgehen {.unnumbered}
 
-Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung (weather_condition) berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit. 
+Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung (`weather_condition`) berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable `has_injury` und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit. 
 
 ```{r}
 #| label: Datensatz-vorbereiten-für-Plot
@@ -867,7 +867,7 @@ Die sehr geringe Verletzungsrate in der Kategorie "Aufgewirbelter Sand/Staub" is
 #### Analytischer Fokus {.unnumbered}
 Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen maßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die Reaktionszeiten und Fahrentscheidungen auswirken kann. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen.
 Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nicht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt.
-Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.
+Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.
 
 #### Datenbasis: Verteilung der Lichtverhältnisse {.unnumbered}
 Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis verstehen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.
@@ -898,7 +898,7 @@ dataset %>%
 Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie "Dunkelheit (unbeleuchtet)", "Dämmerung"" und "Morgendämmerung" sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.
 
 #### Methodisches Vorgehen {.unnumbered}
-In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (lighting_condition) und zur Unfallschwere (has_injury) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.
+In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (`lighting_condition`) und zur Unfallschwere (`has_injury`) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.
 ```{r}
 #| label: Daten-vorbereiten-Lichtverhältnisse
 dataset.lightingAnalysis.lighting_summary <- dataset.clean %>%
@@ -976,7 +976,7 @@ Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeu
 #### Analytischer Fokus {.unnumbered}
 Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierte Haftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahrdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere  auf verschiedene Weise beeinflusst.
 Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen.
-Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Personenschäden verbunden war.
+Als Maß für die Unfallschwere dient erneut die binäre Variable `has_injury`, die angibt, ob ein Unfall mit Personenschäden verbunden war.
 
 #### Datenbasis: Verteilung der Fahrbahnzustände {.unnumbered}
 Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der Einordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um statistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.
@@ -1085,7 +1085,7 @@ Insgesamt zeigt die gemeinsame Betrachtung von absoluter Unfallhäufigkeit und r
 
 # Zusammenfassung und Schlussfolgerung
 
-Ziel dieser Arbeit war es, zu untersuchen welche äußeren Bedingungen und situativen Merkmale mit der Schwere von Verkehrsunfällen in Zusammenhang stehen. Der Fokus lag dabei bewusst nicht auf der reinen Unfallhäufigkeit, sondern auf der relativen Unfallschwere, die als Anteil der Unfälle mit Personenschaden (has_injury) gemessen wurde. Analysiert wurden zeitliche Faktoren, infrastrukturelle Merkmale sowie Umweltbedingungen wie Wetterlage, Lichtverhältnisse und Fahrbahnzustand.  
+Ziel dieser Arbeit war es, zu untersuchen welche äußeren Bedingungen und situativen Merkmale mit der Schwere von Verkehrsunfällen in Zusammenhang stehen. Der Fokus lag dabei bewusst nicht auf der reinen Unfallhäufigkeit, sondern auf der relativen Unfallschwere, die als Anteil der Unfälle mit Personenschaden (`has_injury`) gemessen wurde. Analysiert wurden zeitliche Faktoren, infrastrukturelle Merkmale sowie Umweltbedingungen wie Wetterlage, Lichtverhältnisse und Fahrbahnzustand.  
 Die Ergebnisse zeigen über alle Analysen hinweg konsistent, dass absolute Unfallhäufigkeit und relative Unfallschwere nicht gleichzusetzen sind. So treten viele Unfälle unter scheinbar günstigen Bedingenungen auf, etwa bei Tageslicht, trockenem Fahrbahnzustand oder klarem Wetter. Diese Bedingungen sind jedoch vor allem durch ein hohes Verkehrsaufkommen geprägt und gehen im Durchschnittmit niedrigeren Verletzungsraten einher. Umgekehrt weisen Situationen mit eingeschränkter Sicht oder reduzierter Fahrbahnsicherheit höhere Verletzungsraten auf, auch wenn sie seltener auftreten.  
 
 Die zeitliche Analayse unterstreicht dieses Muster: So verursacht der Berufsverkehr am Nachmittag das höchste Unfallaufkommen, während die relative Unfallschwere in den Nachtstunden und am Wochenende am größten ist. Die isolierte Betrachtung alkoholbedingter Unfälle zeigt, dass diese Zeiträume stark mit riskantem Fahrverhalten korrelieren. Damit lässt sich die erhöhte nächtliche Unfallschwere nicht allein durch äußere Bedingungen, sondern durch verhaltensbezogene Faktoren erklären.  
