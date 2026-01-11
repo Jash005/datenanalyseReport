@@ -10,6 +10,7 @@ format:
   html:
     code-fold: true
     code-summary: "Code aufklappen"
+    fig-align: center
 ---
 
 **Imports**
@@ -17,6 +18,7 @@ format:
 ```{r}
 #| code-fold: show
 #| message: false
+#| label: Imports-Liberaries 
 library(tidyverse)
 library(skimr)
 library(lubridate)
@@ -36,6 +38,7 @@ Auf Grundlage allgemeiner Annahmen zur Verkehrssicherheit erwarten wir, dass ung
 In diesem Abschnitt wird der Datensatz in die R-Umgebung geladen und einer ersten explorativen Sichtprüfung unterzogen. Das Ziel besteht darin, die grundlegende Struktur der Daten zu erfassen, zentrale Variablentypen zu identifizieren und Auffälligkeiten zu erkennen, welche die Weiterverarbeitung erschweren könnten. Diese initiale Bestandsaufnahme bildet die Grundlage für die nachfolgenden Bereinigungs- und Transformationsschritte. Darüber hinaus dient sie dazu, notwendige Anpassungen an Datentyp, Kodierung und fehlenden Werten zu ermitteln.
 
 ```{r}
+#| label: komplettes-Datenset-anschauen
 dataset <- read.table(
   file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
@@ -77,9 +80,9 @@ wir extrahieren die Uhrzeit und den wochentag aud dem Crash_date, weil in der sp
 In diesem Kapitel wird der Datensatz systematisch bereinigt und für die anschließende Analyse aufbereitet. Das Ziel besteht darin, die Rohdaten in eine konsistent, analysetaugliche Struktur zu überführen. Dazu gehört das Entfernen von Duplikaten, die Korrektur und Vereinheitlichung von Datentypen, die Behandlung fehlender oder unklar kodierter Werte sowie die gezielte Reduktion und Aggregation von Variablen. Darüber hinaus werden neue Merkmale abgeleitet, die zentrale Aspekte des Unfallgeschehens wie den Zeitbezug und die Unfallschwere abbilden. Durch die vorgenommenen Transformationen wird sichergestellt, dass die folgenden AUswertungen inhaltlich interpretierbar und statistisch belastbar sind.
 
 ```{r}
-#glimpse(dataset)
-#skim(dataset)
-#head(dataset)
+glimpse(dataset)
+skim(dataset)
+head(dataset)
 ```
 
 ## Duplikate entfernen
@@ -87,6 +90,7 @@ In diesem Kapitel wird der Datensatz systematisch bereinigt und für die anschli
 Mithilfe der Methode `distinct()` aus dem tidyverse-Package können Duplikate in den Daten identifiziert und entfernt werden. Dieser Schritt ist notwendig, um zu verhindern, dass Analysen durch mehrfach vorkommende identische Datensätze verfälscht werden.
 
 ```{r}
+#|label: Duplikate-finden
 dataset.clean <- dataset %>%
   distinct()
 ```
@@ -102,6 +106,7 @@ ein neues Attribut season fasst die monate zusammen und ordent diese Jahreszeite
 \*\* in ordniale Werte konvertiert
 
 ```{r}
+#label: Feature-Engineering
 dataset.clean <- dataset.clean %>%
   mutate(
     crash_timestamp = mdy_hms(crash_date),
@@ -127,7 +132,7 @@ dataset.clean <- dataset.clean %>%
 Im Folgenden werden die Attribute aufgeführt, auf die sich die nachfolgenden Analysen konzentrieren.
 
 | Kategorie | Attribut | Beschreibung |
-|-----------------------|---------------------|----------------------------|
+|:----------------------|:--------------------|:---------------------------|
 | **Zeitliche Faktoren** | `crash_hour_num` | Stunde des Unfalls (tageszeitliche Muster) |
 |  | `crash_wday_label` | Wochentag des Unfalls (Werktag vs. Wochenende) |
 |  | `crash_month_label` | Monat des Unfalls (saisonale Muster) |
@@ -146,6 +151,7 @@ Im Folgenden werden die Attribute aufgeführt, auf die sich die nachfolgenden An
 : Übersicht der verwendeten Attribute und deren Relevanz für die Analyse {#tbl-attributes}
 
 ```{r}
+#| label: verschiedene-Faktoren
 dataset.clean <- dataset.clean %>%
   select(
     # Zeitliche Faktoren 
@@ -164,6 +170,7 @@ dataset.clean <- dataset.clean %>%
 Werte, die nicht bekannt sind, werden häufig als „Unknown“, „Unable to determine“ oder ähnliche Einträge erfasst. Treten solche Werte in einer Spalte häufig auf, kann dies die Analyse verzerren, da sie den Großteil der Daten ausmachen und den Fokus auf relevante Informationen verschieben. Deshalb werden install.packages("skimr")diese Werte einheitlich auf NA gesetzt, sodass sie in der Analyse gruppiert betrachtet und bei Bedarf ausgeschlossen werden können.
 
 ```{r}
+#| label: Datenwerte-bereinigen
 dataset.clean <- dataset.clean %>%
   mutate(
     prim_contributory_cause = na_if(prim_contributory_cause, "UNABLE TO DETERMINE"),
@@ -181,6 +188,7 @@ dataset.clean <- dataset.clean %>%
 
 ```{r}
 #| code-fold: show
+#| label: Gruppierung-der-Werte
 dataset.clean <- dataset.clean %>%
   mutate(
     # Wir erstellen eine vereinfachte Kategorie
@@ -252,6 +260,7 @@ dataset.clean <- dataset.clean %>%
 In der Spalte intersection_related_i sind boolsche Werte enthalten, aber als Y und N in charactes formatiert. hier sollten diese in TRUE und FALSE überführt werden.
 
 ```{r}
+#| label: True/False-behandlung 
 dataset.clean <- dataset.clean %>%
   mutate(
     intersection_related_i = if_else(intersection_related_i == "Y", TRUE, FALSE)
@@ -277,6 +286,9 @@ Hier prüfen wir wie Verkehrsunfälle mit dem Wochentag, Jahreszeit oder der Uhr
 Für den ersten Überblick dient eine Heatmap zur Unfallhäufigkeit mit marginalen Histogrammen um zeitliche Muster besser zu identifizieren.
 
 ```{r}
+#| label: fig-timeanalysis
+#| fig-cap: "Unfallhäufigkeit an Wochentagen und Uhrzeiten mit Randverteilungen"
+
 # Histogramm Mitte (Heatmap)
 dataset.timeAnalyse.plot1.heatmap_data <- dataset.clean %>%
   filter(!is.na(crash_wday_label), !is.na(crash_hour_num)) %>%
@@ -315,7 +327,7 @@ dataset.timeAnalyse.plot1.plot_top + plot_spacer() + dataset.timeAnalyse.plot1.p
   ) +
   plot_annotation(
     title = "Unfallhäufigkeit an Wochentagen und Uhrzeiten",
-    subtitle = "Kombination aus detailierten Zeitverlauf (Heatmap) und aggregierten Gesamtwerten an den Rändern",
+    #subtitle = "Kombination aus detailierten Zeitverlauf (Heatmap) und aggregierten Gesamtwerten an den Rändern",
     theme = theme(plot.title = element_text(face = "bold"))
   )
 ```
@@ -331,6 +343,8 @@ Interesant ist der signifikanten Wandel im Unfallgeschehen zwischen Wochenende u
 Die daraus resultierende Hypothese, dass die erhöhte Unfallschwere nachts auf 'Party-Verkehr' zurückzuführen ist, muss bewiesen werden. Hierzu wird die Unfallursache 'Alkohol' isoliert betrachtet und ihr zeitliches Auftreten analysiert.
 
 ```{r}
+#| label: fig-alcohol-time
+#| fig-cap: "Zeitlicher Verlauf alkoholbedingter Unfälle im Tagesverlauf"
 dataset.timeAnalyse.plot2.alcohol_trend <- dataset.clean %>%
   filter(!is.na(crash_hour_num)) %>%
   mutate(is_alcohol = grepl("ALCOHOL|INTOXICATED", cause_group, ignore.case = TRUE)) %>%
@@ -341,8 +355,8 @@ ggplot(dataset.timeAnalyse.plot2.alcohol_trend, aes(x = crash_hour_num, y = n)) 
   geom_line(color = "#b00b1e", linewidth = 1.2) +
   scale_x_continuous(breaks = seq(0, 23, 2)) +
   labs(
-    title = "'Party-Hypothese'",
-    subtitle = "Anzahl der alkoholbedingten Unfälle nach Uhrzeit",
+    #subtitle = "'Party-Hypothese'",
+    title = "Anzahl der alkoholbedingten Unfälle nach Uhrzeit",
     x = "Uhrzeit",
     y = "Anzahl Alkohol-Unfälle"
   ) +
@@ -367,6 +381,8 @@ Die folgenden Grafiken sind mit Reiter struktureirt und zeigen entweder den Mona
 Um noch die Sasionale Komponente zu betrachten dient diese Art von Kreisdiagramm. Ein Blick auf die Monate zeigt, ob es im Winter (Glatteis/Dunkelheit) oder Sommer (Ferienverkehr) häufiger zu einem Unfall kommt.
 
 ```{r}
+#| label: fig-month-cycle
+#| fig-cap: "Unfallhäufigkeit und Verletzungsanteil im Jahresverlauf"
 dataset.timeAnalyse.plot3.data_month <- dataset.clean %>%
   filter(!is.na(crash_month_label), !is.na(has_injury)) %>%
   count(crash_month_label, has_injury) %>%
@@ -386,7 +402,7 @@ dataset.timeAnalyse.plot3.plot_month <- ggplot(dataset.timeAnalyse.plot3.data_mo
             fontface = "bold", 
             size = 4,
             nudge_y = 5000) +
-  labs(title = "Monats-Zyklus (Januar bis Dezember)", subtitle = "Anteil Personenschäden pro Monat", x = NULL, y = NULL) +
+  labs(title = "Monats-Zyklus (Januar bis Dezember)", x = NULL, y = NULL) +
   theme_minimal() +
   theme(
     axis.text.y = element_blank(),
@@ -414,6 +430,8 @@ Das globale Minimum des Unfallgeschehens – sowohl nach Anzahl als auch nach Sc
 Hier wird der Verlauf der Unfallhäufigkeit und der Schwere über die Wochentage verteilt dargestellt.
 
 ```{r}
+#| label: fig-week-cycle
+#| fig-cap: "Unfallhäufigkeit und Verletzungsanteil im Wochenverlauf"
 dataset.timeAnalyse.plot3.data_week <- dataset.clean %>%
   filter(!is.na(crash_wday_label), !is.na(has_injury)) %>%
   count(crash_wday_label, has_injury) %>%
@@ -434,7 +452,7 @@ dataset.timeAnalyse.plot3.plot_week <- ggplot(dataset.timeAnalyse.plot3.data_wee
             fontface = "bold", 
             size = 4,
             nudge_y = 5000) +
-  labs(title = "Wochen-Zyklus (Montag bis Sonntag)", subtitle = "Anteil Personenschäden pro Wochentag", x = NULL, y = NULL) +
+  labs(title = "Wochen-Zyklus (Montag bis Sonntag)", x = NULL, y = NULL) +
   theme_minimal() +
   theme(
     axis.text.y = element_blank(),
@@ -456,6 +474,8 @@ Das Wochenend-Phänomen, wie es auch schon in der Heatmap zu sehen ist. Der Frei
 Aus Gründen der Übersichtlichkeit und zur detaillierten Analyse wird der Tageszyklus (0–23 Uhr) in zwei komplementäre Darstellungen unterteilt - einmal nach dem Schema wie bei Monats- und Wochen-Zyklus und das andermal im Detail auf das tatsächliche Risiko.
 
 ```{r}
+#| label: fig-day-cycle
+#| fig-cap: "Absolute Unfallhäufigkeit und relative Unfallschwere im Tagesverlauf"
 dataset.timeAnalyse.plot3.data_hour <- dataset.clean %>%
   filter(!is.na(crash_hour_num), !is.na(has_injury)) %>%
   count(crash_hour_num, has_injury) %>%
@@ -515,7 +535,6 @@ dataset.timeAnalyse.plot3.plot_hour_total + dataset.timeAnalyse.plot3.plot_hour_
   plot_layout(guides = "collect") +
   plot_annotation(
     title = "Tages-Zyklus (0-23h)",
-    subtitle = "Anteil Personenschäden pro Stunde",
     theme = theme(plot.title = element_text(size = 16, face = "bold")),
   ) &
   theme(legend.position = "bottom")
@@ -552,6 +571,8 @@ Zunächst untersuchen wir den Zusammenhang zwischen dem Straßentyp und der Verl
 ##### Verletzungsrate (relativ)
 
 ```{r}
+#| label: fig-street-injury-rate
+#| fig-cap: "Verletzungsrate nach Straßentyp"
 dataset_verkehrsanalyse <- dataset.clean %>%
   filter(!is.na(trafficway_type_simple), !is.na(has_injury)) %>%
   group_by(trafficway_type_simple) %>%
@@ -581,6 +602,8 @@ Bei der Interpretation ist jedoch zu beachten, dass die absolute Unfallhäufigke
 ##### Absolute Unfallhäufigkeit
 
 ```{r}
+#| label: fig-street-absolute
+#| fig-cap: "Absolute Anzahl verletzter Personen nach Straßentyp"
 ggplot(dataset_verkehrsanalyse, aes(x = anzahl_verletzte, y = reorder(trafficway_type_simple, anzahl_verletzte))) + 
   geom_col(fill = "#b00b1e") + 
   labs(
@@ -603,6 +626,7 @@ Während bei Intersections fast jeder dritte Unfall mit Verletzten endet, gesche
 Damit wir die Vermutung über die Gründe für die unterschiedliche Gefährlichkeit zu überprüfen müssen wir anhand einer Grafik den Zusammenhang zwischen Straßentyp und Unfalltyp darstellen. Außerdem muss klargestellt werden auf welche Unfalltypen wir achten. Um die Hypothesen zu belegen, brauchen wir auf jeden Fall Head On (hier: Fronttalzusammenstoß), Angle (hier: seitlicher Aufprall) und Turning (hier: abbiegen).
 
 ```{r}
+#| label: Datensatz vorbereiten für gefährlichste Unfalltypen
 dataset.unfalltypen <- dataset.clean %>% 
   filter(!is.na(trafficway_type_simple), !is.na(first_crash_type), !is.na(has_injury)) %>% 
   group_by(trafficway_type_simple, first_crash_type) %>% 
@@ -623,6 +647,8 @@ top_unfalltypen <- dataset.unfalltypen %>%
 In den Top 10 Unfalltypen nach absoluter Häufigkeit sind alle drei für unsere Hypothesne relevanten Typen ("Head On", "Angle", "Turning") enthalten. Deswegen reichen die Top 10 in der folgenden Heatmap.
 
 ```{r}
+#| label: fig-crash-type-heatmap
+#| fig-cap: "Verletzungsrate nach Unfalltyp und Straßentyp"
 dataset.unfalltypen.top10 <- dataset.unfalltypen %>%
   filter(first_crash_type %in% top_unfalltypen)
 
@@ -631,7 +657,7 @@ ggplot(dataset.unfalltypen.top10, aes(x = first_crash_type, y = trafficway_type_
   geom_text(aes(label = round(verletzungsrate, 1)), color = "black", size = 3) +
   scale_fill_gradient(low = "#f0f0f0", high = "#b00b1e", name = "Verletzungsrate (%)") +
   labs(
-    title = "Heatmap",
+    title = "Verletzungsrate abhängig von Straßentyp und Unfalltyp",
     x = "Unfalltyp",
     y = "Straßentyp"
   ) +
@@ -652,6 +678,7 @@ Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. Head On Unfä
 Um das konkret zu prüfen, analysieren wir den Zusammenhang zwischen Verkehrsregelung und Unfalltyp. Hierzu muss entschieden werden, welche Verkehrslagen überhaupt vorhanden ist und ob alle Verkerslagen benutzt wird.
 
 ```{r}
+#| label: Daten vorbereiten Verkehrssituation 
 dataset.verkehrslage <- dataset.clean %>%
   filter(!is.na(first_crash_type), !is.na(traffic_control_device), !is.na(has_injury)) %>%
   group_by(first_crash_type, traffic_control_device) %>% 
@@ -669,7 +696,8 @@ top_verkehrslage <- dataset.verkehrslage %>%
 Nach besichtigung der Verkehrslagen ist klar, man kann nicht alle benutzen, das würde den Rahmen sprengen. Es steht aber fest, das die Top 5 schon die Mehrheit der Häufigkeit wiederspiegelt. Allerdings beschränken wir uns auf "Traffic Signal", "Stop Sign/Flasher", "No Control", "Yield" und "Pedestrian Crossing Sign". Jetzt ist die Frage, welche Unfalltypen wir betrachten wollen, es der vorherigen Heatmap hebt sich Pedalcyclist, Pedastrian, Angle, Fixed Object und Head on hervor.
 
 ```{r}
-#| label: gruppiertes Balkendiagramm
+#| label: fig-traffic-control-injury
+#| fig-cap: "Verletzungsrate nach Unfalltyp und Verkehrsregelung"
 top_unfalltypen_top5 <- c("PEDESTRIAN", "PEDALCYCLIST", "ANGLE",
                          "HEAD ON", "FIXED OBJECT")
 
@@ -720,6 +748,7 @@ Vor diesem Hintergund liegt der Fokus der Analyse nicht auf der absoluten Unfall
 #### Datenbasis: Verteilung der Wetterbedingungen {.unnumbered}
 Bevor die Unfallschwere analysiert wird, soll zunächst die Häufigkeitsverteilung der Wetterkategorien im unbereinigten Datensatz betrachtet werden, um die zugrundeliegende Datenbasis besser zu verstehen und die statistische Belastbarkeit der einzelnen Kategorien einzuschätzen.
 ```{r}
+#| label: Datenbasis-Wetterbedingungen
 dataset %>%
   count(weather_condition) %>%
   mutate(
@@ -745,6 +774,7 @@ dataset %>%
   ) %>%
   arrange(desc(`Anzahl Unfälle`))
 ```
+
 Wie diese Übersicht zeigt, wird der Datensatz von den Wetterkategorien "Klar" und "Regen" dominiert. Extreme Wetterlagen wie "Aufgewirbelter Sand/Staub" und "Starker Seitenwind" treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt. Dies muss bei der Interpretation der Ergebnisse berücksichtigt werden, da eine unzureichende Datenlage die statistische Belastbarkeit der Kategorie vermindert.  
 Die Kategorie "Sonstige" fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar.   
 Die Kategorie "Unbekannt" kennzeichnet Fälle, in denen keine Wetterinformation erhoben wurde. Diese Beobachtungen wurden im Bereinigungsschritt in Kapitel 3 aus dem Datensatz für die Analyse entfernt, da sie keiner Wetterkategorie zugeordnet werden können und somit die Berechnung und den Vergleich wetterbezogener Unfallraten verfälschen können.
@@ -754,6 +784,7 @@ Die Kategorie "Unbekannt" kennzeichnet Fälle, in denen keine Wetterinformation 
 Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung (weather_condition) berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit. 
 
 ```{r}
+#| label: Datensatz-vorbereiten-für-Plot
 dataset.weatherAnalysis.weather_summary <- dataset.clean %>% 
   filter(!is.na(weather_condition), !is.na(has_injury)) %>%
   group_by(weather_condition) %>%
@@ -768,6 +799,8 @@ dataset.weatherAnalysis.weather_summary <- dataset.clean %>%
 #### Absolute Unfallhäufigkeit {.unnumbered}
 Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie in einem Balkendiagramm dargestellt. Dieses entspricht inhaltlich der Aufstellung in Tabelle ........., aber dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und soll einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere ermöglichen.
 ```{r}
+#| label: fig-weather-absolute
+#| fig-cap: "Absolute Unfallhäufigkeit nach Wetterlage"
 weather_labels <- c(
   "CLEAR" = "Klar",
   "CLOUDY/OVERCAST" = "Bewölkt",
@@ -798,11 +831,14 @@ dataset.weatherAnalysis.plot_absoluteAccidentNumber <- ggplot(
 
 dataset.weatherAnalysis.plot_absoluteAccidentNumber
 ```
+
 Die Darstellung verdeutlicht noch einmal die starke Dominanz günstiger Wetterbedingungen bei Unfällen: Diese machen den überwiegenden Teil des Datensatzes aus, während extreme Wetterlagen seltener sind.
 
 #### Relative Unfallschwere {.unnumbered}
 Im nächsten Schritt wird die Verletzungsrate für jede Wetterkategorie dargestellt. Diese wurde zuvor als Anteil der Unfälle mit Verletzten an allen Unfällen der jeweiligen Wetterkategorie berechnet.
 ```{r}
+#| label: fig-weather-injury-rate
+#| fig-cap: "Verletzungsrate nach Wetterlage"
 dataset.weatherAnalysis.plot_injuryRate <- ggplot(
     dataset.weatherAnalysis.weather_summary,
     aes(x = verletzungsrate, y = reorder(weather_condition, verletzungsrate))
@@ -837,6 +873,8 @@ Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, di
 Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis verstehen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.
 
 ```{r}
+#|label: Datenbasis-Lichtverhältnisse
+
 dataset %>% 
   count(lighting_condition) %>%
   mutate(
@@ -856,11 +894,13 @@ dataset %>%
   ) %>%
   arrange(desc(`Anzahl Unfaelle`))
 ```
+
 Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie "Dunkelheit (unbeleuchtet)", "Dämmerung"" und "Morgendämmerung" sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.
 
 #### Methodisches Vorgehen {.unnumbered}
 In die Analyse werden alle Unfälle mit gültigen Angaben zu den Lichtverhältnissen (lighting_condition) und zur Unfallschwere (has_injury) einbezogen. Für jede Kategorie der Lichtverhältnisse wird sowohl die absolute Anzahl der Unfälle als auch die Verletzungsrate berechnet. Letztere ermöglicht den Vergleich der relativen Unfallschwere zwischen den Kategorien, unabhängig davon, wie häufig die jeweiligen Lichtverhältnisse auftreten.
 ```{r}
+#| label: Daten-vorbereiten-Lichtverhältnisse
 dataset.lightingAnalysis.lighting_summary <- dataset.clean %>%
   filter(!is.na(lighting_condition), !is.na(has_injury)) %>%
   group_by(lighting_condition) %>%
@@ -875,6 +915,8 @@ dataset.lightingAnalysis.lighting_summary <- dataset.clean %>%
 #### Absolute Unfallhäufigkeit {.unnumbered}
 Zunächst erfolgt die Visualisierung der in Tabelle ............ dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.
 ```{r}
+#| label: fig-lighting-absolute
+#| fig-cap: "Absolute Unfallhäufigkeit nach Lichtverhältnissen"
 lighting_labels <- c(
   "DAYLIGHT" = "Tageslicht",
   "DARKNESS, LIGHTED ROAD" = "Dunkelheit (beleuchtet)",
@@ -899,11 +941,14 @@ dataset.lightingAnalysis.plot_absolute <- ggplot(
 
   dataset.lightingAnalysis.plot_absolute
 ```
+
 Die deutlich geringeren Unfallzahlen in den Kategorien "Dämmerung", "Morgendämmerung" und "Dunkelheit (unbeleuchtet)" werden vermutlich durch strukturelle und verhaltensbezogene Faktoren hervorgerufen. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtlich ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.
 
 #### Relative Unfallschwere {.unnumbered}
 Im nächsten Schritt wird die Verletzungsrate für jede Kategorie der Lichtverhältnisse dargestellt.
 ```{r}
+#| label: fig-lighting-injury-rate
+#| fig-cap: "Verletzungsrate nach Lichtverhältnissen"
 dataset.lightingAnalysis.plot_injuryRate <- ggplot(
   dataset.lightingAnalysis.lighting_summary,
   aes(x = verletzungsrate,
@@ -920,6 +965,7 @@ dataset.lightingAnalysis.plot_injuryRate <- ggplot(
 
 dataset.lightingAnalysis.plot_injuryRate
 ```
+
 Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der Abstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert.
 Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was sich durch das deutlich höhere Verkehrsaufkommen erklären lässt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen.
 In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können.
@@ -936,6 +982,7 @@ Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, di
 Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der Einordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um statistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.
 
 ```{r}
+#| label: Datenbasis-Fahrbahnzustand
 dataset %>%
   count(roadway_surface_cond) %>%
   mutate(
@@ -956,12 +1003,14 @@ dataset %>%
   ) %>%
   arrange(desc(`Anzahl Unfälle`))
 ```
+
 Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und für die Kategorie "Sand/Schmutz" stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden sollte.
 Die Beobachtungen der Kategorie "Unbekannt" wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können. 
 
 #### Methodisches Vorgehen {.unnumbered}
 Wie bei den vorigen Analysen werden nur Unfallbeobachtungen mit gültigen Angaben zur analysierten Variable einbezogen. Für jede Kategorie des Fahrbahnzustands werden absolute Unfallanzahl und Verletzungsrate berechnet.
 ```{r}
+#| label: Daten-vorbereiten-Fahrbahnzustände
 dataset.roadwayAnalysis.roadway_summary <- dataset.clean %>%
   filter(!is.na(roadway_surface_cond), !is.na(has_injury)) %>%
   group_by(roadway_surface_cond) %>%
@@ -976,6 +1025,8 @@ dataset.roadwayAnalysis.roadway_summary <- dataset.clean %>%
 #### Absolute Unfallhäufigkeit {.unnumbered}
  Für eine bessere Visualisierung und Vergleichbarkeit mit dem darauf folgenden Diagramm zur relativen Unfallschwere wird hier zunächst die absolute Unfallhäufigkeit dargestellt.
 ```{r}
+#| label: fig-roadway-absolute
+#| fig-cap: "Absolute Unfallhäufigkeit nach Fahrbahnzustand"
 roadway_labels <- c(
   "DRY" = "Trocken",
   "WET"= "Nass",
@@ -1004,6 +1055,8 @@ dataset.roadwayAnalysis.plot_absolute
 #### Relative Unfallschwere {.unnumbered}
 Im nächsten Schritt wird die Verletzungsrate für jeden Fahrbahnzustand dargestellt, welche den Vergleich der Unfallschwere der verschiedenen Kategorien unabhängig von deren Unfallhäufigkeit erlaubt.
 ```{r}
+#| label: fig-roadway-injury-rate
+#| fig-cap: "Verletzungsrate nach Fahrbahnzustand"
 dataset.roadwayAnalysis.roadway_injuryRate <- ggplot(
   dataset.roadwayAnalysis.roadway_summary,
   aes(x = verletzungsrate, y = reorder(roadway_surface_cond, verletzungsrate))
