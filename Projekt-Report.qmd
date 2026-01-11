@@ -12,9 +12,11 @@ format:
     code-summary: "Code aufklappen"
 ---
 
-### Imports
+**Imports**
 
 ```{r}
+#| code-fold: show
+#| message: false
 library(tidyverse)
 library(skimr)
 library(lubridate)
@@ -55,22 +57,23 @@ Beschreiben Sie, was Sie tun müssen, bevor Sie die Daten im nächsten Abschnitt
 dataset <- read.table(
   file ="dataset_traffic_accidents.csv", sep = ",", header=T, stringsAsFactors = F
 )
+glimpse(dataset)
 
-#lapply(dataset, unique)
-#str(dataset)
+str(dataset)
 
 
 
-# optional
-#head(dataset, 3)
-#dim(dataset)
+#optional
+head(dataset, 3)
+dim(dataset)
 
+# view funktioniert nur in der Konsole nicht in qmd
 #View(dataset)
 
 
-#colSums(is.na(dataset))
-#sapply(dataset, class)
-#table(dataset$weather_condition)
+colSums(is.na(dataset))
+sapply(dataset, class)
+table(dataset$weather_condition)
 
 ```
 
