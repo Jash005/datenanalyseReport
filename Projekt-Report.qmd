@@ -18,7 +18,7 @@ format:
 ```{r}
 #| code-fold: show
 #| message: false
-#| label: Imports-Liberaries 
+# label: imports-libraries
 library(tidyverse)
 library(skimr)
 library(lubridate)
@@ -260,7 +260,7 @@ dataset.clean <- dataset.clean %>%
 In der Spalte intersection_related_i sind boolsche Werte enthalten, aber als Y und N in charactes formatiert. hier sollten diese in TRUE und FALSE überführt werden.
 
 ```{r}
-#| label: True/False-behandlung 
+#| label: True-False-behandlung
 dataset.clean <- dataset.clean %>%
   mutate(
     intersection_related_i = if_else(intersection_related_i == "Y", TRUE, FALSE)
@@ -626,7 +626,7 @@ Während bei Intersections fast jeder dritte Unfall mit Verletzten endet, gesche
 Damit wir die Vermutung über die Gründe für die unterschiedliche Gefährlichkeit zu überprüfen müssen wir anhand einer Grafik den Zusammenhang zwischen Straßentyp und Unfalltyp darstellen. Außerdem muss klargestellt werden auf welche Unfalltypen wir achten. Um die Hypothesen zu belegen, brauchen wir auf jeden Fall Head On (hier: Fronttalzusammenstoß), Angle (hier: seitlicher Aufprall) und Turning (hier: abbiegen).
 
 ```{r}
-#| label: Datensatz vorbereiten für gefährlichste Unfalltypen
+#| label: Datensatz-vorbereiten-für-gefährlichste-Unfalltypen
 dataset.unfalltypen <- dataset.clean %>% 
   filter(!is.na(trafficway_type_simple), !is.na(first_crash_type), !is.na(has_injury)) %>% 
   group_by(trafficway_type_simple, first_crash_type) %>% 
@@ -678,7 +678,7 @@ Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. Head On Unfä
 Um das konkret zu prüfen, analysieren wir den Zusammenhang zwischen Verkehrsregelung und Unfalltyp. Hierzu muss entschieden werden, welche Verkehrslagen überhaupt vorhanden ist und ob alle Verkerslagen benutzt wird.
 
 ```{r}
-#| label: Daten vorbereiten Verkehrssituation 
+#| label: Daten-vorbereiten-Verkehrssituation 
 dataset.verkehrslage <- dataset.clean %>%
   filter(!is.na(first_crash_type), !is.na(traffic_control_device), !is.na(has_injury)) %>%
   group_by(first_crash_type, traffic_control_device) %>% 
