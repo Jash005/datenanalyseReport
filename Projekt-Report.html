@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-10">
+<meta name="dcterms.date" content="2026-01-11">
 
 <title>Report - Traffic Accidents</title>
 <style>
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 10, 2026</p>
+      <p class="date">January 11, 2026</p>
     </div>
   </div>
   
@@ -1025,15 +1025,15 @@ the `.groups` argument.</code></pre>
 <h3 class="anchored" data-anchor-id="untersuchung-von-wetter-und-umgebungsbedingungen">Untersuchung von Wetter und Umgebungsbedingungen</h3>
 <section id="zielsetzung-und-analytischer-rahmen" class="level4">
 <h4 class="anchored" data-anchor-id="zielsetzung-und-analytischer-rahmen">Zielsetzung und analytischer Rahmen</h4>
-<p>Neben zeitlichen und infrastrukturellen Faktoren beeinflussen auch die Umgebungsbedingungen wie die Wetterlage, die Lichtverhältnisse und der Fahrbahnzustand die Entstehung von Unfällen. Sie beeinflussen die Sichtweite, die Reaktionsfähigkeit und die physikalischen Eigenschaften des Fahrzeugs und wirken sich somit auf die Wahrscheinlichkeit von Unfällen und die Schwere der Unfallfolgen aus.</p>
+<p>Neben zeitlichen und infrastrukturellen Faktoren beeinflussen auch die Umgebungsbedingungen wie die Wetterlage, die Lichtverhältnisse und der Fahrbahnzustand die Entstehung von Unfällen. Sie wirken sich auf die Sichtweite, die Reaktionsfähigkeit und die physikalischen Eigenschaften des Fahrzeugs aus und bestimmen somit die Wahrscheinlichkeit von Unfällen und die Schwere der Unfallfolgen.</p>
 <p>In diesem Abschnitt wird untersucht, ob bestimmte Umweltbedingungen systematisch mit einer erhöhten relativen Unfallschwere einhergehen. Wie bei den vorherigen Analysen wird dabei bewusst zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Im Fokus steht nicht die Frage, unter welchen Bedingungen die meisten Unfälle auftreten, sondern unter welchen Bedingungen ein Unfall mit höherer Wahrscheinlichkeit zu Personenschäden führt.</p>
-<p>Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, keine kausalen Schlussfolgerungen erzielen.</p>
+<p>Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob es bei einem Unfall Verletzte gab oder nicht. Die Analyse ist deskriptiver Natur und soll das Entdecken systematischer Muster unterstützen, und keine kausalen Schlussfolgerungen erzielen.</p>
 </section>
 <section id="wetter-und-unfallschwere" class="level4">
 <h4 class="anchored" data-anchor-id="wetter-und-unfallschwere">Wetter und Unfallschwere</h4>
 <section id="analytischer-fokus" class="level5">
 <h5 class="anchored" data-anchor-id="analytischer-fokus">Analytischer Fokus</h5>
-<p>Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, aber sollte dennoch differenziert betrachtet werden. Das Wetter wirkt nicht als einheitlicher Faktor, sondern beeinflusst verschiedene Aspekte der Fahrsituation, z.B. die Sichtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, welche wiederum zu veränderten Bremswegen oder einer eingeschränkten Stabilität bei Nässe, Schnee oder Eis führen. Gleichzeitig beeinflussen Wetterlagen auch das Verkehrsaufkommen und das Fahrverhalten. Bei ungünstigen Bedingungen wird häufig vorsichtiger gefahren oder auf Fahrten verzichtet, wodurch sich die Anzahl der Unfälle reduzieren kann. Diese Anpassungen betreffen jedoch nicht zwangsläufig die Schwere der Unfälle, wenn es dennoch zu einer Kollision kommt. Vor diesem Hintergund liegt der Fokus der Analyse nicht auf der absoluten Unfallhäufigkeit bei bestimmten Wetterlagen, sondern auf der Frage, ob sich unter unterschiedlichen Wetterbedingungen systematische Unterschiede in der Unfallschwere zeigen. Untersucht wird, ob die Wahrscheinlichkeit von Personenschäden zwischen den Wetterkategorien variiert, unabhängig davon, wie häufig diese Bedingungen auftreten.</p>
+<p>Der Einfluss von Wetterbedingungen auf Verkehrsunfälle scheint auf den ersten Blick naheliegend, aber sollte dennoch differenziert betrachtet werden. Das Wetter wirkt sich nicht als einheitlicher Faktor auf das Unfallgeschehen aus, sondern beeinflusst verschiedene Aspekte der Fahrsituation, z.B. die Sichtverhältnisse, die Beschaffenheit der Fahrbahn und die Fahrzeugkontrolle, welche wiederum zu veränderten Bremswegen oder einer eingeschränkten Stabilität bei Nässe, Schnee oder Eis führen. Gleichzeitig beeinflussen Wetterlagen auch das Verkehrsaufkommen und das Fahrverhalten. Bei ungünstigen Bedingungen wird häufig vorsichtiger gefahren oder auf Fahrten verzichtet, wodurch sich die Anzahl der Unfälle reduzieren kann. Diese Anpassungen betreffen jedoch nicht zwangsläufig die Schwere der Unfälle, wenn es dennoch zu einer Kollision kommt. Vor diesem Hintergund liegt der Fokus der Analyse nicht auf der absoluten Unfallhäufigkeit bei bestimmten Wetterlagen, sondern auf der Frage, ob sich unter unterschiedlichen Wetterbedingungen systematische Unterschiede in der Unfallschwere zeigen. Untersucht wird, ob die Wahrscheinlichkeit von Personenschäden zwischen den Wetterkategorien variiert, unabhängig davon, wie häufig diese Bedingungen auftreten.</p>
 </section>
 <section id="datenbasis-verteilung-der-wetterbedingungen" class="level5">
 <h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-wetterbedingungen">Datenbasis: Verteilung der Wetterbedingungen</h5>
@@ -1088,7 +1088,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </section>
 <section id="methodisches-vorgehen" class="level5">
 <h5 class="anchored" data-anchor-id="methodisches-vorgehen">Methodisches Vorgehen</h5>
-<p>Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit.</p>
+<p>Zur Analyse des Einflusses der Wetterlage werden alle Unfälle mit einer gültigen Angabe zur Wetterbedingung (weather_condition) berücksichtigt. Für jede Wetterkategorie wird sowohl die Gesamtzahl der Unfälle als auch der relative Anteil der Unfälle mit Personenschäden ermittelt. Die Verletzungsrate ergibt sich dabei als Mittelwert der binären Variable has_injury und kann direkt als prozentualer Anteil interpretiert werden. Dieses Vorgehen ermöglicht den Vergleich der Gefährlichkeit verschiedener Wetterlagen unabhängig von deren Auftrittshäufigkeit.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1147,11 +1147,11 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </div>
 </div>
 </div>
-<p>Die Darstellung verdeutlicht noch einmal die starke Dominanz günstiger Wetterbedingungen bei Unfällen: Diese machen den überwiegenden Teil des Datensatzes aus, während extreme Wetterlagen selten sind.</p>
+<p>Die Darstellung verdeutlicht noch einmal die starke Dominanz günstiger Wetterbedingungen bei Unfällen: Diese machen den überwiegenden Teil des Datensatzes aus, während extreme Wetterlagen seltener sind.</p>
 </section>
 <section id="visualisierung-der-relativen-unfallschwere" class="level5">
 <h5 class="anchored" data-anchor-id="visualisierung-der-relativen-unfallschwere">Visualisierung der relativen Unfallschwere</h5>
-<p>Im nächsten Schritt wird die Verletzungsrate für jede Wetterkategorie dargestellt. Diese wurde zuvor als Anteil der Unfälle mit Verletzten an allen Unfällen der jeweiligen Wetterkategorie berechnet. Durch diese Normierung auf die jeweilige Unfallzahl lassen sich die Wetterlagen unabhängig von ihren absoluten Häufigkeiten miteinander vergleichen.</p>
+<p>Im nächsten Schritt wird die Verletzungsrate für jede Wetterkategorie dargestellt. Diese wurde zuvor als Anteil der Unfälle mit Verletzten an allen Unfällen der jeweiligen Wetterkategorie berechnet.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1182,18 +1182,17 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 <section id="interpretation-der-ergebnisse" class="level5">
 <h5 class="anchored" data-anchor-id="interpretation-der-ergebnisse">Interpretation der Ergebnisse</h5>
 <p>Die Analyse zeigt deutliche Unterschiede in der relativen Unfallschwere zwischen den verschiedenen Wetterkategorien. Besonders hohe Verletzungsraten treten bei seltenen oder extremen Wetterlagen wie “Schneeregen/Hagel”, “Gefrierender Regen/Niesel” sowie “Nebel/Rauch/Dunst” auf. In diesen Kategorien liegt der Anteil der Unfälle mit Personenschäden bei etwa 30 Prozent oder mehr.</p>
-<p>Demgegenüber weisen die Kategorien “Klar” und “Bewölkt” trotz sehr hoher absoluter Unfallzahlen deutlich niedrigere Verletzungsarten auf. Der Vergleich mit der absoluten Unfallhäufigkeit macht somit deutlich, dass hohe Unfallzahlen nicht mit hoher Unfallschwere gleichzusetzen sind.</p>
+<p>Demgegenüber weisen die Kategorien “Klar” und “Bewölkt” trotz sehr hoher absoluter Unfallzahlen deutlich niedrigere Verletzungsraten auf. Der Vergleich mit der absoluten Unfallhäufigkeit macht somit deutlich, dass hohe Unfallzahlen nicht mit hoher Unfallschwere gleichzusetzen sind.</p>
 <p>Die Kategorie “Regen” nimmt eine Zwischenstellung ein: Sie ist häufig vertreten und gleichzeitig mit einer relativ hohen Verletzungsrate verbunden. Dies deutet darauf hin, dass bereits moderate Einschränkungen der Sicht oder der Fahrbahnhaftung die Unfallfolgen verschärfen können.</p>
-<p>Auffällig ist, dass Wetterlagen wie “Schnee”, “Treibschnee” und “Starker Seitenwind” trotz der grundsätzlich erschwerten Fahrbedingungen vergleichsweise niedrigere Verletzungsraten aufweisen als einige häufigere Wetterlagen. Ein plausibler Erklärungsansatz hierfür ist die situationsbedinte Anpassung des Fahrverhaltens: Bei offensichtlich widrigen Bedingungen reduzieren Verkehrsteilnehmende ihre Geschwindigkeit, erhöhen die ABstände zueinander und vermeidne riskante Fahrmanöver. Dadurch sinkt zwar nicht unbedingt die Unfallwahrscheinlichkeit, wohl aber die Aufprallenergie und somit die Schwere der Unfallfolgen.</p>
+<p>Auffällig ist, dass Wetterlagen wie “Schnee”, “Treibschnee” und “Starker Seitenwind” trotz der grundsätzlich erschwerten Fahrbedingungen vergleichsweise niedrigere Verletzungsraten aufweisen als einige häufigere Wetterlagen. Ein plausibler Erklärungsansatz hierfür ist die situationsbedinte Anpassung des Fahrverhaltens: Bei offensichtlich widrigen Bedingungen reduzieren viele Verkehrsteilnehmende ihre Geschwindigkeit, erhöhen die Abstände zueinander und vermeiden riskante Fahrmanöver. Dadurch sinkt zwar nicht unbedingt die Unfallwahrscheinlichkeit, aber die Aufprallenergie und somit die Schwere der Unfallfolgen.</p>
 <p>Die sehr geringe Verletzungsrate in der Kategorie “Aufgewirbelter Sand/Staub” ist vor dem Hintergrund der äußerst geringen Fallzahlen zu intepretieren (siehe Tabelle …………). Mit nur einer beobachtetn Unfallmeldung ist diese Kategorie statistisch nicht stabil und erlaubt keine belastbaren Aussagen zur tatsächlichen Gefährlichkeit dieser Wetterlage. Der niedrige Wert spiegelt daher mit hoher Wahrscheinlichkeit einen Stichprobeneffekt wider und nicht ein systematisch geringes Risiko.</p>
-<p>Bei der Interpretation ist zu berücksichtigen, dass Wetterbedingungen nicht isoliert auftreten, sondern systematisch mit weiteren Einflussfaktoren wie Tageszeit, Lichtverhältnissen und Verkehrsaufkommen korrelieren. Die beobachteten Zusammenhänge sind daher als deskriptive Muster zu verstehen, die keine unmittelbaren Rückschlüsse auf kausale Effekte einzelner Wetterbedingungen erlauben.</p>
 </section>
 </section>
 <section id="lichtverhältnisse-und-unfallschwere" class="level4">
 <h4 class="anchored" data-anchor-id="lichtverhältnisse-und-unfallschwere">Lichtverhältnisse und Unfallschwere</h4>
-<section id="analytischer-fokus-lichtverhältnisse" class="level5">
-<h5 class="anchored" data-anchor-id="analytischer-fokus-lichtverhältnisse">Analytischer Fokus: Lichtverhältnisse</h5>
-<p>Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen ,aßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die REaktionszeiten und Fahrentscheidungen auswirkt. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen. Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nciht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt. Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.</p>
+<section id="analytischer-fokus-1" class="level5">
+<h5 class="anchored" data-anchor-id="analytischer-fokus-1">Analytischer Fokus</h5>
+<p>Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen maßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die Reaktionszeiten und Fahrentscheidungen auswirken kann. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen. Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nicht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt. Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.</p>
 </section>
 <section id="datenbasis-verteilung-der-lichtverhältnisse" class="level5">
 <h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-lichtverhältnisse">Datenbasis: Verteilung der Lichtverhältnisse</h5>
@@ -1230,7 +1229,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 6           Morgendämmerung            3724</code></pre>
 </div>
 </div>
-<p>Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen aufteretn. Die übrigen Kategorienwie unbeleuchtete Dunkelheit, Dämmerung und Morgendämmerung sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf. Insgesamt liegen für alle betrachteten Lichtverhältnisse genügend Beobachtungen vor, sodass die Analysen zur relativen Unfallschwere statistisch belastbar sind.</p>
+<p>Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie “Dunkelheit (unbeleuchtet)”, “Dämmerung”” und “Morgendämmerung” sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.</p>
 </section>
 <section id="methodisches-vorgehen-1" class="level5">
 <h5 class="anchored" data-anchor-id="methodisches-vorgehen-1">Methodisches Vorgehen</h5>
@@ -1251,7 +1250,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </section>
 <section id="visualisierung-der-absoluten-unfallhäufigkeit-1" class="level5">
 <h5 class="anchored" data-anchor-id="visualisierung-der-absoluten-unfallhäufigkeit-1">Visualisierung der absoluten Unfallhäufigkeit</h5>
-<p>Zunächst erfolgt die Visualisierung der zuvor in Tabelle ………… dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.</p>
+<p>Zunächst erfolgt die Visualisierung der in Tabelle ………… dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1287,7 +1286,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </div>
 </div>
 </div>
-<p>Die deutlich geringeren Unfallzahlen in den Kategorien “Dämmerung”, “Morgendämmerung” und “unbeleuchtete Dunkelheit” lassen sich durch strukturelle und verhaltensbezogene Faktoren erklären. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtliche ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.</p>
+<p>Die deutlich geringeren Unfallzahlen in den Kategorien “Dämmerung”, “Morgendämmerung” und “Dunkelheit (unbeleuchtet)” werden vermutlich durch strukturelle und verhaltensbezogene Faktoren hervorgerufen. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtlich ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.</p>
 </section>
 <section id="visualisierung-der-relativen-unfallschwere-1" class="level5">
 <h5 class="anchored" data-anchor-id="visualisierung-der-relativen-unfallschwere-1">Visualisierung der relativen Unfallschwere</h5>
@@ -1319,18 +1318,18 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </div>
 </div>
 </div>
-<p>Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der ABstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert. Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was sich durch das deutlich höhere Verkehrsaufkommen erklären lässt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen. In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können. Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeutlicht noch einmal, dass hohe Unfallzahlen nicht zwangsläufig mit hoher Unfallschwere einhergehen. Insbesondere die Dunkelheit stellt ein zentrales Risikomerkmalfür schwere Unfallfolgen dar, während Tageslicht vor allehm von einer relativ hohen Unfallhäufigkeit geprägt ist.</p>
+<p>Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der Abstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert. Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was sich durch das deutlich höhere Verkehrsaufkommen erklären lässt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen. In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können. Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeutlicht noch einmal, dass hohe Unfallzahlen nicht zwangsläufig mit hoher Unfallschwere einhergehen. Insbesondere die Dunkelheit stellt ein zentrales Risikomerkmal für schwere Unfallfolgen dar, während Tageslicht vor allem von einer relativ hohen Unfallhäufigkeit geprägt ist.</p>
 </section>
 </section>
 <section id="fahrbahnzustand-und-unfallschwere" class="level4">
 <h4 class="anchored" data-anchor-id="fahrbahnzustand-und-unfallschwere">Fahrbahnzustand und Unfallschwere</h4>
-<section id="analytischer-fokus-1" class="level5">
-<h5 class="anchored" data-anchor-id="analytischer-fokus-1">Analytischer Fokus</h5>
-<p>Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierteHaftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere unterschiedlich beeinflusst. Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen. ALs Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Personenschäden verbunden war.</p>
+<section id="analytischer-fokus-2" class="level5">
+<h5 class="anchored" data-anchor-id="analytischer-fokus-2">Analytischer Fokus</h5>
+<p>Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierte Haftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahrdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere auf verschiedene Weise beeinflusst. Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen. Als Maß für die Unfallschwere dient erneut die binäre Variable has_injury, die angibt, ob ein Unfall mit Personenschäden verbunden war.</p>
 </section>
 <section id="datenbasis-verteilung-der-fahrbahnzustände" class="level5">
 <h5 class="anchored" data-anchor-id="datenbasis-verteilung-der-fahrbahnzustände">Datenbasis: Verteilung der Fahrbahnzustände</h5>
-<p>Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der EInordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um staistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.</p>
+<p>Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der Einordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um statistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1365,7 +1364,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 7    Sand/Schmutz             40</code></pre>
 </div>
 </div>
-<p>Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und bei für die Kategorie “Sand/Schmutz” stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden sollte. Die Beobachtungen der Kategorie “Unbekannt” wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können.</p>
+<p>Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und für die Kategorie “Sand/Schmutz” stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden sollte. Die Beobachtungen der Kategorie “Unbekannt” wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können.</p>
 </section>
 <section id="methodisches-vorgehen-2" class="level5">
 <h5 class="anchored" data-anchor-id="methodisches-vorgehen-2">Methodisches Vorgehen</h5>
@@ -1423,7 +1422,7 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </section>
 <section id="visualisierung-der-relativen-unfallschwere-2" class="level4">
 <h4 class="anchored" data-anchor-id="visualisierung-der-relativen-unfallschwere-2">Visualisierung der relativen Unfallschwere</h4>
-<p>Im nächsten Schritt wird die Verletzungsrate für jeden Fahrbahnzusatnd dargestellt, welche den Vergleich der Unfallschwere der verschiedenen Kategorien unabhängig von deren Unfallhäufigkeit erlaubt.</p>
+<p>Im nächsten Schritt wird die Verletzungsrate für jeden Fahrbahnzustand dargestellt, welche den Vergleich der Unfallschwere der verschiedenen Kategorien unabhängig von deren Unfallhäufigkeit erlaubt.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code aufklappen</summary>
@@ -1452,12 +1451,28 @@ Die Kategorie “Unbekannt” kennzeichnet Fälle, in denen keine Wetterinformat
 </div>
 <section id="interpretation-der-ergebnisse-1" class="level5">
 <h5 class="anchored" data-anchor-id="interpretation-der-ergebnisse-1">Interpretation der Ergebnisse</h5>
-<p>Die Grafik zur relativen Unfallschwere nach Fahrbahnzustand zeigt, dass nasse Fahrbhanen sowie die Kategorie “Sonstige” die höchten Verletzungsraten aufweisen, während trockene Fahrbahnen trotz der größten absoluten Unfallhäufigkeit eine niedrige relative Unfallschwere zeigen. Damit bestätigt sich erneut das bereits bei Wetter- und Lichtverhältnissen beobachtete Muster: Hohe absolute Unfallzahlen gehen nicht zwangsläufig mit einer hohenUnfallschwere einher. Auffällig ist, dass die Kategorien “Schnee” und “Eis” im Vergleich zu “Nass” und “Trocken” geringere Verletzungsraten aufweisen, obwohl diese Zustände objektiv als gefährlich gelten. Analog zur Analyse der Wettereinflüsse könnte dies durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen. Die relativ hohe Verletzungsrate bei nasser Fahrbahn ist im Zusammenspiel mit ihrer hohen absoluten Häufigkeit bei Unfällen besonders relevant. Scheinbar wird eine nasse Fahrbahn im Gegensatz zu Schnee und Eis weniger stark als Gefahr wahrgenommen und birgt dadurch ein besonders hohes Risiko für schwere Unfälle. Bei selten vertretenen Kategorien wie “Sand/Schmutz” wurde eine relativ hohe Unfallschwere beobachtet, welche jedoch wegen der geringen Anzahl an Beobachtungen keine aussagekräftige Interpretation erlaubt.</p>
+<p>Die Grafik zur relativen Unfallschwere nach Fahrbahnzustand zeigt, dass nasse Fahrbahnen sowie die Kategorie “Sonstige” die höchten Verletzungsraten aufweisen, während trockene Fahrbahnen trotz der größten absoluten Unfallhäufigkeit eine niedrige relative Unfallschwere zeigen. Damit bestätigt sich erneut das bereits bei Wetter- und Lichtverhältnissen beobachtete Muster: Hohe absolute Unfallzahlen gehen nicht zwangsläufig mit einer hohen Unfallschwere einher.<br>
+Auffällig ist, dass die Kategorien “Schnee” und “Eis” im Vergleich zu “Nass” und “Trocken” geringere Verletzungsraten aufweisen, obwohl diese Zustände objektiv als gefährlich gelten. Analog zur Analyse der Wettereinflüsse könnte dies durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen.<br>
+Die relativ hohe Verletzungsrate bei nasser Fahrbahn ist im Zusammenspiel mit ihrer hohen absoluten Häufigkeit bei Unfällen besonders relevant. Scheinbar wird eine nasse Fahrbahn im Gegensatz zu Schnee und Eis weniger stark als Gefahr wahrgenommen und birgt dadurch ein besonders hohes Risiko für schwere Unfälle.<br>
+Bei selten vertretenen Kategorien wie “Sand/Schmutz” wurde eine relativ hohe Unfallschwere beobachtet, welche jedoch wegen der geringen Anzahl an Beobachtungen keine aussagekräftige Interpretation erlaubt.</p>
 </section>
 </section>
 <section id="fazit-zu-wetter-lichtverhältnissen-und-fahrbahnzustand" class="level4">
 <h4 class="anchored" data-anchor-id="fazit-zu-wetter-lichtverhältnissen-und-fahrbahnzustand">Fazit zu Wetter, Lichtverhältnissen und Fahrbahnzustand</h4>
 <p>Insgesamt zeigt die gemeinsame Betrachtung von absoluter Unfallhäufigkeit und relativer Unfallschwere über Wetter, Lichtverhältnisse und Fahrbahnzustand hinweg ein konstantes Bild: Nicht die objektiv schwierigsten Bedingungen sind unbedingt mit der höchsten Unfallschwere verbunden, sondern jene Situationen, in denen die Einschränkungen moderat sind und das Fahrverhalten scheinbar weniger stark angepasst wird.</p>
+</section>
+</section>
+</section>
+<section id="zusammenfassung-und-schlussfolgerung" class="level2">
+<h2 class="anchored" data-anchor-id="zusammenfassung-und-schlussfolgerung">Zusammenfassung und Schlussfolgerung</h2>
+<p>Ziel dieser Arbeit war es, zu untersuchen welche äußeren Bedingungen und situativen Merkmale mit der Schwere von Verkehrsunfällen in Zusammenhang stehen. Der Fokus lag dabei bewusst nicht auf der reinen Unfallhäufigkeit, sondern auf der relativen Unfallschwere, die als Anteil derUnfälle mit Personenschaden (has_injury) gemessen wurde. Analysiert wurden zeitliche Faktoren, infrastrukturelle Merkmale sowie Umweltbedingungen wie Wetterlage, Lichtverhältnisse und Fahrbahnzustand.<br>
+Die Ergebnisse zeigen über alle Analysen hinweg konsistent, dass absolute Unfallhäufigkeit und relative Unfallschwere nicht gleichzusetzen sind. So treten viele Unfälle unter scheinbar günstigen Bedingenungen auf, etwa bei Tageslicht, trockenem Fahrbahnzustand oder klarem Wetter. Diese Bedingungen sind jedoch vor allem durch ein hohes Verkehrsaufkommen geprägt und gehen im Durchschnittmit niedrigeren Verletzungsraten einher. Umgekehrt weisen Situationen mit eingeschränkter Sicht oder reduzierter Fahrbahnsicherheit häufig höhere Verletzungsraten auf, auch wenn sie seltener auftreten.</p>
+<p>Die zeitliche Analayse unterstreicht dieses Muster: So verursacht der Berufsverkehr am Nachmittag das höchste Unfallaufkommen, während die relative Unfallschwere in den Nahctstunden und am Wochenende am größten ist. Die isolierte Betrachtung alkoholbedingter Unfälle zeigt, dass diese Zeiträume stark mit riskantem Fahrverhalten korrelierne. Damit lässt sich ein Großteil der erhöhten nächtlichen Unfallschwere nicht allein durch äußere Bedingungen, sondern durch verhaltensbezogene Faktoren erklären.<br>
+Die Analyse der Verkehrssituation bestätigt ebenfalls, dass die strukturellen Rahmenbedingungen von entscheidender Bedeutung sind. So weisen Kreuzungen und nicht baulich getrennte Straßen deutlich höhere Verletzungsraten auf als Einbahnstraßen oder getrennte Fahrbahnen. Bestimmte Unfalltypen, insbesondere Frontal- und Seitenkollisionen, gehen mit besonders hohen Verletzungsraten einher. Unfälle mit Fußgänger:innen und Radfahrenden enden nahzu unabhängig vom Straßentyp oder der Verkehrsregelung fast immer mit Verletzungen, was auf eine strukturelle Verwundbarkeit dieser Verkehrsteilnehmer:innen hinweist.<br>
+Die Untersuchung der Umweltbedingungen ergibt ein zunächst kontarintuitives Ergebnis: So sind extreme Wetterlagen wie gefrierender Regen oder Nebel mit hohen Verletzungsraten verbudnden, während Schnee, Eis oder starker Seitenwind vergleichsweise niedrigere Unfallschwere aufweisen. Dieses Phänomen könnte durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen. Es ist davon auszugehen, dass Verkehrsteilnehmende bei offensichtlich gefährliche Bedingungen mit erhöhter Vorischt und reduzierten Geschwindigkeiten reagieren, wodurch die Aufprallenergie und damit die Schwere von Unfällen sinkt. Moderat eingeschränkte Bedingungen wie Regen, Dunkelheit oder nasse Fahrbahnen bergen hingegen ein besonders hehes Risiko, da sie scheinbar oft unterschätzt werden.</p>
+<p>Die Analyse bestätigt die eingangs formulierten Erwartungen weitgehend und differenziert diese darüberhinaus. Demnach erhöhen ungünstige Umwelt- und Sichtbedingungen nicht zwangsläufig die Unfallhäufigkeit, wohl aber häufig die Unfallschwere. Gleichzeitig wird verdeutlicht, dass verhaltensbezogene Faktoren wie Alkohol und Geschwindigkeit eine zentrale Rolle spielen und Erklärungsansätze für einige der beobachteten Muster bieten.<br>
+Jedoch muss im Hinterkopf behalten werden, dass es sich hierbei um eine rein deskriptive Analyse handelt. Die betrachteten Variablen wie Zeit, Straßentyp und Wetter treten nicht isoliert auf, sondern sind systematisch miteinander korreliert. Kausale Aussagen lassen sich aus den Ergebnissen daher nicht ableiten. Zudem ist die absolute Unfallhäufigkeit nur eingeschränkt aussagekräftig, da sie stark vom allgemeinen Verkehrsaufkommen abhängt. Für eine echte Risikobewertung im Sinne relativer Unfallwahsrcheinlichkeiten wären zusätzlich Daten zur Verkehrsbelastung erforderlich.</p>
+<p>Zusammenfassend zeigt die Analyse, dass schwere Verkehrsunfälle vor allem dort auftreten, wo mehrere ungünstige Faktoren zusammenkommen oder Risiken unterschätzt werden. Die Ergebnisse unterstreichen die diferenzierte Betrachtung von Unfallzahlen und -schwere und liefern datensbasierte Hinweise darauf, in welchen Situationen Präventionsmaßnahmen besonders wirksam ansetzen könnten.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1472,8 +1487,6 @@ Aufgabenstellung (10 Pkt.)
 <p>Sind Ihre Erkenntnisse das, was Sie erwartet haben? Warum oder warum nicht?</p>
 </div>
 </div>
-</section>
-</section>
 </section>
 <section id="quellenverzeichnis" class="level2">
 <h2 class="anchored" data-anchor-id="quellenverzeichnis">Quellenverzeichnis</h2>
