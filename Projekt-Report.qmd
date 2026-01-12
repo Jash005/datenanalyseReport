@@ -128,12 +128,12 @@ Für die weiteren Analysen wird der Datensatz auf jene Variablen reduziert, die 
 |  | `crash_month_label` | Monat des Unfalls (saisonale Muster) |
 | **Straßen- und Infrastruktur** | `trafficway_type` | Art der Straße (z.B. Autobahn, Landstraße) |
 |  | `alignment` | Straßenverlauf (gerade, Kurve) |
-|  | `roadway_surface_cond` | Fahrbahnzustand (trocken, nass, Eis) |
 |  | `road_defect` | Vorhandene Straßenschäden |
 |  | `intersection_related_i` | Kreuzungsbezug (ja/nein) |
+|  | `traffic_control_device` | Art der Verkehrsregelung (Ampel, Schild) |
 | **Umgebungs- und Sichtbedingungen** | `weather_condition` | Wetterlage zum Unfallzeitpunkt |
 |  | `lighting_condition` | Lichtverhältnisse (Tageslicht, Dunkelheit) |
-|  | `traffic_control_device` | Art der Verkehrsregelung (Ampel, Schild) |
+|  | `roadway_surface_cond` | Fahrbahnzustand (trocken, nass, Eis) |
 | **Unfallcharakteristika** | `first_crash_type` | Initiale Aufprallart (frontal, Heck, etc.) |
 |  | `crash_type` | Gesamttyp des Unfalls |
 |  | `prim_contributory_cause` | Textuell erfasste Hauptursache des Unfalls |
