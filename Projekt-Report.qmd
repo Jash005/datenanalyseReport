@@ -63,7 +63,7 @@ table(dataset$weather_condition)
 
 Nach dem Import des Datensatzes wurde mithilfe von `glimpse()` eine erste Bestandsaufnahme durchgeführt. Die Daten liegen als Mischung aus numerischen (`int`, `dbl`) und textbasierten (`chr`) Variablen vor. Dabei zeigten sich mehrere Auffälligkeiten, die eine direkte Verwendung für die Analyse erschweren und aufzeigen, wo eine Bereinigung notwendig ist.
 
-**Fehlerhafte Datentypen:** Die Zeitstempel (`crash_date`) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objket erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen `crash_hour`, `crash_day_of_week` und `crash_month` bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus `crash_date`, um eine einheitliche zeitliche Referenz sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Kodierungsschema der Wert 1 dem Sonntag zugeordnet, während im vorliegenden Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Zudem sind Date-Time-Objekte für weiterführende zeitliche Auswertungen robuster und flexibler als rein numerische Kodierungen. Darüber hinaus liegen logisch geordnete Daten wie die Schadenshöhe (`damage`) sowie nominale Kategorien (z. B. `weather_condition`) noch als ungeordnete Zeichenketten vor und müssen im Bereinigungsschritt in geeignete Faktoren (`factor`) überführt werden.
+**Fehlerhafte Datentypen:** Die Zeitstempel (`crash_date`) werden beim Import als Zeichenkette interpretiert. Für zeitliche Analysen wie Wochentag oder Tageszeit ist jedoch eine Konvertierung in ein echtes Date-Time-Objekt erforderlich, aus dem die relevanten Komponenten extrahiert werden können. Obwohl die Variablen `crash_hour`, `crash_day_of_week` und `crash_month` bereits im Datensatz vorhanden sind, werden diese bewusst nicht verwendet. Stattdessen erfolgt die Ableitung direkt aus `crash_date`, um eine einheitliche zeitliche Referenz sicherzustellen und Interpretationsprobleme zu vermeiden. Beispielsweise ist im US-amerikanischen Kodierungsschema der Wert 1 dem Sonntag zugeordnet, während im vorliegenden Analysekontext eine Zuordnung von 1 zu Montag intuitiver ist. Zudem sind Date-Time-Objekte für weiterführende zeitliche Auswertungen robuster und flexibler als rein numerische Kodierungen. Darüber hinaus liegen logisch geordnete Daten wie die Schadenshöhe (`damage`) sowie nominale Kategorien (z. B. `weather_condition`) noch als ungeordnete Zeichenketten vor und müssen im Bereinigungsschritt in geeignete Faktoren (`factor`) überführt werden.
 
 **Versteckte fehlende Werte:** Mehrere Variablen enthalten Platzhalter für fehlende Informationen, die nicht als technisches `NA` kodiert sind. Dazu zählen Einträge wie `UNKNOWN` (z. B. bei `road_defect`) oder `UNABLE TO DETERMINE` (bei `prim_contributory_cause`). Diese Werte müssen identifiziert und einheitlich behandelt werden, da sie sonst Analysen verzerren können. Eine Übersicht der fehlenden Werte zeigt zudem, dass im Rohdatensatz keine Einträge als technisches `NA` vorliegen und Informationslücken ausschließlich über Platzhalterwerte abgebildet sind.
 
@@ -80,7 +80,7 @@ head(dataset)
 
 ## Duplikate entfernen
 
-Mithilfe der Funktion `distinct()` aus dem Datensatz entfernt. Dadurch wird sichergestellt, dass einzelne Unfälle nicht mehrfach in die Auswertung eingehen und die berechneten Häufigkeiten nicht verzerrt werden.
+Mithilfe der Funktion `distinct()` werden Duplikate aus dem Datensatz entfernt. Dadurch wird sichergestellt, dass einzelne Unfälle nicht mehrfach in die Auswertung eingehen und die berechneten Häufigkeiten nicht verzerrt werden.
 
 ```{r}
 #|label: Duplikate-finden
@@ -90,7 +90,7 @@ dataset.clean <- dataset %>%
 
 ## Feature Engineering
 
-Die Zeitvariable `crash_date` wird in ein Date-Time-Objekt überführt und anschließend genutzt, um Studne, Wochentag, Monat und Jahr des Unfalls abzuleiten. Die im Datensatz vorhandenen Variablen `crash_hour`, `crash_day_of_week` und `crash_month` werden nicht verwendet, daihre numerische Codierung interpretationsabhängig ist. Durch die Ableitung aus dem Zeitstempel wird eine konsistente zeitliche Referenz sichergestellt.
+Die Zeitvariable `crash_date` wird in ein Date-Time-Objekt überführt und anschließend genutzt, um Studne, Wochentag, Monat und Jahr des Unfalls abzuleiten. Die im Datensatz vorhandenen Variablen `crash_hour`, `crash_day_of_week` und `crash_month` werden nicht verwendet, da ihre numerische Codierung interpretationsabhängig ist. Durch die Ableitung aus dem Zeitstempel wird eine konsistente zeitliche Referenz sichergestellt.
 
 Zusätzlich wird eine neue Variable `season` erzeugt, welche die Monate zu Jahreszeiten zusammenfasst. Dies dient der späteren Untersuchung saisonaler Muster.  
 Die Variable `most_severe_injury` wird zu einer binären Zielgröße `has_injury` umkodiert, die angibt, ob bei einem Unfall mindestens eine Verletzung aufgetreten ist. Diese Reduktion ermöglicht einen klaren und vergleichbaren Maßstab für die relative Unfallschwere.
@@ -157,7 +157,7 @@ dataset.clean <- dataset.clean %>%
 
 ## Datenwerte bereinigen
 
-Mehrere kategoriale Variablen enthalten explizite Platzhalter wie `UNKNOWN`, `UNABLE TO DETERMINE` oder `NOT APPLICABLE`. Diese Einträge stellen keine inhaltlich interpretierbaren Ausprägungen dar und werden daher einheitlich zu `NA` umkodiert. Auf diese Weise können sie in der ANalyse gezielt ausgeschlossen werden, um nicht die Verteilung der gültigen Kategorien zu verzerren.
+Mehrere kategoriale Variablen enthalten explizite Platzhalter wie `UNKNOWN`, `UNABLE TO DETERMINE` oder `NOT APPLICABLE`. Diese Einträge stellen keine inhaltlich interpretierbaren Ausprägungen dar und werden daher einheitlich zu `NA` umkodiert. Auf diese Weise können sie in der Analyse gezielt ausgeschlossen werden, um nicht die Verteilung der gültigen Kategorien zu verzerren.
 
 ```{r}
 #| label: Datenwerte-bereinigen
@@ -178,7 +178,7 @@ dataset.clean <- dataset.clean %>%
 
 Einige Variablen weisen eine sehr feingranulare oder uneinheitliche Kategorisierung auf. Um interpretierbare Ergebnisse zu ermöglichen, werden diese Werte zusammengefasst.  
 So wird der ursprüngliche Straßentyp (`trafficway_type`) zu einer vereinfachten Klassifikation aggregiert, die grundlegende Unterschiede wie getrennte Fahrbahnen, Kreuzungen oder Einbahnstraßen abbildet.  
-Analog dazu wird die Hauptunfallsache (`prim_contributory_cause`) in übergeordnete Ursachengruppen zusammengeführt, etwa Fahrfehler, Ablenkung, Alkohol- oder Drogeneinfluss sowie äußere Faktoren. Diese Gruppierung reduziert die Vielzahl einzelner Ausprägungen und ermöglicht aussagekräftige Vergleiche zwischen den Gruppen.
+Analog dazu wird die Hauptunfallursache (`prim_contributory_cause`) in übergeordnete Ursachengruppen zusammengeführt, etwa Fahrfehler, Ablenkung, Alkohol- oder Drogeneinfluss sowie äußere Faktoren. Diese Gruppierung reduziert die Vielzahl einzelner Ausprägungen und ermöglicht aussagekräftige Vergleiche zwischen den Gruppen.
 
 ```{r}
 #| label: Gruppierung-der-Werte
@@ -743,9 +743,166 @@ ggplot(dataset.verkehrslage.fokus, aes(x = traffic_control_device, y = verletzun
 
 Im Anschluss an die Analyse von Straßentyp und Unfallart zeigt der Vergleich der Verkehrsregelungen, dass ungeschützte Verkehrsteilnehmende über alle Settings hinweg das höchste Risiko tragen: *Pedestrian* und *Pedalcyclist* weisen durchgängig sehr hohe Verletzungsraten auf (meist 75–95 %), unabhängig davon, ob eine Ampel, ein Stop‑Zeichen oder eine andere Regelung vorhanden ist. Bei den motorisierten Unfalltypen (*Angle*, *Head On*, *Fixed Object*) reagiert die Verletzungsrate stärker auf die Art der Regelung: Bereiche ohne formale Kontrolle (*No Controls*) liegen tendenziell höher, während klare Kontrollen (*Traffic Signal*, *Stop/Flasher*) mit niedrigeren Raten einhergehen; *Yield* bewegt sich dazwischen. Damit fügt sich diese Erkenntnis schlüssig in die vorigen Ergebnisse ein: Komplexe Konfliktsituationen wie Seiten‑ und Frontalzusammenstöße profitieren sichtbar von eindeutiger Regulierung, während die Schwere bei Fußgänger‑ und Radfahrunfällen strukturell hoch bleibt und durch die Regelungsart allein weniger stark gedämpft wird.
 
+### Straßenausrichtung und Unfallschwere
+
+Nachdem die Analyse gezeigt hat, dass Straßentyp und Verkehrsregelung die Unfallschwere maßgeblich beeinflussen, stellt sich die Frage, ob auch die geometrische Beschaffenheit der Straße - also ihre Ausrichtung und Führung - einen systematischen Einfluss auf die Verletzungsrate hat. Die Variable àlignment`erfasst, ob ein Unfall auf einer geraden, ebenen Strecke, in einer Kurve oder an einer Steigung passiert ist. 
+
+Komplexere Streckenführung wie Kurven, insbesondere in Kombination mit Steigungen oder Bergkuppen, erfordn höhere Aufmerksamkeit und Fahrzeugkontrollen. Dementsprechend werden wahrscheinlich die Abschnitte mit höheren Verletzungsraten einhergene als gerade, ebene Strecken. 
+
+```{r}
+#| label: Daten-vorbereiten-Alignment
+dataset.alignmentAnalysis.alignment_summary <- dataset.clean %>%
+  filter(!is.na(alignment), !is.na(has_injury)) %>%
+  group_by(alignment) %>%
+  summarize(
+    anzahl_unfaelle = n(),
+    verletzungsrate = mean(has_injury) * 100
+  ) %>%
+  arrange(desc(verletzungsrate))
+```
+
+::: panel-tabset
+#### Absolute Unfallhäufigkeit {.unnumbered}
+```{r}
+#| label: fig-alignment-absolute
+#| fig-cap: "Absolute Unfallhäufigkeit nach Straßenausrichtung"
+alignment_labels <- c(
+  "STRAIGHT AND LEVEL" = "Gerade und eben",
+  "STRAIGHT ON GRADE" = "Gerade mit Steigung",
+  "CURVE, LEVEL" = "Kurve, eben",
+  "STRAIGHT ON HILLCREST" = "Gerade auf Bergkuppe",
+  "CURVE ON GRADE" = "Kurve mit Steigung",
+  "CURVE ON HILLCREST" = "Kurve auf Bergkuppe"
+)
+
+dataset.alignmentAnalysis.plot_absolute <- ggplot(
+  dataset.alignmentAnalysis.alignment_summary,
+  aes(x = anzahl_unfaelle, y = reorder(alignment, anzahl_unfaelle))
+) +
+geom_col(fill = "grey70") +
+scale_y_discrete(labels = alignment_labels) +
+labs(
+  title = "Absolute Unfallhäufigkeit nach Straßenausrichtung",
+  x = "Anzahl Unfälle",
+  y = "Straßenausrichtung"
+) +
+theme_minimal()
+
+dataset.alignmentAnalysis.plot_absolute
+```
+
+Die Verteilung der absoluten Unfallzahlen wird klar von geraden und ebenen Strecken dominiert, auf denen über 200.000 Unfälle registriert wurden. Kurven und Steigungen machen zusammen weniger als 5% aller Unfälle aus. Besonders auffällig ist die geringe Fallzahl bei `Kurve mit Steigung`(179 Unfälle) und `Kurve auf Bergkuppe`(53 Unfälle), was die statische Belastbarkeit dier Kategorien einschränkt. 
+
+#### Relative Unfallschwere {.unnumbered}
+```{r}
+#| label: fig-alignment-injury-rate
+#| fig-cap: "Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Straßenausrichtung"
+dataset.alignmentAnalysis.plot_injuryRate <- ggplot(
+  dataset.alignmentAnalysis.alignment_summary,
+  aes(x = verletzungsrate, y = reorder(alignment, verletzungsrate))
+) +
+geom_col(fill = "#b00b1e") +
+scale_y_discrete(labels = alignment_labels) +
+labs(
+  title = "Verletzungsrate nach Straßenausrichtung",
+  x = "Anteil Unfälle mit Verletzten (%)",
+  y = "Straßenausrichtung"
+) +
+theme_minimal()
+
+dataset.alignmentAnalysis.plot_injuryRate
+```
+
+Die Grafik zur relativen Unfallschwere zeigt, dass gerade und ebene Strecken trotz ihrer hohen absoluten Unfallzahlen eine moderate Verletzungsrate von etwa 28% aufweisen. Die komplexesten Streckenkombinationen weisen die höchsten Verletzungsraten auf: Kurven auf Bergkuppen führen mit ~37%, gefolgt von Kurven mit Steigung (~35%). Auch gerade Strecken auf Bergkuppen zeigen mit ~31% eine erhöhte Gefährlichkeit.
+Überraschend ist jedoch, dass ebene Kurven mit nur ~22% die niedrigste Verletzungsrate aller Kategorien aufweisen – niedriger sogar als gerade Strecken. Dies widerspricht teilweise der aufgestellten Hypothese und könnte darauf hindeuten, dass Kurven ohne zusätzliche Höhenunterschiede besser einsehbar sind und zu angepasstem Fahrverhalten führen. Die objektiv anspruchsvollsten Kategorien (Kurve mit Steigung, Kurve auf Bergkuppe) zeigen zwar hohe, aber aufgrund der sehr geringen Fallzahlen (179 bzw. 53 Unfälle) statistisch wenig belastbare Werte.
+:::
+
+#### Interpretation der Ergebnisse {.unnumbered}
+
+Die Hypothese, dass komplexere Streckenführungen grundsätzlich mit höherer Unfallschwere verbunden sind, wird durch die Daten nur teilweise bestätigt. Während Kurven in Kombination mit Höhenunterschieden (Bergkuppen, Steigungen) tatsächlich die höchsten Verletzungsraten aufweisen, zeigt sich bei ebenen Kurven überraschenderweise die niedrigste Rate aller Kategorien. Dies deutet darauf hin, dass nicht die Kurve an sich, sondern die Kombination aus horizontaler und vertikaler Streckenführung besonders kritisch ist.
+Das bereits mehrfach beobachtete Muster bestätigt sich erneut: Die meisten Unfälle ereignen sich auf geraden und ebenen Strecken, diese verlaufen jedoch im Durchschnitt weniger schwer als Unfälle auf anspruchsvolleren Streckenabschnitten. Die geometrische Komplexität – insbesondere die Kombination verschiedener Herausforderungen – hat somit einen messbaren Einfluss auf die Unfallschwere, allerdings differenzierter als ursprünglich vermutet.
+
+### Straßenschäden und Unfallschwere
+
+Nachdem die Straßenführung analysiert wurde, stellt sich abschließend die Frage, ob auch der bauliche Zustand der Fahrbahn selbst die Unfallschwere beeinflusst. Die Variable `road_defect` erfasst, ob zum Unfallzeitpunkt Mängel wie abgenutzte Oberflächen, Spurrillen, Löcher oder Trümmer auf der Fahrbahn vorlagen.
+
+**Hypothese:** Straßenschäden erschweren die Fahrzeugkontrolle und können zu abrupten Ausweichmanövern führen. Wir erwarten daher, dass Unfälle auf schadhaften Straßen mit höheren Verletzungsraten einhergehen als solche auf intakten Fahrbahnen.
+```{r}
+#| label: Daten-vorbereiten-RoadDefect
+dataset.roadDefectAnalysis.defect_summary <- dataset.clean %>%
+  filter(!is.na(road_defect), !is.na(has_injury)) %>%
+  group_by(road_defect) %>%
+  summarize(
+    anzahl_unfaelle = n(),
+    verletzungsrate = mean(has_injury) * 100
+  ) %>%
+  arrange(desc(verletzungsrate))
+```
+
+::: panel-tabset
+#### Absolute Unfallhäufigkeit {.unnumbered}
+```{r}
+#| label: fig-roaddefect-absolute
+#| fig-cap: "Absolute Unfallhäufigkeit nach Straßenschäden"
+road_defect_labels <- c(
+  "NO DEFECTS" = "Keine Defekte",
+  "WORN SURFACE" = "Abgenutzte Oberfläche",
+  "OTHER" = "Sonstige",
+  "RUT, HOLES" = "Spurrillen/Löcher",
+  "SHOULDER DEFECT" = "Seitenstreifenschaden",
+  "DEBRIS ON ROADWAY" = "Trümmer auf Fahrbahn"
+)
+
+dataset.roadDefectAnalysis.plot_absolute <- ggplot(
+  dataset.roadDefectAnalysis.defect_summary,
+  aes(x = anzahl_unfaelle, y = reorder(road_defect, anzahl_unfaelle))
+) +
+geom_col(fill = "grey70") +
+scale_y_discrete(labels = road_defect_labels) +
+labs(
+  title = "Absolute Unfallhäufigkeit nach Straßenschäden",
+  x = "Anzahl Unfälle",
+  y = "Straßenschaden"
+) +
+theme_minimal()
+
+dataset.roadDefectAnalysis.plot_absolute
+```
+
+Die absolute Verteilung zeigt eine extreme Dominanz der Kategorie *Keine Defekte* mit über 171.000 Unfällen. Alle anderen Kategorien machen zusammen weniger als 2% der Unfälle aus. Besonders *Trümmer auf Fahrbahn* (139 Unfälle) und *Seitenstreifenschaden* (358 Unfälle) weisen sehr geringe Fallzahlen auf, was bei der Interpretation der Verletzungsraten berücksichtigt werden muss.
+
+#### Relative Unfallschwere {.unnumbered}
+```{r}
+#| label: fig-roaddefect-injury-rate
+#| fig-cap: "Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Straßenschäden"
+dataset.roadDefectAnalysis.plot_injuryRate <- ggplot(
+  dataset.roadDefectAnalysis.defect_summary,
+  aes(x = verletzungsrate, y = reorder(road_defect, verletzungsrate))
+) +
+geom_col(fill = "#b00b1e") +
+scale_y_discrete(labels = road_defect_labels) +
+labs(
+  title = "Verletzungsrate nach Straßenschäden",
+  x = "Anteil Unfälle mit Verletzten (%)",
+  y = "Straßenschaden"
+) +
+theme_minimal()
+
+dataset.roadDefectAnalysis.plot_injuryRate
+```
+
+Die Grafik zur relativen Unfallschwere widerlegt die aufgestellte Hypothese weitgehend. Straßen ohne erkennbare Defekte weisen mit etwa 26% nicht die niedrigste Verletzungsrate auf. Tatsächlich zeigen mehrere Schadenskategorien abweichende Muster: Seitenstreifenschäden weisen mit ca. 33% die höchste Verletzungsrate auf, gefolgt von abgenutzten Oberflächen (~30%) und Trümmern auf der Fahrbahn (~29%). Interessanterweise zeigen Spurrillen/Löcher mit nur 19% die niedrigste Verletzungsrate aller Kategorien. Die Kategorie "Sonstige" liegt mit etwa 26% im mittleren Bereich, ist jedoch als Sammelkategorie inhaltlich nicht interpretierbar. Aufgrund der sehr geringen Fallzahlen bei Seitenstreifenschäden (358 Unfälle) und Trümmern auf der Fahrbahn (139 Unfälle) sind diese Werte jedoch statistisch wenig belastbar. Die erwartete eindeutige Korrelation zwischen Straßenschäden und erhöhter Unfallschwere lässt sich in den Daten nicht bestätigen.
+:::
+
+#### Interpretation der Ergebnisse {.unnumbered}
+
+Die Daten zeigen keinen klaren Zusammenhang zwischen Straßenschäden und Unfallschwere. Die Hypothese muss verworfen werden. Eine mögliche Erklärung wäre, dass sichtbare Straßenschäden von Verkehrsteilnehmenden wahrgenommen werden und zu angepasstem Fahrverhalten führen – diese Interpretation bleibt jedoch spekulativ, da der Datensatz keine Informationen zum Fahrverhalten enthält. Zudem ist bei den meisten Schadenszuständen die statistische Basis aufgrund geringer Fallzahlen eingeschränkt, sodass die Ergebnisse mit Vorsicht zu interpretieren sind.
+
 ### Fazit:
 
-Die Ergebnisse zeigen deutlich, dass die Verkehrsinfrastruktur einen erheblichen Einfluss auf die Schwere von Verkehrsunfällen hat. Bauliche Trennung und klare Verkehrsregelungen reduzieren das Verletzungsrisiko bei motorisierten Verkehrsteilnehmenden deutlich, während ungeschützte Gruppen wie Fußgänger und Radfahrende selbst unter geregelten Bedingungen besonders gefährdet bleiben. Damit bestätigt sich die Vermutung, dass die Qualität und Organisation der Verkehrssituation entscheidend sind, wenn es um die Sicherheit und Schadensschwere im Straßenverkehr geht. 
+Die Analyse zeigt ein deutliches Vulnerability-Gefälle: Fußgänger (89-93%) und Radfahrer (70-78%) tragen ein strukturell höheres Verletzungsrisiko als motorisierte Verkehrsteilnehmende – weitgehend unabhängig von Infrastruktur und Verkehrsregelung. Bei motorisierten Unfällen reduzieren bauliche Trennung (Divided Roads: 24% vs. Two-Way: 28%) und klare Verkehrskontrollen die Verletzungsraten messbar, insbesondere bei kritischen Kollisionsarten wie Frontal- (Head On) und Seitenaufprall (Angle). Kreuzungen bleiben mit 32% Verletzungsrate die gefährlichsten Straßenabschnitte.
+
+Die Hypothesen zu geometrischer Komplexität wurden nur teilweise bestätigt: Während Kurven mit Höhenunterschieden (bis 37%) tatsächlich gefährlicher sind, weisen ebene Kurven (22%) überraschend niedrige Raten auf. Die vermutete Korrelation zwischen Straßenschäden und Unfallschwere konnte nicht bestätigt werden. Methodisch sind viele Befunde durch geringe Fallzahlen (z.B. Kurve auf Bergkuppe: n=53) eingeschränkt. Insgesamt zeigt sich: Infrastrukturelle Gestaltung beeinflusst die Unfallschwere bei motorisierten Verkehrsteilnehmenden deutlich, während ungeschützte Gruppen strukturell gefährdet bleiben – unabhängig von situativen Faktoren.
 
 ## Untersuchung von Wetter und Umgebungsbedingungen
 
