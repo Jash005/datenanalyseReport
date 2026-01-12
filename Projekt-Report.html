@@ -987,7 +987,7 @@ Tabelle&nbsp;1: Übersicht der verwendeten Attribute und deren Relevanz für die
 So wird der ursprüngliche Straßentyp (<code>trafficway_type</code>) zu einer vereinfachten Klassifikation aggregiert, die grundlegende Unterschiede wie getrennte Fahrbahnen, Kreuzungen oder Einbahnstraßen abbildet.<br>
 Analog dazu wird die Hauptunfallsache (<code>prim_contributory_cause</code>) in übergeordnete Ursachengruppen zusammengeführt, etwa Fahrfehler, Ablenkung, Alkohol- oder Drogeneinfluss sowie äußere Faktoren. Diese Gruppierung reduziert die Vielzahl einzelner Ausprägungen und ermöglicht aussagekräftige Vergleiche zwischen den Gruppen.</p>
 <div class="cell">
-<details open="" class="code-fold">
+<details class="code-fold">
 <summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dataset.clean <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -1131,7 +1131,7 @@ Analog dazu wird die Hauptunfallsache (<code>prim_contributory_cause</code>) in 
 <img src="Projekt-Report_files/figure-html/fig-timeanalysis-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeanalysis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;1: Unfallhäufigkeit an Wochentagen und Uhrzeiten mit Randverteilungen
+Abbildung&nbsp;1: Unfallhäufigkeit nach Wochentagen und Uhrzeiten, dargestellt als Heatmap mit marginalen Histogrammen
 </figcaption>
 </figure>
 </div>
@@ -1141,8 +1141,8 @@ Abbildung&nbsp;1: Unfallhäufigkeit an Wochentagen und Uhrzeiten mit Randverteil
 <p>An Werktagen (Montag bis Freitag) folgt das Unfallgeschehen dem klassischen Rhythmus des Berufsverkehrs. Es zeigt sich eine deutliche Häufung am Nachmittag, wobei der Freitag zwischen 15:00 und 17:00 Uhr als klarer Spitzenreiter („Hotspot“) hervorsticht. Auch im rechten Randdiagramm wird deutlich, dass der Freitag insgesamt der unfallreichste Tag der Woche ist.</p>
 <p>Interessant ist der signifikanten Wandel im Unfallgeschehen zwischen dem Wochenende und den Werktagen (siehe gestrichelte Trennlinie). Das Wochenende löst das klare Muster der Stoßzeiten auf: Tagsüber sind die Unfälle breiter über Mittag und Nachmittag verteilt, ohne die extremen Spitzen der Werktage. Nachts und in den frühen Morgenstunden (0:00 bis 4:00 Uhr) zeigt sich hingegen ein gegensätzliches Muster: Während dieser Zeitraum an Werktagen nur eine geringe Unfallhäufigkeit aufweist, häufen sich am Wochenende in diesem Zeitraum die Unfälle deutlich. Dies deutet darauf hin, dass nächtliche Unfälle am Wochenende, vermutlich im Zusammenhang mit Freizeit- und Ausgangsverkehr, im Vergelich zu Werktagen deutlich häufiger auftreten.</p>
 </section>
-<section id="unfallursache" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="unfallursache"><span class="header-section-number">4.1.2</span> Unfallursache</h3>
+<section id="alkoholeinfluss-und-unfallschwere" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="alkoholeinfluss-und-unfallschwere"><span class="header-section-number">4.1.2</span> Alkoholeinfluss und Unfallschwere</h3>
 <p>Die daraus abgeleitete Hypothese, dass die erhöhte Unfallschwere in den Nachtstunden mit Freizeit- und Ausgehverkehr zusammenhängt, wird im Folgenden anhand der zeitlichen Verteilung alkoholbedingter Unfälle näher untersucht.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1171,7 +1171,7 @@ Abbildung&nbsp;1: Unfallhäufigkeit an Wochentagen und Uhrzeiten mit Randverteil
 <img src="Projekt-Report_files/figure-html/fig-alcohol-time-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-alcohol-time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;2: Zeitlicher Verlauf alkoholbedingter Unfälle im Tagesverlauf
+Abbildung&nbsp;2: Zeitlicher Verlauf alkoholbedingter Verkehrsunfälle im Tagesverlauf
 </figcaption>
 </figure>
 </div>
@@ -1233,7 +1233,7 @@ Abbildung&nbsp;2: Zeitlicher Verlauf alkoholbedingter Unfälle im Tagesverlauf
 <img src="Projekt-Report_files/figure-html/fig-month-cycle-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-month-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;3: Unfallhäufigkeit und Verletzungsanteil im Jahresverlauf
+Abbildung&nbsp;3: Unfallhäufigkeit und Anteil von Unfällen mit Personenschaden im Jahresverlauf
 </figcaption>
 </figure>
 </div>
@@ -1290,7 +1290,7 @@ Abbildung&nbsp;3: Unfallhäufigkeit und Verletzungsanteil im Jahresverlauf
 <img src="Projekt-Report_files/figure-html/fig-week-cycle-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-week-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;4: Unfallhäufigkeit und Verletzungsanteil im Wochenverlauf
+Abbildung&nbsp;4: Unfallhäufigkeit und Anteil von Unfällen mit Personenschaden im Wochenverlauf
 </figcaption>
 </figure>
 </div>
@@ -1373,7 +1373,7 @@ Abbildung&nbsp;4: Unfallhäufigkeit und Verletzungsanteil im Wochenverlauf
 <img src="Projekt-Report_files/figure-html/fig-day-cycle-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-day-cycle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;5: Absolute Unfallhäufigkeit und relative Unfallschwere im Tagesverlauf
+Abbildung&nbsp;5: Unfallhäufigkeit und Anteil von Unfällen mit Personenschaden im Tagesverlauf
 </figcaption>
 </figure>
 </div>
@@ -1463,7 +1463,7 @@ Abbildung&nbsp;5: Absolute Unfallhäufigkeit und relative Unfallschwere im Tages
 <img src="Projekt-Report_files/figure-html/fig-street-injury-rate-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-street-injury-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;6: Verletzungsrate nach Straßentyp
+Abbildung&nbsp;6: Anteil von Unfällen mit Personenschaden nach Straßentyp
 </figcaption>
 </figure>
 </div>
@@ -1499,15 +1499,15 @@ Abbildung&nbsp;7: Absolute Anzahl verletzter Personen nach Straßentyp
 </div>
 </div>
 </div>
-<p>Die absolute Unfallhäufigkeit zeigt ein anderes Bild als die Verletzungsrate: Auf <em>Divided Roads</em> ereignen sicht mit 29.491 die meisten Unfälle mit Verletzten, obwohl die Verletzungsrate dort mit 24,04 % niedriger ist als bei <em>Intersections</em> (31,66 %) oder <em>Two-Way-Roads</em> (27,85 %). Dies verdeutlicht das Paradaxon zwischen relativem Risiko und absoluter Häufigkeit.</p>
+<p>Die absolute Anzahl verletzter Personen zeigt ein anderes Bild als die Verletzungsrate: Auf <em>Divided Roads</em> werden mit 29.491 die meisten verletzten Personen verzeichnet, obwohl die Verletzungsrate dort mit 24,04 % niedriger ist als bei <em>Intersections</em> (31,66 %) oder <em>Two-Way-Roads</em> (27,85 %). Dies verdeutlicht das Paradoxon zwischen relativem Risiko und absoluter Häufigkeit.</p>
 <p>Während bei <em>Intersections</em> fast jeder dritte Unfall mit Verletzten endet, geschehen dort absolut deutlich weniger schwere Unfälle (19.795) als auf <em>Divided Roads</em>. <em>Two-Way-Roads</em> weisen mit nur 797 Verletzten die geringste absolute Belastung auf, trotz ihrer vergleichsweise hohen Verletzungsrate.</p>
 </div>
 </div>
 </div>
 <p>Um die vermuteten Ursachen für die unterschiedlichen Verletzungsraten näher zu untersuchen, wird im Folgenden analysiert, welche Unfalltypen auf welchen Straßentypen dominieren und ob sich dadurch die beobachteten Unterschiede in der Verletzungsrate erklären lassen.</p>
 </section>
-<section id="welche-unfalltypen-verursachen-die-gefährlichkeit" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="welche-unfalltypen-verursachen-die-gefährlichkeit"><span class="header-section-number">4.2.3</span> Welche Unfalltypen verursachen die Gefährlichkeit?</h3>
+<section id="welche-unfalltypen-sind-mit-hoher-unfallschwere-verbunden" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="welche-unfalltypen-sind-mit-hoher-unfallschwere-verbunden"><span class="header-section-number">4.2.3</span> Welche Unfalltypen sind mit hoher Unfallschwere verbunden?</h3>
 <p>Um die Vermutungen zu den Gründen der unterschiedlichen Gefährlichkeit zu überprüfen, wird der Zusammenhang zwischen Straßentyp und Unfalltyp grafisch dargestellt. Dabei wird festgelegt, auf welche Unfalltypen der Fokus gelegt wird. Für die Prüfung der Hypothesen sind insbesondere die Unfalltypen <em>Head On</em> (Fronttalzusammenstoß), <em>Angle</em> (seitlicher Aufprall) und <em>Turning</em> (Abbiegen) relevant.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1563,7 +1563,7 @@ using the `.groups` argument.</code></pre>
 <img src="Projekt-Report_files/figure-html/fig-crash-type-heatmap-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-crash-type-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;8: Verletzungsrate nach Unfalltyp und Straßentyp
+Abbildung&nbsp;8: Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Unfalltyp und Straßentyp
 </figcaption>
 </figure>
 </div>
@@ -1573,8 +1573,8 @@ Abbildung&nbsp;8: Verletzungsrate nach Unfalltyp und Straßentyp
 <p>Deutlich bestätigt wird die Hypothese zu Frontalzusammenstößen. <em>Head On</em>-Unfälle auf <em>Two Way</em>-Straßen zeigen mit 40,8 % eine deutlich höhere Verletzungsrate als auf <em>Divided Roads</em> (39,2 %). Dies unterstreicht die Schutzwirkung baulicher Mitteltrennungen gegen die gefährlichen Kollisionsarten.</p>
 <p><strong>Weitere Erkenntnisse:</strong> Das auffälligste Muster der Heatmap ist die extrem hohe Verletzungsrate bei <em>Pedestrian</em> (89-93 %) und <em>Pedalcyclist</em> (70-78 %) über alle Straßentypen hinweg. Diese Unfalltypen enden nahezu immer mit Verletzten, unabhängig vom Straßentyp. Im Gegensatz dazu zeigen klassische Auto-gegen-Auto-Unfälle (<em>Rear End</em>) (13-18 %) oder Kollision mit einem festen Objekt (<em>Fixed Object</em>, 5-18 %) deutlich niedrigere Raten. Dies wirft die Frage auf, welche Verkehrsregelungen (Ampeln, Vorfahrtsregeln) diese Unfälle verhindern könnten. Konkret wird daher im nächsten Schritt untersucht, wie sich diese Unfalltypen auf verschiedene Verkehrsregelungen verteilen und in welchen Situationen bestimmte Regelungen mit geringeren Verletzungsraten einhergehen.</p>
 </section>
-<section id="wie-sieht-die-verkehrssituation-aus-in-den-verschiedenen-unfällen-abhängig-von-unfalltyp" class="level3" data-number="4.2.4">
-<h3 data-number="4.2.4" class="anchored" data-anchor-id="wie-sieht-die-verkehrssituation-aus-in-den-verschiedenen-unfällen-abhängig-von-unfalltyp"><span class="header-section-number">4.2.4</span> Wie sieht die Verkehrssituation aus in den verschiedenen Unfällen (abhängig von Unfalltyp)?</h3>
+<section id="wie-verkehrsregelungen-die-unfallschwere-verschiedener-unfalltypen-beeinflussen" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="wie-verkehrsregelungen-die-unfallschwere-verschiedener-unfalltypen-beeinflussen"><span class="header-section-number">4.2.4</span> Wie Verkehrsregelungen die Unfallschwere verschiedener Unfalltypen beeinflussen</h3>
 <p>Um das konkret zu prüfen, wird der Zusammenhang zwischen Verkehrsregelung und Unfalltyp analysiert. Dabei ist zunächst zu klären, welche Verkehrsregelungen im Datensatz vertreten sind und welche davon für die weitere Analyse berücksichtigt werden sollen.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1635,7 +1635,7 @@ Hinsichtlich der Unfalltypen heben sich in der vorherigen Headmap insbesondere <
 <img src="Projekt-Report_files/figure-html/fig-traffic-control-injury-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traffic-control-injury-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;9: Verletzungsrate nach Unfalltyp und Verkehrsregelung
+Abbildung&nbsp;9: Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Unfalltyp und Verkehrsregelung
 </figcaption>
 </figure>
 </div>
@@ -1659,7 +1659,7 @@ Abbildung&nbsp;9: Verletzungsrate nach Unfalltyp und Verkehrsregelung
 <section id="datenbasis-verteilung-der-wetterbedingungen" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="datenbasis-verteilung-der-wetterbedingungen">Datenbasis: Verteilung der Wetterbedingungen</h4>
 <p>Bevor die Unfallschwere analysiert wird, soll zunächst die Häufigkeitsverteilung der Wetterkategorien im unbereinigten Datensatz betrachtet werden, um die zugrundeliegende Datenbasis besser zu verstehen und die statistische Belastbarkeit der einzelnen Kategorien einzuschätzen.</p>
-<div class="cell" data-tbl-cap="Häufigkeitsverteilung der Wetterbedingungen im unbereinigten Datensatz">
+<div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span></span>
@@ -1685,34 +1685,534 @@ Abbildung&nbsp;9: Verletzungsrate nach Unfalltyp und Verkehrsregelung
 <span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    Wetterbedingung,</span>
 <span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span> <span class="ot">=</span> n</span>
 <span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span>)) <span class="co"># %&gt;%</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>             Wetterbedingung Anzahl Unfälle
-1                       Klar         164700
-2                      Regen          21703
-3                    Bewölkt           7533
-4                     Schnee           6871
-5                  Unbekannt           6534
-6                   Sonstige            627
-7  Gefrierender Regen/Niesel            510
-8          Nebel/Rauch/Dunst            360
-9          Schneeregen/Hagel            308
-10               Treibschnee            127
-11        Starker Seitenwind             32
-12 Aufgewirbelter Sand/Staub              1</code></pre>
+<div id="tbl-Datenbasis-Wetterbedingungen" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Datenbasis-Wetterbedingungen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabelle&nbsp;2: Häufigkeitsverteilung der Wetterbedingungen im unbereinigten Datensatz
+</figcaption>
+<div aria-describedby="tbl-Datenbasis-Wetterbedingungen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="jhglipjznl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jhglipjznl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jhglipjznl thead, #jhglipjznl tbody, #jhglipjznl tfoot, #jhglipjznl tr, #jhglipjznl td, #jhglipjznl th {
+  border-style: none;
+}
+
+#jhglipjznl p {
+  margin: 0;
+  padding: 0;
+}
+
+#jhglipjznl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jhglipjznl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jhglipjznl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jhglipjznl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jhglipjznl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jhglipjznl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jhglipjznl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jhglipjznl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jhglipjznl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jhglipjznl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jhglipjznl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jhglipjznl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jhglipjznl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jhglipjznl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jhglipjznl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jhglipjznl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jhglipjznl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jhglipjznl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jhglipjznl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jhglipjznl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jhglipjznl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jhglipjznl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jhglipjznl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jhglipjznl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jhglipjznl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jhglipjznl .gt_left {
+  text-align: left;
+}
+
+#jhglipjznl .gt_center {
+  text-align: center;
+}
+
+#jhglipjznl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jhglipjznl .gt_font_normal {
+  font-weight: normal;
+}
+
+#jhglipjznl .gt_font_bold {
+  font-weight: bold;
+}
+
+#jhglipjznl .gt_font_italic {
+  font-style: italic;
+}
+
+#jhglipjznl .gt_super {
+  font-size: 65%;
+}
+
+#jhglipjznl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jhglipjznl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jhglipjznl .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jhglipjznl .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jhglipjznl .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jhglipjznl .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jhglipjznl .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jhglipjznl .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jhglipjznl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Wetterbedingung" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Wetterbedingung</th>
+<th id="Anzahl-Unfälle" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Anzahl Unfälle</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Klar</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">164700</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Regen</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">21703</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Bewölkt</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">7533</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Schnee</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">6871</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Unbekannt</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">6534</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Sonstige</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">627</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Gefrierender Regen/Niesel</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">510</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Nebel/Rauch/Dunst</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">360</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Schneeregen/Hagel</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">308</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Treibschnee</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">127</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Wetterbedingung">Starker Seitenwind</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">32</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Wetterbedingung">Aufgewirbelter Sand/Staub</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">1</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<details class="code-fold">
-<summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># gt() %&gt;%</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tab_caption(</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   md("Häufigkeitsverteilung der Wetterbedingungen im unbereinigten Datensatz {#tbl-weather}")</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ) %&gt;%</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tab_style(</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   style = cell_text(weight = "bold"),</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   locations = cells_column_labels()</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># )</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+</div>
+</div>
+</figure>
+</div>
 </div>
 <p>Wie diese Übersicht zeigt, wird der Datensatz von den Wetterkategorien <em>Klar</em> und <em>Regen</em> dominiert. Extreme Wetterlagen wie <em>Aufgewirbelter Sand/Staub</em> und <em>Starker Seitenwind</em> treten hingegen nur sehr selten auf und sind entsprechend schwach besetzt. Dies muss bei der Interpretation der Ergebnisse berücksichtigt werden, da eine unzureichende Datenlage die statistische Belastbarkeit der Kategorie vermindert.<br>
 Die Kategorie <em>Sonstige</em> fasst Wetterbedingungen zusammen, für die bei der Datenerhebung keine passende Kategorie zur Auswahl stand. Daher ist sie inhaltlich nur eingeschränkt interpretierbar.<br>
@@ -1724,53 +2224,53 @@ Die Kategorie <em>Unbekannt</em> kennzeichnet Fälle, in denen keine Wetterinfor
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.weather_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span> </span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weather_condition), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(weather_condition) <span class="sc">%&gt;%</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.weather_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weather_condition), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(weather_condition) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Absolute Unfallhäufigkeit</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Relative Unfallschwere</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<p>Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie in einem Balkendiagramm dargestellt. Dieses entspricht inhaltlich der Aufstellung in Tabelle ………, aber dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und soll einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere ermöglichen.</p>
+<p>Zunächst wird die absolute Anzahl der Unfälle pro Wetterkategorie in einem Balkendiagramm dargestellt. Dieses entspricht inhaltlich der Aufstellung in Tabelle <a href="#tbl-Datenbasis-Wetterbedingungen" class="quarto-xref">Tabelle&nbsp;2</a>, aber dient der besseren Visualisierung der absoluten Unfallhäufigkeiten und soll einen direkten Vergleich mit dem darauf folgenden Diagramm zur relativen Unfallschwere ermöglichen.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>weather_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CLEAR"</span> <span class="ot">=</span> <span class="st">"Klar"</span>,</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CLOUDY/OVERCAST"</span> <span class="ot">=</span> <span class="st">"Bewölkt"</span>,</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RAIN"</span> <span class="ot">=</span> <span class="st">"Regen"</span>,</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SNOW"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SLEET/HAIL"</span> <span class="ot">=</span> <span class="st">"Schneeregen/Hagel"</span>,</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FREEZING RAIN/DRIZZLE"</span> <span class="ot">=</span> <span class="st">"Gefrierender Regen/Niesel"</span>,</span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FOG/SMOKE/HAZE"</span> <span class="ot">=</span> <span class="st">"Nebel/Rauch/Dunst"</span>,</span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BLOWING SNOW"</span> <span class="ot">=</span> <span class="st">"Treibschnee"</span>,</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SEVERE CROSS WIND GATE"</span> <span class="ot">=</span> <span class="st">"Starker Seitenwind"</span>,</span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BLOWING SAND, SOIL, DIRT"</span> <span class="ot">=</span> <span class="st">"Aufgewirbelter Sand/Staub"</span>,</span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_absoluteAccidentNumber <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    dataset.weatherAnalysis.weather_summary,</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle,</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(weather_condition, anzahl_unfaelle))</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> weather_labels) <span class="sc">+</span></span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Unfallhäufigkeit nach Wetterlage"</span>,</span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
-<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Wetterbedingung"</span></span>
-<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_absoluteAccidentNumber</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>weather_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CLEAR"</span> <span class="ot">=</span> <span class="st">"Klar"</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CLOUDY/OVERCAST"</span> <span class="ot">=</span> <span class="st">"Bewölkt"</span>,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RAIN"</span> <span class="ot">=</span> <span class="st">"Regen"</span>,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SNOW"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SLEET/HAIL"</span> <span class="ot">=</span> <span class="st">"Schneeregen/Hagel"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FREEZING RAIN/DRIZZLE"</span> <span class="ot">=</span> <span class="st">"Gefrierender Regen/Niesel"</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FOG/SMOKE/HAZE"</span> <span class="ot">=</span> <span class="st">"Nebel/Rauch/Dunst"</span>,</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BLOWING SNOW"</span> <span class="ot">=</span> <span class="st">"Treibschnee"</span>,</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SEVERE CROSS WIND GATE"</span> <span class="ot">=</span> <span class="st">"Starker Seitenwind"</span>,</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"BLOWING SAND, SOIL, DIRT"</span> <span class="ot">=</span> <span class="st">"Aufgewirbelter Sand/Staub"</span>,</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_absoluteAccidentNumber <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    dataset.weatherAnalysis.weather_summary,</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle,</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(weather_condition, anzahl_unfaelle))</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> weather_labels) <span class="sc">+</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Unfallhäufigkeit nach Wetterlage"</span>,</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Wetterbedingung"</span></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_absoluteAccidentNumber</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-weather-absolute" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1792,20 +2292,20 @@ Abbildung&nbsp;10: Absolute Unfallhäufigkeit nach Wetterlage
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    dataset.weatherAnalysis.weather_summary,</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(weather_condition, verletzungsrate))</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> weather_labels) <span class="sc">+</span></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Wetterlage"</span>,</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Wetterbedingung"</span></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    dataset.weatherAnalysis.weather_summary,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(weather_condition, verletzungsrate))</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> weather_labels) <span class="sc">+</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Wetterlage"</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Wetterbedingung"</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>dataset.weatherAnalysis.plot_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-weather-injury-rate" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1814,7 +2314,7 @@ Abbildung&nbsp;10: Absolute Unfallhäufigkeit nach Wetterlage
 <img src="Projekt-Report_files/figure-html/fig-weather-injury-rate-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-injury-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;11: Verletzungsrate nach Wetterlage
+Abbildung&nbsp;11: Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Wetterlage
 </figcaption>
 </figure>
 </div>
@@ -1826,54 +2326,545 @@ Abbildung&nbsp;11: Verletzungsrate nach Wetterlage
 </section>
 <section id="interpretation-der-ergebnisse" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="interpretation-der-ergebnisse">Interpretation der Ergebnisse</h4>
-<p>Die Analyse zeigt deutliche Unterschiede in der relativen Unfallschwere zwischen den verschiedenen Wetterkategorien. Besonders hohe Verletzungsraten treten bei seltenen oder extremen Wetterlagen wie “Schneeregen/Hagel”, “Gefrierender Regen/Niesel” sowie “Nebel/Rauch/Dunst” auf. In diesen Kategorien liegt der Anteil der Unfälle mit Personenschäden bei etwa 30 Prozent oder mehr.<br>
-Demgegenüber weisen die Kategorien “Klar” und “Bewölkt” trotz sehr hoher absoluter Unfallzahlen deutlich niedrigere Verletzungsraten auf. Der Vergleich mit der absoluten Unfallhäufigkeit macht somit deutlich, dass hohe Unfallzahlen nicht mit hoher Unfallschwere gleichzusetzen sind.<br>
-Die Kategorie “Regen” nimmt eine Zwischenstellung ein: Sie ist häufig vertreten und gleichzeitig mit einer relativ hohen Verletzungsrate verbunden. Dies deutet darauf hin, dass bereits moderate Einschränkungen der Sicht oder der Fahrbahnhaftung die Unfallfolgen verschärfen können.<br>
-Auffällig ist, dass Wetterlagen wie “Schnee”, “Treibschnee” und “Starker Seitenwind” trotz der grundsätzlich erschwerten Fahrbedingungen vergleichsweise niedrigere Verletzungsraten aufweisen als einige häufigere Wetterlagen. Ein plausibler Erklärungsansatz hierfür ist die situationsbedinte Anpassung des Fahrverhaltens: Bei offensichtlich widrigen Bedingungen reduzieren viele Verkehrsteilnehmende ihre Geschwindigkeit, erhöhen die Abstände zueinander und vermeiden riskante Fahrmanöver. Dadurch sinkt zwar nicht unbedingt die Unfallwahrscheinlichkeit, aber die Aufprallenergie und somit die Schwere der Unfallfolgen.<br>
-Die sehr geringe Verletzungsrate in der Kategorie “Aufgewirbelter Sand/Staub” ist vor dem Hintergrund der äußerst geringen Fallzahlen zu intepretieren (siehe Tabelle …………). Mit nur einer beobachtetn Unfallmeldung ist diese Kategorie statistisch nicht stabil und erlaubt keine belastbaren Aussagen zur tatsächlichen Gefährlichkeit dieser Wetterlage. Der niedrige Wert spiegelt daher mit hoher Wahrscheinlichkeit einen Stichprobeneffekt wider und nicht ein systematisch geringes Risiko.</p>
+<p>Die Analyse zeigt deutliche Unterschiede in der relativen Unfallschwere zwischen den verschiedenen Wetterkategorien. Besonders hohe Verletzungsraten treten bei seltenen oder extremen Wetterlagen wie <em>Schneeregen/Hagel</em>, <em>Gefrierender Regen/Niesel</em> sowie <em>Nebel/Rauch/Dunst</em> auf. In diesen Kategorien liegt der Anteil der Unfälle mit Personenschäden bei etwa 30 Prozent oder mehr.<br>
+Demgegenüber weisen die Kategorien <em>Klar</em> und <em>Bewölkt</em> trotz sehr hoher absoluter Unfallzahlen deutlich niedrigere Verletzungsraten auf. Der Vergleich mit der absoluten Unfallhäufigkeit macht somit deutlich, dass hohe Unfallzahlen nicht mit hoher Unfallschwere gleichzusetzen sind.<br>
+Die Kategorie <em>Regen</em> nimmt eine Zwischenstellung ein: Sie ist häufig vertreten und gleichzeitig mit einer relativ hohen Verletzungsrate verbunden. Dies deutet darauf hin, dass bereits moderate Einschränkungen der Sicht oder der Fahrbahnhaftung die Unfallfolgen verschärfen können.<br>
+Auffällig ist, dass die Wetterlagen <em>Schnee</em>, <em>Treibschnee</em> und <em>Starker Seitenwind</em> trotz der grundsätzlich erschwerten Fahrbedingungen vergleichsweise niedrigere Verletzungsraten aufweisen als einige häufigere Wetterlagen. Ein plausibler Erklärungsansatz hierfür ist die situationsbedinte Anpassung des Fahrverhaltens: Bei offensichtlich widrigen Bedingungen reduzieren viele Verkehrsteilnehmende ihre Geschwindigkeit, erhöhen die Abstände zueinander und vermeiden riskante Fahrmanöver. Dadurch sinkt zwar nicht unbedingt die Unfallwahrscheinlichkeit, aber die Aufprallenergie und somit die Schwere der Unfallfolgen.<br>
+Die sehr geringe Verletzungsrate in der Kategorie <em>Aufgewirbelter Sand/Staub</em> ist vor dem Hintergrund der äußerst geringen Fallzahlen zu intepretieren (siehe Tabelle <a href="#tbl-Datenbasis-Wetterbedingungen" class="quarto-xref">Tabelle&nbsp;2</a>). Mit nur einer beobachtetn Unfallmeldung ist diese Kategorie statistisch nicht stabil und erlaubt keine belastbaren Aussagen zur tatsächlichen Gefährlichkeit dieser Wetterlage. Der niedrige Wert spiegelt daher mit hoher Wahrscheinlichkeit einen Stichprobeneffekt wider und nicht ein systematisch geringes Risiko.</p>
 </section>
 </section>
 <section id="lichtverhältnisse-und-unfallschwere" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="lichtverhältnisse-und-unfallschwere"><span class="header-section-number">4.3.2</span> Lichtverhältnisse und Unfallschwere</h3>
-<p>Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen maßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die Reaktionszeiten und Fahrentscheidungen auswirken kann. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen. Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt dabei nicht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt. Als Maß für die Unfallschwere dient erneut die binäre Variable <code>has_injury</code>, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.</p>
+<p>Neben der Wetterlage sind die Lichtverhältisse ein zentraler Einflussfaktor für das Unfallgeschehen. Sie beeinflussen maßgeblich die Sichtweite, den Kontrast zwischen Verkehrsteilnehmenden und Umgebung sowie die Wahrnehmung von Gefahren und Verkehrsregelungen. Insbesondere bei Dämmerung oder Dunkelheit kann die visuelle Informationsverarbeitung eingeschränkt sein, was sich wiederum auf die Reaktionszeiten und Fahrentscheidungen auswirken kann. In diesem Abschnitt wird untersucht, ob und in welchem Ausmaß unterschiedliche Lichtverhältnisse mit einer erhöhten relativen Unfallschwere einhergehen. Analog zur Analyse der Wetterbedingungen wird auch hier zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt nicht auf der Frage, unter welchen Lichtverhältnissen die meisten Unfälle auftreten, sondern darauf, bei welchen Lichtbedingungen ein Unfall mit höherer Wahrschenilichkeit zu Personenschäden führt. Als Maß für die Unfallschwere dient erneut die binäre Variable <code>has_injury</code>, die angibt, ob ein Unfall mit Verletzten verbunden war oder nicht.</p>
 <section id="datenbasis-verteilung-der-lichtverhältnisse" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="datenbasis-verteilung-der-lichtverhältnisse">Datenbasis: Verteilung der Lichtverhältnisse</h4>
 <p>Zunächst wird die Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz betrachtet. So lässt sich die zugrunde liegende Datenbasis verstehen und die statistische Belastbarkeit der einzelnen Kategorien einschätzen.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: Datenbasis-Lichtverhältnisse</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span> </span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lighting_condition) <span class="sc">%&gt;%</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Lichtverhaeltnis =</span> <span class="fu">recode</span>(</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>      lighting_condition,</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DAYLIGHT"</span> <span class="ot">=</span> <span class="st">"Tageslicht"</span>,</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DARKNESS, LIGHTED ROAD"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (beleuchtet)"</span>,</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DARKNESS"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (unbeleuchtet)"</span>,</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DUSK"</span> <span class="ot">=</span> <span class="st">"Dämmerung"</span>,</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DAWN"</span> <span class="ot">=</span> <span class="st">"Morgendämmerung"</span>,</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UNKNOWN"</span> <span class="ot">=</span> <span class="st">"Unbekannt"</span></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    Lichtverhaeltnis,</span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfaelle</span><span class="st">`</span> <span class="ot">=</span> n</span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfaelle</span><span class="st">`</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lighting_condition) <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Lichtverhaeltnis =</span> <span class="fu">recode</span>(</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>      lighting_condition,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DAYLIGHT"</span> <span class="ot">=</span> <span class="st">"Tageslicht"</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DARKNESS, LIGHTED ROAD"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (beleuchtet)"</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DARKNESS"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (unbeleuchtet)"</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DUSK"</span> <span class="ot">=</span> <span class="st">"Dämmerung"</span>,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DAWN"</span> <span class="ot">=</span> <span class="st">"Morgendämmerung"</span>,</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UNKNOWN"</span> <span class="ot">=</span> <span class="st">"Unbekannt"</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    Lichtverhaeltnis,</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfaelle</span><span class="st">`</span> <span class="ot">=</span> n</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfaelle</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>           Lichtverhaeltnis Anzahl Unfaelle
-1                Tageslicht          134109
-2   Dunkelheit (beleuchtet)           53378
-3 Dunkelheit (unbeleuchtet)            7436
-4                 Dämmerung            6323
-5                 Unbekannt            4336
-6           Morgendämmerung            3724</code></pre>
+<div id="tbl-Datenbasis-Lichtverhältnisse" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Datenbasis-Lichtverhältnisse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabelle&nbsp;3: Häufigkeitsverteilung der Lichtverhältnisse im unbereinigten Datensatz
+</figcaption>
+<div aria-describedby="tbl-Datenbasis-Lichtverhältnisse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="gfuoisopdd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gfuoisopdd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#gfuoisopdd thead, #gfuoisopdd tbody, #gfuoisopdd tfoot, #gfuoisopdd tr, #gfuoisopdd td, #gfuoisopdd th {
+  border-style: none;
+}
+
+#gfuoisopdd p {
+  margin: 0;
+  padding: 0;
+}
+
+#gfuoisopdd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#gfuoisopdd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#gfuoisopdd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#gfuoisopdd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#gfuoisopdd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gfuoisopdd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#gfuoisopdd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#gfuoisopdd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#gfuoisopdd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#gfuoisopdd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#gfuoisopdd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gfuoisopdd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#gfuoisopdd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#gfuoisopdd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#gfuoisopdd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gfuoisopdd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#gfuoisopdd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#gfuoisopdd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#gfuoisopdd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gfuoisopdd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#gfuoisopdd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gfuoisopdd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#gfuoisopdd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gfuoisopdd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gfuoisopdd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gfuoisopdd .gt_left {
+  text-align: left;
+}
+
+#gfuoisopdd .gt_center {
+  text-align: center;
+}
+
+#gfuoisopdd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#gfuoisopdd .gt_font_normal {
+  font-weight: normal;
+}
+
+#gfuoisopdd .gt_font_bold {
+  font-weight: bold;
+}
+
+#gfuoisopdd .gt_font_italic {
+  font-style: italic;
+}
+
+#gfuoisopdd .gt_super {
+  font-size: 65%;
+}
+
+#gfuoisopdd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#gfuoisopdd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#gfuoisopdd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#gfuoisopdd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#gfuoisopdd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#gfuoisopdd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#gfuoisopdd .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#gfuoisopdd .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#gfuoisopdd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Lichtverhaeltnis" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Lichtverhaeltnis</th>
+<th id="Anzahl-Unfaelle" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Anzahl Unfaelle</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Tageslicht</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">134109</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Dunkelheit (beleuchtet)</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">53378</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Dunkelheit (unbeleuchtet)</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">7436</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Dämmerung</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">6323</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Unbekannt</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">4336</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Lichtverhaeltnis">Morgendämmerung</td>
+<td class="gt_row gt_right" headers="Anzahl Unfaelle">3724</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie “Dunkelheit (unbeleuchtet)”, “Dämmerung”” und “Morgendämmerung” sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.</p>
+</div>
+</figure>
+</div>
+</div>
+<p>Die Verteilung der Lichtverhältnisse zeigt, dass die meisten Unfälle bei Tageslicht sowie bei Dunkelheit auf beleuchteten Straßen auftreten. Die übrigen Kategorien wie <em>Dunkelheit (unbeleuchtet)</em>, <em>Dämmerung</em> und <em>Morgendämmerung</em> sind zwar weniger häufig vetreten, weisen jedoch ebenfalls ausreichende Fallzahlen auf, sodass die Analysen statistisch belastbar sind.</p>
 </section>
 <section id="methodisches-vorgehen-1" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="methodisches-vorgehen-1">Methodisches Vorgehen</h4>
@@ -1881,47 +2872,47 @@ Die sehr geringe Verletzungsrate in der Kategorie “Aufgewirbelter Sand/Staub�
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.lighting_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lighting_condition), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lighting_condition) <span class="sc">%&gt;%</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.lighting_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(lighting_condition), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lighting_condition) <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Absolute Unfallhäufigkeit</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Relative Unfallschwere</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<p>Zunächst erfolgt die Visualisierung der in Tabelle ………… dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.</p>
+<p>Zunächst erfolgt die Visualisierung der in Tabelle <a href="#tbl-Datenbasis-Lichtverhältnisse" class="quarto-xref">Tabelle&nbsp;3</a> dargestellten absoluten Unfallhäufigkeiten, um den Vergleich mit der im darauf folgenden Diagramm dargestellten relativen Unfallschwere zu erleichtern.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>lighting_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAYLIGHT"</span> <span class="ot">=</span> <span class="st">"Tageslicht"</span>,</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS, LIGHTED ROAD"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (beleuchtet)"</span>,</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (unbeleuchtet)"</span>,</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DUSK"</span> <span class="ot">=</span> <span class="st">"Dämmerung"</span>,</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAWN"</span> <span class="ot">=</span> <span class="st">"Morgendämmerung"</span></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle,</span>
-<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, anzahl_unfaelle))</span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span> </span>
-<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Unfallhäufigkeit nach Lichtverhältnissen"</span>,</span>
-<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
-<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
-<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.plot_absolute</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>lighting_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAYLIGHT"</span> <span class="ot">=</span> <span class="st">"Tageslicht"</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS, LIGHTED ROAD"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (beleuchtet)"</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DARKNESS"</span> <span class="ot">=</span> <span class="st">"Dunkelheit (unbeleuchtet)"</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DUSK"</span> <span class="ot">=</span> <span class="st">"Dämmerung"</span>,</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAWN"</span> <span class="ot">=</span> <span class="st">"Morgendämmerung"</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle,</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, anzahl_unfaelle))</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span> </span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Absolute Unfallhäufigkeit nach Lichtverhältnissen"</span>,</span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.plot_absolute</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-lighting-absolute" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1936,28 +2927,28 @@ Abbildung&nbsp;12: Absolute Unfallhäufigkeit nach Lichtverhältnissen
 </div>
 </div>
 </div>
-<p>Die deutlich geringeren Unfallzahlen in den Kategorien “Dämmerung”, “Morgendämmerung” und “Dunkelheit (unbeleuchtet)” werden vermutlich durch strukturelle und verhaltensbezogene Faktoren hervorgerufen. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtlich ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.</p>
+<p>Die deutlich geringeren Unfallzahlen in den Kategorien <em>Dämmerung</em>, <em>Morgendämmerung</em> und <em>Dunkelheit (unbeleuchtet)</em> werden vermutlich durch strukturelle und verhaltensbezogene Faktoren hervorgerufen. Diese Lichtverhältnisse treten nur in relativ kurzen Übergangsphasen auf oder fallen in Tageszeiten mit ingesamt geringerem Verkehrsaufkommen. Zudem ist davon auszugehen, dass Verkehrsteilnehmende ihr Fahrverhalten unter offensichtlich ungünstigen Sichtbedingungen anpassen, beispielsweise durch reduzierte Geschwindigkeit und erhöhte Aufmerksamkeit. In Kombination führen diese Faktoren zu einer geringeren Exposition und damit zu niedrigeren absoluten Unfallzahlen. Dies geht jedoch nicht zangsläufig mit einer geringeren Unfallschwere einher.</p>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <p>Im nächsten Schritt wird die Verletzungsrate für jede Kategorie der Lichtverhältnisse dargestellt.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate,</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, verletzungsrate))</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Lichtverhältnissen"</span>,</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  dataset.lightingAnalysis.lighting_summary,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">reorder</span>(lighting_condition, verletzungsrate))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> lighting_labels) <span class="sc">+</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Verletzungsrate nach Lichtverhältnissen"</span>,</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Lichtverhältnisse"</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>dataset.lightingAnalysis.plot_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-lighting-injury-rate" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1966,13 +2957,13 @@ Abbildung&nbsp;12: Absolute Unfallhäufigkeit nach Lichtverhältnissen
 <img src="Projekt-Report_files/figure-html/fig-lighting-injury-rate-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lighting-injury-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;13: Verletzungsrate nach Lichtverhältnissen
+Abbildung&nbsp;13: Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Lichtverhältnissen
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der Abstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert. Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was sich durch das deutlich höhere Verkehrsaufkommen erklären lässt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen. In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können. Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeutlicht noch einmal, dass hohe Unfallzahlen nicht zwangsläufig mit hoher Unfallschwere einhergehen. Insbesondere die Dunkelheit stellt ein zentrales Risikomerkmal für schwere Unfallfolgen dar, während Tageslicht vor allem von einer relativ hohen Unfallhäufigkeit geprägt ist.</p>
+<p>Wie das Balkendiagramm zur relativen Unfallschwere zeigt, sind Unfälle bei Dunkelheit deutlich häufiger mit Personenschäden verbunden als Unfälle bei Tageslicht. Sowohl beleuchtete als auch unbeleuchtete Dunkelheit weisen höhere Verletzungsraten auf, wobei die Unterschiede zwischen beiden geringer ausfallen als der Abstand zum Tageslicht. Dies spricht dafür, dass künstliche Beleuchtung die mit Dunkelheit verbundenen Risiken nur teilweise reduziert. Demgegenüber ereignen sich die meisten Unfälle bei Tageslicht, was vermutlich mit dem zu dieser Zeit deutlich höheren Verkehrsaufkommen zusammenhängt. Trotz der hohen absoluten Unfallzahlen ist die Verletzungsrate bei Tageslicht am niedrigsten. Ein Unfall bei guten Sichtverhältnissen endet somit im Durchnschnitt seltener mit Personenschäden als ein Unfall unter eingeschränkten Lichtbedingungen. In der Dämmerung und Morgendämmerung gibt es zwar weniger Unfälle, die Verletzungsraten sind jedoch im Vergleich zum Tageslicht erhöht. Dies könnte damit erklärt werden, dass Übergangssituationen mit wechselnden Lichtverhältnissen die visuelle Wahrnehmung erschweren und die Einschätzung von Entfernung und Geschwindigkeiten beeinträchtigen können. Ein Vergleich von absoluter Unfallhäufigkeit und relativer Unfallschwere verdeutlicht noch einmal, dass hohe Unfallzahlen nicht zwangsläufig mit hoher Unfallschwere einhergehen. Insbesondere die Dunkelheit stellt ein zentrales Risikomerkmal für schwere Unfallfolgen dar, während Tageslicht vor allem von einer relativ hohen Unfallhäufigkeit geprägt ist.</p>
 </div>
 </div>
 </div>
@@ -1980,60 +2971,556 @@ Abbildung&nbsp;13: Verletzungsrate nach Lichtverhältnissen
 </section>
 <section id="fahrbahnzustand-und-unfallschwere" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="fahrbahnzustand-und-unfallschwere"><span class="header-section-number">4.3.3</span> Fahrbahnzustand und Unfallschwere</h3>
-<p>Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierte Haftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit unmittelbar die Fahrdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere auf verschiedene Weise beeinflusst. Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analsen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen. Als Maß für die Unfallschwere dient erneut die binäre Variable <code>has_injury</code>, die angibt, ob ein Unfall mit Personenschäden verbunden war.</p>
+<p>Der Zustand der Fahrbahn beeinflusst durch Faktoren wie reduzierte Haftung, verlängerte Bremswege oder eingeschränkte Lenkbarkeit die Fahrdynamik eines Fahrzeugs und damit die Häufigkeit und Schwere von Unfällen. Gleichzeitig ist auch hier davon auszugehen, dass viele Verkehrsteilnehmende auf offensichtlich ungünstige Fahrbedingungen mit erhöhter Aufmerksamkeit und Vorsicht reagieren, was wiederum die Datenverteilungen der Unfallhäufigkeit und -schwere auf verschiedene Weise beeinflusst. Ziel dieses Abschnitts ist daher, zu untersuchen, ob und in welchem Ausmaß unterschiedliche Fahrbahnzustände mit einer erhöhten relativen Unfallschwere einhergehen. Analog zu den vorherigen Analysen wird zwischen absoluter Unfallhäufigkeit und relativer Unfallschwere unterschieden. Der Fokus liegt darauf, wie schwer Unfälle ausfallen, wenn sie unter bestimmten Fahrbahnbedingungen auftreten, unabhängig davon, wie häufig diese Bedingungen zu Unfällen führen. Als Maß für die Unfallschwere dient erneut die binäre Variable <code>has_injury</code>, die angibt, ob ein Unfall mit Personenschäden verbunden war.</p>
 <section id="datenbasis-verteilung-der-fahrbahnzustände" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="datenbasis-verteilung-der-fahrbahnzustände">Datenbasis: Verteilung der Fahrbahnzustände</h4>
 <p>Zunächst wird die Häufigkeitsverteilung der Fahrbahnzustände betrachtet. Dieser Schritt dient der Einordnung der Datenbasis und erlaubt eine Einschätzung, welche Kategorien ausreichend häufig auftreten, um statistisch belastbare Aussagen zur Unfallschwere zu ermöglichen.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fahrbahnzustand =</span> <span class="fu">recode</span>(</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>      roadway_surface_cond,</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span>,</span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UNKNOWN"</span> <span class="ot">=</span> <span class="st">"Unbekannt"</span></span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    Fahrbahnzustand,</span>
-<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span> <span class="ot">=</span> n</span>
-<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fahrbahnzustand =</span> <span class="fu">recode</span>(</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>      roadway_surface_cond,</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span>,</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"UNKNOWN"</span> <span class="ot">=</span> <span class="st">"Unbekannt"</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>    Fahrbahnzustand,</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span> <span class="ot">=</span> n</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Anzahl Unfälle</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Fahrbahnzustand Anzahl Unfälle
-1         Trocken         155905
-2            Nass          32908
-3       Unbekannt          12509
-4          Schnee           6203
-5             Eis           1303
-6        Sonstige            438
-7    Sand/Schmutz             40</code></pre>
+<div id="tbl-Datenbasis-Fahrbahnzustand" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Datenbasis-Fahrbahnzustand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabelle&nbsp;4: Häufigkeitsverteilung der Fahrbahnzustände im unbereinigten Datensatz
+</figcaption>
+<div aria-describedby="tbl-Datenbasis-Fahrbahnzustand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="atjobguxcc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#atjobguxcc table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#atjobguxcc thead, #atjobguxcc tbody, #atjobguxcc tfoot, #atjobguxcc tr, #atjobguxcc td, #atjobguxcc th {
+  border-style: none;
+}
+
+#atjobguxcc p {
+  margin: 0;
+  padding: 0;
+}
+
+#atjobguxcc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#atjobguxcc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#atjobguxcc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#atjobguxcc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#atjobguxcc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#atjobguxcc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#atjobguxcc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#atjobguxcc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#atjobguxcc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#atjobguxcc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#atjobguxcc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#atjobguxcc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#atjobguxcc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#atjobguxcc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#atjobguxcc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#atjobguxcc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#atjobguxcc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#atjobguxcc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#atjobguxcc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#atjobguxcc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#atjobguxcc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#atjobguxcc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#atjobguxcc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#atjobguxcc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#atjobguxcc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#atjobguxcc .gt_left {
+  text-align: left;
+}
+
+#atjobguxcc .gt_center {
+  text-align: center;
+}
+
+#atjobguxcc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#atjobguxcc .gt_font_normal {
+  font-weight: normal;
+}
+
+#atjobguxcc .gt_font_bold {
+  font-weight: bold;
+}
+
+#atjobguxcc .gt_font_italic {
+  font-style: italic;
+}
+
+#atjobguxcc .gt_super {
+  font-size: 65%;
+}
+
+#atjobguxcc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#atjobguxcc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#atjobguxcc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#atjobguxcc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#atjobguxcc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#atjobguxcc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#atjobguxcc .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#atjobguxcc .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#atjobguxcc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="Fahrbahnzustand" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Fahrbahnzustand</th>
+<th id="Anzahl-Unfälle" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Anzahl Unfälle</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Trocken</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">155905</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Nass</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">32908</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Unbekannt</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">12509</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Schnee</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">6203</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Eis</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">1303</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Sonstige</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">438</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Fahrbahnzustand">Sand/Schmutz</td>
+<td class="gt_row gt_right" headers="Anzahl Unfälle">40</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und für die Kategorie “Sand/Schmutz” stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden sollte. Die Beobachtungen der Kategorie “Unbekannt” wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können.</p>
+</div>
+</figure>
+</div>
+</div>
+<p>Die Verteilung zeigt, dass trockene Fahrbahnverhältnisse am häufigsten vertreten sind, gefolgt von nassen Straßen. Bei Schnee-, Eis- und sonstigen Sonderzustände wurden deutlich weniger Unfälle aufgenommen. Und für die Kategorie <em>Sand/Schmutz</em> stehen lediglich 40 Beobachtungen zur Verfügung, was bei der Interpretation der Ergebnisse berücksichtigt werden muss. Die Beobachtungen der Kategorie <em>Unbekannt</em> wurden wie bei den vorigen Analysen im Bereinigungsschritt in Kapitel 3 aus dem Datensatz entfernt, da sie keine inhaltliche Interpretation erlauben und Analysen verfälschen können.</p>
 </section>
 <section id="methodisches-vorgehen-2" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="methodisches-vorgehen-2">Methodisches Vorgehen</h4>
-<p>Wie bei den vorigen Analysen werden nur Unfallbeobachtungen mit gültigen Angaben zur analysierten Variable einbezogen. Für jede Kategorie des Fahrbahnzustands werden absolute Unfallanzahl und Verletzungsrate berechnet.</p>
+<p>Wie bei den vorigen Analysen werden auch hier nur Unfallbeobachtungen mit gültigen Angaben zur analysierten Variable einbezogen. Für jede Kategorie des Fahrbahnzustands werden absolute Unfallanzahl und Verletzungsrate berechnet.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(roadway_surface_cond), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_summary <span class="ot">&lt;-</span> dataset.clean <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(roadway_surface_cond), <span class="sc">!</span><span class="fu">is.na</span>(has_injury)) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(roadway_surface_cond) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anzahl_unfaelle =</span> <span class="fu">n</span>(),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">verletzungsrate =</span> <span class="fu">mean</span>(has_injury) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(verletzungsrate))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -2044,29 +3531,29 @@ Abbildung&nbsp;13: Verletzungsrate nach Lichtverhältnissen
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>roadway_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span></span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, anzahl_unfaelle))</span>
-<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> roadway_labels) <span class="sc">+</span></span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Absolute Unfallhufigkeit nach Fahrbahnzustand"</span>,</span>
-<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
-<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
-<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
-<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
-<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>roadway_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DRY"</span> <span class="ot">=</span> <span class="st">"Trocken"</span>,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"WET"</span><span class="ot">=</span> <span class="st">"Nass"</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SNOW OR SLUSH"</span> <span class="ot">=</span> <span class="st">"Schnee"</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ICE"</span> <span class="ot">=</span> <span class="st">"Eis"</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SAND, MUD, DIRT"</span> <span class="ot">=</span> <span class="st">"Sand/Schmutz"</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"OTHER"</span> <span class="ot">=</span> <span class="st">"Sonstige"</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> anzahl_unfaelle, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, anzahl_unfaelle))</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> roadway_labels) <span class="sc">+</span></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Absolute Unfallhufigkeit nach Fahrbahnzustand"</span>,</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anzahl Unfälle"</span>,</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.plot_absolute</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-roadway-absolute" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2087,20 +3574,20 @@ Abbildung&nbsp;14: Absolute Unfallhäufigkeit nach Fahrbahnzustand
 <div class="cell">
 <details class="code-fold">
 <summary>Code aufklappen</summary>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, verletzungsrate))</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">label =</span> roadway_labels) <span class="sc">+</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Verletzungsrate nach Fahrbahnzustand"</span>,</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  dataset.roadwayAnalysis.roadway_summary,</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> verletzungsrate, <span class="at">y =</span> <span class="fu">reorder</span>(roadway_surface_cond, verletzungsrate))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b00b1e"</span>) <span class="sc">+</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_discrete</span>(<span class="at">label =</span> roadway_labels) <span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Verletzungsrate nach Fahrbahnzustand"</span>,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Anteil Unfälle mit Verletzten (%)"</span>,</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Fahrbahnzustand"</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>dataset.roadwayAnalysis.roadway_injuryRate</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-roadway-injury-rate" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2109,7 +3596,7 @@ Abbildung&nbsp;14: Absolute Unfallhäufigkeit nach Fahrbahnzustand
 <img src="Projekt-Report_files/figure-html/fig-roadway-injury-rate-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roadway-injury-rate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Abbildung&nbsp;15: Verletzungsrate nach Fahrbahnzustand
+Abbildung&nbsp;15: Verletzungsrate (Anteil der Unfälle mit Personenschäden) nach Fahrbahnzustand
 </figcaption>
 </figure>
 </div>
@@ -2121,10 +3608,10 @@ Abbildung&nbsp;15: Verletzungsrate nach Fahrbahnzustand
 </section>
 <section id="interpretation-der-ergebnisse-1" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="interpretation-der-ergebnisse-1">Interpretation der Ergebnisse</h4>
-<p>Die Grafik zur relativen Unfallschwere nach Fahrbahnzustand zeigt, dass nasse Fahrbahnen sowie die Kategorie “Sonstige” die höchten Verletzungsraten aufweisen, während trockene Fahrbahnen trotz der größten absoluten Unfallhäufigkeit eine niedrige relative Unfallschwere zeigen. Damit bestätigt sich erneut das bereits bei Wetter- und Lichtverhältnissen beobachtete Muster: Hohe absolute Unfallzahlen gehen nicht zwangsläufig mit einer hohen Unfallschwere einher.<br>
-Auffällig ist, dass die Kategorien “Schnee” und “Eis” im Vergleich zu “Nass” und “Trocken” geringere Verletzungsraten aufweisen, obwohl diese Zustände objektiv als gefährlich gelten. Analog zur Analyse der Wettereinflüsse könnte dies durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen.<br>
+<p>Die Grafik zur relativen Unfallschwere nach Fahrbahnzustand zeigt, dass nasse Fahrbahnen sowie die Kategorie <em>Sonstige</em> die höchten Verletzungsraten aufweisen, während trockene Fahrbahnen trotz der größten absoluten Unfallhäufigkeit eine niedrige relative Unfallschwere zeigen. Damit bestätigt sich erneut das bereits bei Wetter- und Lichtverhältnissen beobachtete Muster: Hohe absolute Unfallzahlen gehen nicht zwangsläufig mit einer hohen Unfallschwere einher.<br>
+Auffällig ist, dass die Kategorien <em>Schnee</em> und <em>Eis</em> im Vergleich zu <em>Nass</em> und <em>Trocken</em> geringere Verletzungsraten aufweisen, obwohl diese Zustände objektiv als gefährlich gelten. Analog zur Analyse der Wettereinflüsse könnte dies durch eine situationsbedingte Anpassung des Fahrverhaltens begründet sein.<br>
 Die relativ hohe Verletzungsrate bei nasser Fahrbahn ist im Zusammenspiel mit ihrer hohen absoluten Häufigkeit bei Unfällen besonders relevant. Scheinbar wird eine nasse Fahrbahn im Gegensatz zu Schnee und Eis weniger stark als Gefahr wahrgenommen und birgt dadurch ein besonders hohes Risiko für schwere Unfälle.<br>
-Bei selten vertretenen Kategorien wie “Sand/Schmutz” wurde eine relativ hohe Unfallschwere beobachtet, welche jedoch wegen der geringen Anzahl an Beobachtungen keine aussagekräftige Interpretation erlaubt.</p>
+Bei selten vertretenen Kategorien wie <em>Sand/Schmutz</em> wurde eine relativ hohe Unfallschwere beobachtet, welche jedoch wegen der geringen Anzahl an Beobachtungen keine aussagekräftige Interpretation erlaubt (siehe Tabelle <a href="#tbl-Datenbasis-Fahrbahnzustand" class="quarto-xref">Tabelle&nbsp;4</a>).</p>
 </section>
 </section>
 <section id="fazit-zu-wetter-lichtverhältnissen-und-fahrbahnzustand" class="level3" data-number="4.3.4">
@@ -2135,14 +3622,27 @@ Bei selten vertretenen Kategorien wie “Sand/Schmutz” wurde eine relativ hohe
 </section>
 <section id="zusammenfassung-und-schlussfolgerung" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Zusammenfassung und Schlussfolgerung</h1>
-<p>Ziel dieser Arbeit war es, zu untersuchen welche äußeren Bedingungen und situativen Merkmale mit der Schwere von Verkehrsunfällen in Zusammenhang stehen. Der Fokus lag dabei bewusst nicht auf der reinen Unfallhäufigkeit, sondern auf der relativen Unfallschwere, die als Anteil der Unfälle mit Personenschaden (<code>has_injury</code>) gemessen wurde. Analysiert wurden zeitliche Faktoren, infrastrukturelle Merkmale sowie Umweltbedingungen wie Wetterlage, Lichtverhältnisse und Fahrbahnzustand.<br>
-Die Ergebnisse zeigen über alle Analysen hinweg konsistent, dass absolute Unfallhäufigkeit und relative Unfallschwere nicht gleichzusetzen sind. So treten viele Unfälle unter scheinbar günstigen Bedingungen auf, etwa bei Tageslicht, trockenem Fahrbahnzustand oder klarem Wetter. Diese Bedingungen sind jedoch vor allem durch ein hohes Verkehrsaufkommen geprägt und gehen im Durchschnitt mit niedrigeren Verletzungsraten einher. Umgekehrt weisen Situationen mit eingeschränkter Sicht oder reduzierter Fahrbahnsicherheit höhere Verletzungsraten auf, auch wenn sie seltener auftreten.</p>
-<p>Die zeitliche Analyse unterstreicht dieses Muster: So verursacht der Berufsverkehr am Nachmittag das höchste Unfallaufkommen, während die relative Unfallschwere in den Nachtstunden und am Wochenende am größten ist. Die isolierte Betrachtung alkoholbedingter Unfälle zeigt, dass diese Zeiträume stark mit riskantem Fahrverhalten korrelieren. Damit lässt sich die erhöhte nächtliche Unfallschwere nicht allein durch äußere Bedingungen, sondern durch verhaltensbezogene Faktoren erklären.<br>
-Die Analyse der Verkehrssituation bestätigt ebenfalls, dass die strukturellen Rahmenbedingungen von entscheidender Bedeutung sind. So weisen Kreuzungen und nicht baulich getrennte Straßen deutlich höhere Verletzungsraten auf als Einbahnstraßen oder getrennte Fahrbahnen. Bestimmte Unfalltypen, insbesondere Frontal- und Seitenkollisionen, gehen mit besonders hohen Verletzungsraten einher. Unfälle mit Fußgänger:innen und Radfahrenden enden nahezu unabhängig vom Straßentyp oder der Verkehrsregelung fast immer mit Verletzungen, was auf eine strukturelle Verwundbarkeit dieser Verkehrsteilnehmenden hinweist.<br>
-Die Untersuchung der Umweltbedingungen ergibt ein zunächst kontraintuitives Bild: So sind extreme Wetterlagen wie gefrierender Regen oder Nebel mit hohen Verletzungsraten verbunden, während Schnee, Eis oder starker Seitenwind eine vergleichsweise niedrige Unfallschwere aufweisen. Dieses Phänomen könnte durch eine situationsbedingte Anpassung des Fahrverhaltens entstehen. Es ist davon auszugehen, dass Verkehrsteilnehmende auf offensichtlich gefährliche Bedingungen mit erhöhter Vorsicht und reduzierten Geschwindigkeiten reagieren, wodurch die Aufprallenergie und damit die Schwere von Unfällen reduziert wird. Moderat eingeschränkte Bedingungen wie Regen, Dunkelheit oder nasse Fahrbahnen bergen hingegen ein besonders hohes Risiko, da sie scheinbar oft unterschätzt werden.</p>
-<p>Die Analyse bestätigt die eingangs formulierten Erwartungen weitgehend und differenziert diese. Demnach erhöhen ungünstige Umwelt- und Sichtbedingungen nicht zwangsläufig die Unfallhäufigkeit, wohl aber häufig die Unfallschwere. Gleichzeitig wird verdeutlicht, dass verhaltensbezogene Faktoren wie Alkohol und Geschwindigkeit eine zentrale Rolle spielen und Erklärungsansätze für einige beobachtete Muster bieten.<br>
-Jedoch muss im Hinterkopf behalten werden, dass es sich hierbei um eine rein deskriptive Analyse handelt. Die betrachteten Variablen wie Zeit, Straßentyp und Wetter treten nicht isoliert auf, sondern sind systematisch miteinander korreliert. Kausale Aussagen lassen sich aus den Ergebnissen daher nicht ableiten. Zudem ist die absolute Unfallhäufigkeit nur eingeschränkt aussagekräftig, da sie stark vom allgemeinen Verkehrsaufkommen abhängt. Für eine echte Risikobewertung im Sinne relativer Unfallwahrscheinlichkeiten wären zusätzlich Daten zur Verkehrsbelastung erforderlich.</p>
-<p>Zusammenfassend zeigt die Analyse, dass schwere Verkehrsunfälle vor allem dort auftreten, wo mehrere ungünstige Faktoren zusammenkommen oder Risiken unterschätzt werden. Die Ergebnisse unterstreichen die differenzierte Betrachtung von Unfallzahlen und -schwere und liefern datensbasierte Hinweise darauf, in welchen Situationen Präventionsmaßnahmen besonders wirksam ansetzen könnten.</p>
+<p>Ziel dieser Arbeit war es, zu untersuchen welche äußeren Bedingungen und situativen Merkmale mit der Schwere von Verkehrsunfällen in Zusammenhang stehen. Der Fokus lag dabei nicht auf der reinen Unfallhäufigkeit, sondern auf der relativen Unfallschwere, gemessen als Anteil der Unfälle mit Personenschaden (<code>has_injury</code>). Analysiert wurden zeitliche Faktoren, infrastrukturelle Merkmale sowie Umweltbedingungen wie Wetterlage, Lichtverhältnisse und Fahrbahnzustand.</p>
+<section id="vergleich-der-ergebnisse-mit-den-ursprünglichen-erwartungen" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="vergleich-der-ergebnisse-mit-den-ursprünglichen-erwartungen"><span class="header-section-number">5.1</span> Vergleich der Ergebnisse mit den ursprünglichen Erwartungen</h2>
+<p>Ausgangspunkt der Analyse war die Annahme, dass ungünstige Umwelt- und Sichtbedingungen sowie komplexe Verkehrssituationen mit einer höheren Unfallschwere einhergehen, während unter günstigen Bedingungen zwar viele Unfälle auftreten, diese jedoch überwiegend glimpflich verlaufen. Diese Annahmen werden durch die Ergebnisse weitgehend bestätigt, zugleich aber in manchen Punkten differenziert.<br>
+Über alle Anaylsen hinweg zeigt sich, dass absolute Unfallhäufigkeit und relative Unfallschwere nicht gleichzusetzen sind. Die meisten Unfälle ereignen sich bei Tageslicht, klarem Wetter und trockener Fahrbahn, was vor allem auf das höhere Verkehrsaufkommen unter diesen Bedingungen zurückzuführen ist. Gleichzeitig weisen diese Unfälle im Durchschnitt eine geringere Verletzungsrate auf. Damit bestätigt sich die Erwartung, dass günstige Rahmenbedingungen zwar viele Unfälle begünstigen, diese jedoch überwiegend glimpflich verlaufen.<br>
+Demgegnüber weisen ungünstige Bedingungen häufig eine höhere relative Unfallschwere auf, auch wenn sie seltener auftreten. Dies gilt insbesondere für Nachtstunden und bestimmte Wetterlagen wie gefrierenden Regen oder Nebel. Die Erwartung, dass eingeschränkte Sichtverhältnisse und erschwerte Umweltbedingungen das Risiko schwerer Unfallfolgen erhöhen, wird damit grundsätzlich bestätigt.</p>
+</section>
+<section id="differenzierende-und-unerwartete-erkenntnisse" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="differenzierende-und-unerwartete-erkenntnisse"><span class="header-section-number">5.2</span> Differenzierende und unerwartete Erkenntnisse</h2>
+<p>Gleichzeitig zeigen die Ergebnisse mehrere kontraintuitive Muster. Entgegen der anfänglichen Intuition weisen extreme Bedingungen wie Schnee, Eis oder starker Seitenwind teilweise niedrigere Verletzungsraten auf als moderat ungünstige Bedingungen wie Regen, Dunkelheit oder nasse Fahrbahnen. Dies deutet auf eine situationsbedingte Anpassung des Fahrverhaltens hin: Offensichtlich gefährliche Bedingungen gehen häufig mit angepasstem Fahrverhalten einher, während moderat einschränkende Bedingungen tendenziell mit höheren Verletzungsraten verbunden sind, da Gefahren möglicherweise unterschätzt werden und dadurch schwere Unfallfolgen begünstigen.<br>
+Auch die zeitliche Analyse relativiert die ursprünglichen Erwartungen. Erwartet wurde, dass Zeiten mit hohem Verkehrsaufkommen zugleich die höchste Unfallschwere aufweisen. Die Ergebniss zeigen jedoch ein anderes Muster: Zwar konzentriert sich das Unfallaufkommen auf den Nachmittagsverkehr, die relative Unfallschwere ist hingegen nachts und am Wochenende am höchsten. Die ergänzende Analyse alkoholbedingter Unfälle macht deutlcih, dass diese Zeiträume eng mit riskantem Fahrverhalten verbunden sind. Damit zeigten die Ergebnisse, dass die erhöhte nächtliche Unfallschwere nicht primär durch zeitliche oder äußere Rahmenbedingungen erklärbar ist, sondern wesentlich durch verhaltensbezogene Faktoren geprägt wird.</p>
+</section>
+<section id="verkehrsinfrastruktur-und-unfalltypen" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="verkehrsinfrastruktur-und-unfalltypen"><span class="header-section-number">5.3</span> Verkehrsinfrastruktur und Unfalltypen</h2>
+<p>Die Analyse der Verehrssituation bestätigt die Erwartung, dass komplexe Verkehrsräume mit einer höheren Unfallschwere verbunden sind. Kreuzungen und nicht baulich getrennte Straßen weisen deutlich höhere Verletzungsraten auf als Einbahnstraßen oder getrennte Fahrbahnen. Besonders Frontal- und Seitenkollisionen gehen mit hohen Verletungsraten einher, was die Schutzwirkung baulicher getrennter Straßen unterstreicht.<br>
+Besonders eindeutig sind die Ergebnisse für ungeschütze Verkehrsteilnehmende. Unfälle mit Fußgänger:innen und Radfahrenden enden nahezu unabhängig vom Straßentyp oder der Verkehrsregelung häufig mit Verletzungen. Dies bestätigt ihre strukturelle Verwundbarkeit im Straßenverkehr und zeigt, dass Verkehrsregelungen allein nicht ausreichen, um die Unfallschwere für diese Gruppen wirksam zu reduzieren.</p>
+</section>
+<section id="methodische-einordnung-und-gesamtfazit" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="methodische-einordnung-und-gesamtfazit"><span class="header-section-number">5.4</span> Methodische Einordnung und Gesamtfazit</h2>
+<p>Die Ergebnisse zeigen insgesamt, dass die Schwere von Unfällen nicht durch einzelne Faktoren erklärbar ist, sondern aus dem Zusammenspiel von Umweltbedingungen, Infrastruktur und menschlichem Verhalten entsteht. Bei dieser Analyse handelt es sich um eine deskriptive Analyse, aus der keine kausalen Schlüsse gezogen werden können. Zudem ist die absolute Unfallhäufigkeit stark vom Verkehrsaufkommen abhängig, sodass sie nur eingeschränkt Aussagen über das tatsächliche Risiko erlaubt. Für eine fundiertere Risikobewertung wäre es notwendig, die Ergebnisse in Relation zur Verkehrsdichte zu bewerten. Zusammenfassend zeigt die Analyse, dass schwere Verkehrsunfälle vor allem dort auftreten, wo vermutlich Risiken unterschätzt werden oder mehrere ungünstige Faktoren zusammenkommen. Die klare Trennung zwischen Unfallhäufigkeit und Unfallschwere erweist sich als zentral für das Verständnis des Unfallgeschenes und liefert wichtige Ansatzpunkte für gezielte Präventionsmaßnahmen.</p>
+</section>
 </section>
 <section id="quellen" class="level1 unnumbered">
 <h1 class="unnumbered">Quellen</h1>
@@ -2153,6 +3653,7 @@ Jedoch muss im Hinterkopf behalten werden, dass es sich hierbei um eine rein des
 <p>Grolemund, G. &amp; Wickham, H. (2011). <em>Dates and Times Made Easy with lubridate</em>. Journal of Statistical Software, 40(3), 1–25. R package version 1.9.4. https://CRAN.R-project.org/package=lubridate</p>
 <p>Waring, E. et al.&nbsp;(2022). <em>skimr: Compact and Flexible Summaries of Data</em>. R package version 2.2.2. https://CRAN.R-project.org/package=skimr</p>
 <p>Pedersen, T. L. (2020). <em>patchwork: The Composer of Plots</em>. R package version 1.3.2. https://CRAN.R-project.org/package=patchwork</p>
+<p>Iannone, R., Cheng, J., Schloerke, B., Hughes, E., &amp; Seo, J. (2024). gt: Easily Create Presentation-Ready Display Tables. R package version 1.2.0. https://CRAN.R-project.org/package=gt</p>
 </section>
 
 </main>
